@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1l72ui35wwoc"]
+
+[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://elements/footman_squad.tscn" id="1_7300h"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="FootmanSquad" parent="." instance=ExtResource("1_7300h")]
