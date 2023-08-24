@@ -18,6 +18,8 @@ func _ready():
 	_recreate_units()
 
 func _physics_process(_delta):
+	if Engine.is_editor_hint():
+		return
 	if nav.is_navigation_finished():
 		velocity = Vector2.ZERO
 		print("Navigation finished for %s" % name)
