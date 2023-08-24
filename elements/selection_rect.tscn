@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://diqb4edupeah0"]
+
+[ext_resource type="Script" path="res://elements/selection_rect.gd" id="1_n7ety"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a58st"]
+size = Vector2(1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_fy254"]
+
+[node name="SelectionRect" type="Area2D"]
+scale = Vector2(1e-05, 1e-05)
+collision_layer = 0
+script = ExtResource("1_n7ety")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_a58st")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.419608, 0.658824, 0.870588, 0.356863)
+mesh = SubResource("QuadMesh_fy254")

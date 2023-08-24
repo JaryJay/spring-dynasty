@@ -1,15 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=5 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://elements/squad.gd" id="1_i6ptf"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://elements/footman.tscn" id="2_efsaf"]
+[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_1n5fi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
-radius = 35.0143
+radius = 25.0
 
-[node name="FootmanSquad" type="CharacterBody2D"]
+[node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
+collision_mask = 3
 script = ExtResource("1_i6ptf")
 unit_scene = ExtResource("2_efsaf")
+speed = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1, 0.75)
 shape = SubResource("CircleShape2D_806k5")
+
+[node name="SelectOval" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_1n5fi")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 40.0
+target_desired_distance = 40.0
+avoidance_enabled = true
+radius = 27.0
+debug_enabled = true
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_velocity_computed"]
