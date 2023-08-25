@@ -35,24 +35,44 @@ z_index = 1
 position = Vector2(-3, -45)
 
 [node name="Rays" type="Node2D" parent="."]
-rotation = -1.5708
 
 [node name="RayCastFront" type="RayCast2D" parent="Rays"]
+position = Vector2(0, 25)
+target_position = Vector2(0, 20)
+collision_mask = 3
+hit_from_inside = true
 
 [node name="RayCastLeft" type="RayCast2D" parent="Rays"]
-rotation = 1.0472
+position = Vector2(23, 9)
+rotation = -1.0472
+target_position = Vector2(0, 20)
+collision_mask = 3
+hit_from_inside = true
 
 [node name="RayCastRight" type="RayCast2D" parent="Rays"]
-rotation = -1.0472
+position = Vector2(-23, 9)
+rotation = 1.0472
+target_position = Vector2(0, 20)
+collision_mask = 3
+hit_from_inside = true
 
 [node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
-rotation = 2.0944
+position = Vector2(23, -9)
+rotation = -2.0944
+target_position = Vector2(0, 20)
+collision_mask = 3
+hit_from_inside = true
 
 [node name="RayCastRight2" type="RayCast2D" parent="Rays"]
-rotation = -2.0944
+position = Vector2(-23, -9)
+rotation = 2.0944
+target_position = Vector2(0, 20)
+collision_mask = 3
+hit_from_inside = true
 
 [node name="PersonalSpaceArea" type="Area2D" parent="."]
 collision_layer = 0
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpaceArea"]
 shape = SubResource("CircleShape2D_ejtey")

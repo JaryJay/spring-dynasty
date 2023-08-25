@@ -17,10 +17,14 @@ var selected: = false : set = _set_selected
 var is_pathfinding: = false
 var is_repositioning: = false
 
+var prev_velocity: Vector2
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_recreate_units()
 	nav.target_position = global_position
+	for ray in rays.get_children():
+		ray.add_exception(self)
 
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
@@ -31,16 +35,11 @@ func _physics_process(_delta):
 			for _ray in rays.get_children():
 				var ray: RayCast2D = _ray
 				if not ray.is_colliding():
-					velocity = Vector2.DOWN.rotated(ray.global_rotation) * speed
-					rays.global_rotation = velocity.angle() - PI / 2
-					move_and_slide()
-					
-					ray.force_raycast_update()
-					print(ray.is_colliding())
-					
+					prev_velocity = velocity
+					_rotate_and_move(Vector2.DOWN.rotated(ray.global_rotation) * speed)
 					return
-			velocity = Vector2.RIGHT * speed
-			move_and_slide()
+			_rotate_and_move(position.direction_to(nav.get_final_position()) * speed)
+			return
 		else:
 			is_repositioning = false
 			return
@@ -49,6 +48,7 @@ func _physics_process(_delta):
 		if nav.is_navigation_finished():
 			is_pathfinding = false
 			is_repositioning = true
+			prev_velocity = velocity
 			velocity = Vector2.ZERO
 			return
 	else:
@@ -62,9 +62,9 @@ func _physics_process(_delta):
 	if nav.avoidance_enabled:
 		nav.set_velocity(new_velocity)
 	else:
-		_on_velocity_computed(new_velocity)
+		_rotate_and_move(new_velocity)
 
-func _on_velocity_computed(safe_velocity: Vector2) -> void:
+func _rotate_and_move(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
 	rays.rotation = velocity.angle() - PI / 2
 	
@@ -104,6 +104,7 @@ func _recreate_units() -> void:
 func set_target_position(target_position: Vector2) -> void:
 	nav.target_position = target_position
 	is_pathfinding = true
+	is_repositioning = false
 
 # Setters
 
