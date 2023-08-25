@@ -8,22 +8,54 @@ class_name Squad
 @export_range(0, 42) var size: int = 10 : set = _set_size
 @export_range(0, 500) var speed: float = 100
 
+@onready var nav: = $NavigationAgent2D
+@onready var rays: = $Rays
+@onready var personal_space_area: = $PersonalSpaceArea
+
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
-
-@onready var nav: = $NavigationAgent2D
+var is_pathfinding: = false
+var is_repositioning: = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_recreate_units()
+	nav.target_position = global_position
 
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		return
-	if nav.is_navigation_finished():
-		velocity = Vector2.ZERO
-		print("Navigation finished for %s" % name)
+	
+	if is_repositioning:
+		if personal_space_area.get_overlapping_bodies().size() > 1:
+			for _ray in rays.get_children():
+				var ray: RayCast2D = _ray
+				if not ray.is_colliding():
+					velocity = Vector2.DOWN.rotated(ray.global_rotation) * speed
+					rays.global_rotation = velocity.angle() - PI / 2
+					move_and_slide()
+					
+					ray.force_raycast_update()
+					print(ray.is_colliding())
+					
+					return
+			velocity = Vector2.RIGHT * speed
+			move_and_slide()
+		else:
+			is_repositioning = false
+			return
+	
+	if is_pathfinding:
+		if nav.is_navigation_finished():
+			is_pathfinding = false
+			is_repositioning = true
+			velocity = Vector2.ZERO
+			return
+	else:
 		return
+	
+	# Recalculate path
+	nav.target_position = nav.target_position
 	
 	var next_path_position: Vector2 = nav.get_next_path_position()
 	var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
@@ -34,17 +66,13 @@ func _physics_process(_delta):
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
+	rays.rotation = velocity.angle() - PI / 2
+	
+#	if $Rays/RayCastFront
 	move_and_slide()
 
-func _set_unit_scene(scene: PackedScene) -> void:
-	if not unit_scene == scene:
-		unit_scene = scene
-		_recreate_units()
-
-func _set_size(s: int) -> void:
-	size = s
-	if Engine.is_editor_hint():
-		_recreate_units()
+func _is_obstacle_in_front() -> bool:
+	return $Rays/RayCastFront.is_colliding()
 
 func _recreate_units() -> void:
 	for unit in units:
@@ -72,6 +100,22 @@ func _recreate_units() -> void:
 			if ring_fill_count == ring_sizes[current_ring_index]:
 				current_ring_index += 1
 				ring_fill_count = 0
+
+func set_target_position(target_position: Vector2) -> void:
+	nav.target_position = target_position
+	is_pathfinding = true
+
+# Setters
+
+func _set_unit_scene(scene: PackedScene) -> void:
+	if not unit_scene == scene:
+		unit_scene = scene
+		_recreate_units()
+
+func _set_size(s: int) -> void:
+	size = s
+	if Engine.is_editor_hint():
+		_recreate_units()
 
 func _set_selected(value: bool) -> void:
 	selected = value

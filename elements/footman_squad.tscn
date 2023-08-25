@@ -1,21 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=7 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://elements/squad.gd" id="1_i6ptf"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://elements/footman.tscn" id="2_efsaf"]
 [ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_1n5fi"]
+[ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://elements/squad_banner.tscn" id="4_7y55f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
+radius = 28.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ejtey"]
 radius = 25.0
 
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
-collision_mask = 3
+collision_mask = 2
 script = ExtResource("1_i6ptf")
 unit_scene = ExtResource("2_efsaf")
-speed = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(1, 0.75)
 shape = SubResource("CircleShape2D_806k5")
 
 [node name="SelectOval" type="Sprite2D" parent="."]
@@ -23,10 +25,37 @@ visible = false
 texture = ExtResource("3_1n5fi")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 40.0
 target_desired_distance = 40.0
-avoidance_enabled = true
+path_max_distance = 60.0
 radius = 27.0
 debug_enabled = true
+
+[node name="SquadBanner" parent="." instance=ExtResource("4_7y55f")]
+z_index = 1
+position = Vector2(-3, -45)
+
+[node name="Rays" type="Node2D" parent="."]
+rotation = -1.5708
+
+[node name="RayCastFront" type="RayCast2D" parent="Rays"]
+
+[node name="RayCastLeft" type="RayCast2D" parent="Rays"]
+rotation = 1.0472
+
+[node name="RayCastRight" type="RayCast2D" parent="Rays"]
+rotation = -1.0472
+
+[node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
+rotation = 2.0944
+
+[node name="RayCastRight2" type="RayCast2D" parent="Rays"]
+rotation = -2.0944
+
+[node name="PersonalSpaceArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpaceArea"]
+shape = SubResource("CircleShape2D_ejtey")
+debug_color = Color(0.619608, 0.533333, 0, 0.419608)
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_velocity_computed"]

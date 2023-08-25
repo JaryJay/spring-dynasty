@@ -18,7 +18,7 @@ func _process(_delta):
 
 func _input(_event):
 	var selecting: = Input.is_action_pressed("select")
-	if Input.is_action_just_released("primary") and not selecting:
+	if Input.is_action_pressed("primary") and not selecting:
 		var mouse_pos: = get_global_mouse_position()
 		for squad in selected_squads:
-			squad.nav.target_position = mouse_pos
+			squad.set_target_position(mouse_pos)
