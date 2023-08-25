@@ -9,7 +9,7 @@
 radius = 28.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ejtey"]
-radius = 25.0
+radius = 23.0
 
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
@@ -70,6 +70,13 @@ target_position = Vector2(0, 20)
 collision_mask = 3
 hit_from_inside = true
 
+[node name="RayCastBack" type="RayCast2D" parent="Rays"]
+position = Vector2(0, -25)
+rotation = 3.14159
+target_position = Vector2(0, 20)
+collision_mask = 3
+hit_from_inside = true
+
 [node name="PersonalSpaceArea" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 3
@@ -77,5 +84,7 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpaceArea"]
 shape = SubResource("CircleShape2D_ejtey")
 debug_color = Color(0.619608, 0.533333, 0, 0.419608)
+
+[node name="Line2D" type="Line2D" parent="."]
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_velocity_computed"]

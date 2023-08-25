@@ -38,7 +38,7 @@ func _physics_process(_delta):
 					prev_velocity = velocity
 					_rotate_and_move(Vector2.DOWN.rotated(ray.global_rotation) * speed)
 					return
-			_rotate_and_move(position.direction_to(nav.get_final_position()) * speed)
+			_rotate_and_move(-position.direction_to(nav.get_final_position()) * speed)
 			return
 		else:
 			is_repositioning = false
