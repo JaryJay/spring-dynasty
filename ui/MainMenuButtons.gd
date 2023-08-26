@@ -1,7 +1,7 @@
 extends VBoxContainer
 
-@export var sceneToLoad: PackedScene
-@export var settingsMenu: PackedScene
+@export var game_scene: PackedScene
+@export var settings_menu: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,11 +14,11 @@ func _process(delta):
 
 
 func _on_play_button_pressed():
-	get_tree().change_scene_to_packed(sceneToLoad)
+	get_tree().change_scene_to_packed(game_scene)
 
 
 func _on_settings_button_pressed():
-	var settingsMenuInstance = settingsMenu.instantiate()
+	var settingsMenuInstance = settings_menu.instantiate()
 	get_tree().root.get_node("MainMenu").add_child(settingsMenuInstance)
 
 
