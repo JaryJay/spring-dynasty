@@ -14,14 +14,17 @@ script = ExtResource("1_8jko4")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="FootmanSquad" parent="." instance=ExtResource("1_7300h")]
+[node name="Squads" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="FootmanSquad" parent="Squads" instance=ExtResource("1_7300h")]
 position = Vector2(-385, 151)
 
-[node name="FootmanSquad2" parent="." instance=ExtResource("1_7300h")]
+[node name="FootmanSquad2" parent="Squads" instance=ExtResource("1_7300h")]
 position = Vector2(-259, 145)
 
-[node name="FootmanSquad3" parent="." instance=ExtResource("1_7300h")]
+[node name="FootmanSquad3" parent="Squads" instance=ExtResource("1_7300h")]
 position = Vector2(-135, 191)
 
-[node name="FootmanSquad4" parent="." instance=ExtResource("1_7300h")]
+[node name="FootmanSquad4" parent="Squads" instance=ExtResource("1_7300h")]
 position = Vector2(-77, 214)

@@ -16,7 +16,7 @@ navigation_polygon = SubResource("NavigationPolygon_sajn2")
 script = SubResource("GDScript_0wnm1")
 
 [node name="Background" type="Sprite2D" parent="."]
-z_index = -1
+z_index = -5
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_e5rlw")
 

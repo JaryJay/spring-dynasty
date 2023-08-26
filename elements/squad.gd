@@ -11,6 +11,7 @@ class_name Squad
 @onready var nav: = $NavigationAgent2D
 @onready var rays: = $Rays
 @onready var personal_space_area: = $PersonalSpaceArea
+@onready var awareness_area: = $AwarenessArea
 
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
@@ -91,7 +92,7 @@ func _recreate_units() -> void:
 			var rot_angle: = 2 * PI * ring_fill_count / ring_size
 			
 			var unit: = unit_scene.instantiate()
-			add_child(unit, false, Node.INTERNAL_MODE_FRONT)
+			add_child(unit, false, Node.INTERNAL_MODE_BACK)
 			unit.position = Vector2.RIGHT.rotated(rot_angle) * ring_radius
 			unit.position.y *= 0.7
 			units.append(unit)

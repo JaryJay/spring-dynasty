@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=8 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://elements/squad.gd" id="1_i6ptf"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://elements/footman.tscn" id="2_efsaf"]
@@ -11,24 +11,29 @@ radius = 28.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ejtey"]
 radius = 23.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
+radius = 121.017
+
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
 collision_mask = 2
 script = ExtResource("1_i6ptf")
 unit_scene = ExtResource("2_efsaf")
+speed = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_806k5")
 
-[node name="SelectOval" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("3_1n5fi")
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-target_desired_distance = 40.0
 path_max_distance = 60.0
-radius = 27.0
 debug_enabled = true
+
+[node name="SelectOval" type="Sprite2D" parent="."]
+editor_description = "This will be visible whenever the squad is selected"
+visible = false
+z_index = -1
+scale = Vector2(0.695, 0.695)
+texture = ExtResource("3_1n5fi")
 
 [node name="SquadBanner" parent="." instance=ExtResource("4_7y55f")]
 z_index = 1
@@ -78,6 +83,7 @@ collision_mask = 3
 hit_from_inside = true
 
 [node name="PersonalSpaceArea" type="Area2D" parent="."]
+editor_description = "After the squad finishes navigating to a target, it will reposition itself if this area is intersecting with other squds or obstacles"
 collision_layer = 0
 collision_mask = 3
 
@@ -85,6 +91,12 @@ collision_mask = 3
 shape = SubResource("CircleShape2D_ejtey")
 debug_color = Color(0.619608, 0.533333, 0, 0.419608)
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="AwarenessArea" type="Area2D" parent="."]
+editor_description = "For detecting enemy squads"
+collision_layer = 0
 
-[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_velocity_computed"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea"]
+shape = SubResource("CircleShape2D_8wtwe")
+debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_rotate_and_move"]
