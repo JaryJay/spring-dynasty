@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://ql5gst60j1lm"]
+
+[ext_resource type="Script" path="res://ui/MainMenuButtons.gd" id="1_hnaih"]
+[ext_resource type="PackedScene" uid="uid://ctr7h1jl1kaxv" path="res://game.tscn" id="2_07c0u"]
+[ext_resource type="PackedScene" uid="uid://d3odrh13873c8" path="res://ui/settings_menu.tscn" id="3_uclao"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.999162, 1)
+color = Color(0.121569, 0.121569, 0.121569, 1)
+
+[node name="MainMenuButtons" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.5
+offset_top = -74.0
+offset_right = 239.5
+offset_bottom = 182.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+script = ExtResource("1_hnaih")
+sceneToLoad = ExtResource("2_07c0u")
+settingsMenu = ExtResource("3_uclao")
+
+[node name="PlayButton" type="Button" parent="MainMenuButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Play"
+
+[node name="SettingsButton" type="Button" parent="MainMenuButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="MainMenuButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Quit"
+
+[node name="LogoPlaceholder" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -221.5
+offset_top = 70.0
+offset_right = 221.5
+offset_bottom = 204.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 80
+text = "Game Logo"
+
+[connection signal="pressed" from="MainMenuButtons/PlayButton" to="MainMenuButtons" method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuButtons/SettingsButton" to="MainMenuButtons" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenuButtons/QuitButton" to="MainMenuButtons" method="_on_quit_button_pressed"]
