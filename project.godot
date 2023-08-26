@@ -38,3 +38,4 @@ select={
 
 2d_physics/layer_1="squads"
 2d_physics/layer_2="obstacles"
+2d_physics/layer_4="mountains"
