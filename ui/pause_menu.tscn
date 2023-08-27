@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://yg75476prlvp"]
+[gd_scene load_steps=2 format=3 uid="uid://yg75476prlvp"]
 
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_qistc"]
-[ext_resource type="PackedScene" uid="uid://ql5gst60j1lm" path="res://ui/main_menu.tscn" id="2_ymwxg"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -11,7 +10,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qistc")
-main_menu = ExtResource("2_ymwxg")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

@@ -1,7 +1,6 @@
 extends Control
 
 @export var game: Game
-@export var main_menu: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
