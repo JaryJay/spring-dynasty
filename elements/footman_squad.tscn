@@ -43,42 +43,42 @@ position = Vector2(-3, -45)
 
 [node name="RayCastFront" type="RayCast2D" parent="Rays"]
 position = Vector2(0, 25)
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 8)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastLeft" type="RayCast2D" parent="Rays"]
 position = Vector2(23, 9)
 rotation = -1.0472
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 8)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastRight" type="RayCast2D" parent="Rays"]
 position = Vector2(-23, 9)
 rotation = 1.0472
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 8)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
 position = Vector2(23, -9)
 rotation = -2.0944
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 8)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastRight2" type="RayCast2D" parent="Rays"]
 position = Vector2(-23, -9)
 rotation = 2.0944
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 8)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastBack" type="RayCast2D" parent="Rays"]
 position = Vector2(0, -25)
 rotation = 3.14159
-target_position = Vector2(0, 20)
+target_position = Vector2(0, 8)
 collision_mask = 3
 hit_from_inside = true
 

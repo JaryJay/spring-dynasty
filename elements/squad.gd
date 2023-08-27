@@ -3,9 +3,9 @@ extends CharacterBody2D
 class_name Squad
 
 @export var unit_scene: PackedScene : set = _set_unit_scene
-
 ## The number of units in the squad
 @export_range(0, 42) var size: int = 10 : set = _set_size
+
 @export_range(0, 500) var speed: float = 100
 
 @onready var nav: = $NavigationAgent2D
@@ -15,15 +15,15 @@ class_name Squad
 
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
-var is_pathfinding: = false
-var is_repositioning: = false
 
-var prev_velocity: Vector2
+enum SquadState { IDLE, NAVIGATING, REPOSITIONING, CHASING, ATTACKING }
+var state: SquadState = SquadState.IDLE
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	_recreate_units()
 	nav.target_position = global_position
+	# The raycasts should only detect other objects, so we add self as an
+	# exception (the ray will not detect this squad)
 	for ray in rays.get_children():
 		ray.add_exception(self)
 
@@ -31,50 +31,56 @@ func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		return
 	
-	if is_repositioning:
-		if personal_space_area.get_overlapping_bodies().size() > 1:
-			for _ray in rays.get_children():
-				var ray: RayCast2D = _ray
-				if not ray.is_colliding():
-					prev_velocity = velocity
-					_rotate_and_move(Vector2.DOWN.rotated(ray.global_rotation) * speed)
-					return
-			_rotate_and_move(-position.direction_to(nav.get_final_position()) * speed)
+	match state:
+		SquadState.IDLE:
 			return
-		else:
-			is_repositioning = false
+		SquadState.NAVIGATING:
+			if nav.is_navigation_finished():
+				state = SquadState.REPOSITIONING
+				velocity = Vector2.ZERO
+			else:
+				# Recalculate path
+#				nav.target_position = nav.target_position
+				
+				var next_path_position: Vector2 = nav.get_next_path_position()
+				var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
+				if nav.avoidance_enabled:
+					nav.set_velocity(new_velocity)
+				else:
+					_rotate_and_move(new_velocity)
 			return
-	
-	if is_pathfinding:
-		if nav.is_navigation_finished():
-			is_pathfinding = false
-			is_repositioning = true
-			prev_velocity = velocity
-			velocity = Vector2.ZERO
+		SquadState.REPOSITIONING:
+			if personal_space_area.get_overlapping_bodies().size() == 1:
+				# The only thing in its person space is itself
+				state = SquadState.IDLE
+			else:
+				for _ray in rays.get_children():
+					var ray: RayCast2D = _ray
+					if not ray.is_colliding():
+						_rotate_and_move(Vector2.DOWN.rotated(ray.global_rotation) * speed)
+						return
+				_rotate_and_move(-position.direction_to(nav.get_final_position()) * speed)
 			return
-	else:
-		return
-	
-	# Recalculate path
-	nav.target_position = nav.target_position
-	
-	var next_path_position: Vector2 = nav.get_next_path_position()
-	var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
-	if nav.avoidance_enabled:
-		nav.set_velocity(new_velocity)
-	else:
-		_rotate_and_move(new_velocity)
+		SquadState.CHASING:
+			pass
+		SquadState.ATTACKING:
+			pass
+
+## Public function to begin navigation
+func set_target_position(target_position: Vector2) -> void:
+	nav.target_position = target_position
+	state = SquadState.NAVIGATING
 
 func _rotate_and_move(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
 	rays.rotation = velocity.angle() - PI / 2
-	
-#	if $Rays/RayCastFront
 	move_and_slide()
 
 func _is_obstacle_in_front() -> bool:
 	return $Rays/RayCastFront.is_colliding()
 
+## Called once when the squad is created, or every time the squad settings
+## (e.g. unit_scene, size) change in the editor
 func _recreate_units() -> void:
 	for unit in units:
 		unit.queue_free()
@@ -102,12 +108,7 @@ func _recreate_units() -> void:
 				current_ring_index += 1
 				ring_fill_count = 0
 
-func set_target_position(target_position: Vector2) -> void:
-	nav.target_position = target_position
-	is_pathfinding = true
-	is_repositioning = false
-
-# Setters
+# Private setters
 
 func _set_unit_scene(scene: PackedScene) -> void:
 	if not unit_scene == scene:
