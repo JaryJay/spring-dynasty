@@ -1,12 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctr7h1jl1kaxv"]
+[gd_scene load_steps=6 format=3 uid="uid://ctr7h1jl1kaxv"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_8jko4"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://elements/footman_squad.tscn" id="1_7300h"]
 [ext_resource type="PackedScene" uid="uid://diqb4edupeah0" path="res://elements/selection_rect.tscn" id="2_34i2k"]
+[ext_resource type="PackedScene" uid="uid://yg75476prlvp" path="res://ui/pause_menu.tscn" id="2_f655f"]
 [ext_resource type="PackedScene" uid="uid://3rqw1jdrjdn8" path="res://maps/map_1.tscn" id="2_g36xn"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" node_paths=PackedStringArray("game") instance=ExtResource("2_f655f")]
+game = NodePath("../..")
 
 [node name="Map1" parent="." instance=ExtResource("2_g36xn")]
 
