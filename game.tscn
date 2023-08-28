@@ -24,13 +24,25 @@ game = NodePath("../..")
 y_sort_enabled = true
 
 [node name="FootmanSquad" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-385, 151)
+position = Vector2(-465, 263)
 
 [node name="FootmanSquad2" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-259, 145)
+position = Vector2(-399, 262)
 
 [node name="FootmanSquad3" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-135, 191)
+position = Vector2(-115, 267)
 
 [node name="FootmanSquad4" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-77, 214)
+position = Vector2(-48, 260)
+
+[node name="FootmanSquad5" parent="Squads" instance=ExtResource("1_7300h")]
+position = Vector2(-153, -226)
+team = 1
+
+[node name="FootmanSquad6" parent="Squads" instance=ExtResource("1_7300h")]
+position = Vector2(-98, -197)
+team = 1
+
+[node name="FootmanSquad7" parent="Squads" instance=ExtResource("1_7300h")]
+position = Vector2(-205, -183)
+team = 1

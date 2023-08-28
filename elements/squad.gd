@@ -2,6 +2,7 @@
 extends CharacterBody2D
 class_name Squad
 
+@export_range(0, 5) var team: int = 0 : set = _set_team
 @export var unit_scene: PackedScene : set = _set_unit_scene
 ## The number of units in the squad
 @export_range(0, 42) var size: int = 10 : set = _set_size
@@ -109,6 +110,10 @@ func _recreate_units() -> void:
 				ring_fill_count = 0
 
 # Private setters
+
+func _set_team(value: int) -> void:
+	team = value
+	$SquadBanner.team_index = team
 
 func _set_unit_scene(scene: PackedScene) -> void:
 	if not unit_scene == scene:

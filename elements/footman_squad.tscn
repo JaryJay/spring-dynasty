@@ -93,6 +93,7 @@ debug_color = Color(0.619608, 0.533333, 0, 0.419608)
 
 [node name="AwarenessArea" type="Area2D" parent="."]
 editor_description = "For detecting enemy squads"
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea"]

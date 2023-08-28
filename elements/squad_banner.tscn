@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bior7vn41ep74"]
+[gd_scene load_steps=8 format=3 uid="uid://bior7vn41ep74"]
 
 [ext_resource type="Texture2D" uid="uid://dlrs68bkwrg4k" path="res://assets/banner_pole.png" id="1_go8rj"]
+[ext_resource type="Script" path="res://elements/squad_banner.gd" id="1_iwiwb"]
 [ext_resource type="Texture2D" uid="uid://cfbjlhvemqu3s" path="res://assets/banner.png" id="2_o0pnc"]
 
 [sub_resource type="Animation" id="Animation_7fyvb"]
@@ -157,12 +158,15 @@ _data = {
 
 [node name="SquadBanner" type="Node2D"]
 scale = Vector2(0.5, 0.5)
+script = ExtResource("1_iwiwb")
+team_colors = Array[Color]([Color(0.0235294, 0.705882, 0.847059, 1), Color(0.917647, 0.309804, 0.254902, 1), Color(0.321569, 0.639216, 0.160784, 1), Color(0.752941, 0.623529, 0.0980392, 1), Color(0.662745, 0.552941, 0.960784, 1), Color(0.65098, 0.388235, 0.180392, 1)])
 
 [node name="BannerPole" type="Sprite2D" parent="."]
 rotation = -0.0113133
 texture = ExtResource("1_go8rj")
 
 [node name="Banner" type="Sprite2D" parent="."]
+modulate = Color(0.0235294, 0.705882, 0.847059, 1)
 position = Vector2(1, -78)
 texture = ExtResource("2_o0pnc")
 offset = Vector2(0, 45)
