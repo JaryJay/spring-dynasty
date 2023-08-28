@@ -2,12 +2,20 @@
 extends CharacterBody2D
 class_name Squad
 
+## Emitted when health reaches 0
+signal health_depleted(health)
+
 @export_range(0, 5) var team: int = 0 : set = _set_team
 @export var unit_scene: PackedScene : set = _set_unit_scene
 ## The number of units in the squad
 @export_range(0, 42) var size: int = 10 : set = _set_size
 
-@export_range(0, 500) var speed: float = 100
+@export_group("Stats")
+@export_range(0, 200) var health: int = 100 : set = _set_health
+@export_range(0, 200) var attack: int = 10
+@export_range(0, 400) var range: float = 30
+@export_range(0, 500) var speed: float = 150
+@export_range(0, 100) var attack_speed: float = 5
 
 @onready var nav: = $NavigationAgent2D
 @onready var rays: = $Rays
@@ -121,6 +129,11 @@ func _set_size(s: int) -> void:
 	size = s
 	if Engine.is_editor_hint():
 		_recreate_units()
+
+func _set_health(value: int) -> void:
+	health = value
+	if not Engine.is_editor_hint() and health <= 0:
+		health_depleted.emit(health)
 
 func _set_selected(value: bool) -> void:
 	selected = value
