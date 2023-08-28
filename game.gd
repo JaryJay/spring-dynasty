@@ -13,6 +13,7 @@ var client_pause_state: bool = false:
 @onready var selection_rect: SelectionRect = $SelectionRect
 
 var selected_squads: Array[Squad] = []
+var controlled_team: int = 0
 
 func _process(_delta):
 	if selection_rect.is_selecting:
@@ -21,8 +22,9 @@ func _process(_delta):
 		selected_squads.clear()
 		for body in selection_rect.get_overlapping_bodies():
 			if body is Squad:
-				selected_squads.append(body)
-				body.selected = true
+				if body.team == controlled_team:
+					selected_squads.append(body)
+					body.selected = true
 			else:
 				print("Selected body is not a squad: %s" % body)
 
