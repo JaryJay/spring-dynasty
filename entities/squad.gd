@@ -21,12 +21,10 @@ signal health_depleted(health)
 @onready var rays: = $Rays
 @onready var personal_space_area: = $PersonalSpaceArea
 @onready var awareness_area: = $AwarenessArea
+@onready var state_machine: StateMachine = $StateMachine
 
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
-
-enum SquadState { IDLE, NAVIGATING, REPOSITIONING, CHASING, ATTACKING }
-var state: SquadState = SquadState.IDLE
 
 func _ready():
 	_recreate_units()
@@ -39,45 +37,14 @@ func _ready():
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		return
-	
-	match state:
-		SquadState.IDLE:
-			pass
-		SquadState.NAVIGATING:
-			if nav.is_navigation_finished():
-				state = SquadState.REPOSITIONING
-				velocity = Vector2.ZERO
-			else:
-				# Recalculate path
-#				nav.target_position = nav.target_position
-				
-				var next_path_position: Vector2 = nav.get_next_path_position()
-				var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
-				_rotate_and_move(new_velocity)
-			return
-		SquadState.REPOSITIONING:
-			if personal_space_area.get_overlapping_bodies().size() == 1:
-				# The only thing in its person space is itself
-				state = SquadState.IDLE
-			else:
-				for _ray in rays.get_children():
-					var ray: RayCast2D = _ray
-					if not ray.is_colliding():
-						_rotate_and_move(Vector2.DOWN.rotated(ray.global_rotation) * speed)
-						return
-				_rotate_and_move(-position.direction_to(nav.get_final_position()) * speed)
-			return
-		SquadState.CHASING:
-			pass
-		SquadState.ATTACKING:
-			pass
+	state_machine.process_state(self)
 
 ## Public function to begin navigation
 func set_target_position(target_position: Vector2) -> void:
 	nav.target_position = target_position
-	state = SquadState.NAVIGATING
+	state_machine.state = $StateMachine/NavigatingState
 
-func _rotate_and_move(safe_velocity: Vector2) -> void:
+func rotate_and_move(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
 	rays.rotation = velocity.angle() - PI / 2
 	move_and_slide()
