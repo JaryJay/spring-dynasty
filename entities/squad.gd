@@ -34,7 +34,7 @@ func _physics_process(_delta):
 	
 	match state:
 		SquadState.IDLE:
-			return
+			pass
 		SquadState.NAVIGATING:
 			if nav.is_navigation_finished():
 				state = SquadState.REPOSITIONING
@@ -45,10 +45,7 @@ func _physics_process(_delta):
 				
 				var next_path_position: Vector2 = nav.get_next_path_position()
 				var new_velocity: Vector2 = global_position.direction_to(next_path_position) * speed
-				if nav.avoidance_enabled:
-					nav.set_velocity(new_velocity)
-				else:
-					_rotate_and_move(new_velocity)
+				_rotate_and_move(new_velocity)
 			return
 		SquadState.REPOSITIONING:
 			if personal_space_area.get_overlapping_bodies().size() == 1:

@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://blhxyp0cnaeh7"]
 
-[ext_resource type="Script" path="res://elements/squad.gd" id="1_i6ptf"]
-[ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://elements/footman.tscn" id="2_efsaf"]
-[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_1n5fi"]
-[ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://elements/squad_banner.tscn" id="4_7y55f"]
+[ext_resource type="Script" path="res://entities/squad.gd" id="1_rhduu"]
+[ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
+[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_1s0g2"]
+[ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squad_banner.tscn" id="4_667vd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
 radius = 28.0
@@ -17,27 +17,27 @@ radius = 121.017
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
 collision_mask = 2
-script = ExtResource("1_i6ptf")
-unit_scene = ExtResource("2_efsaf")
+script = ExtResource("1_rhduu")
+unit_scene = ExtResource("2_fsh2l")
 speed = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_806k5")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_max_distance = 60.0
-debug_enabled = true
 
 [node name="SelectOval" type="Sprite2D" parent="."]
 editor_description = "This will be visible whenever the squad is selected"
 visible = false
 z_index = -1
 scale = Vector2(0.695, 0.695)
-texture = ExtResource("3_1n5fi")
+texture = ExtResource("3_1s0g2")
 
-[node name="SquadBanner" parent="." instance=ExtResource("4_7y55f")]
+[node name="SquadBanner" parent="." instance=ExtResource("4_667vd")]
 z_index = 1
 position = Vector2(-3, -45)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 60.0
+debug_enabled = true
 
 [node name="Rays" type="Node2D" parent="."]
 
@@ -99,5 +99,3 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea"]
 shape = SubResource("CircleShape2D_8wtwe")
 debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
-
-[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_rotate_and_move"]

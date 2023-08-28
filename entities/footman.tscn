@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvepugi4pqh7g"]
 
-[ext_resource type="Script" path="res://elements/unit.gd" id="1_afkkk"]
+[ext_resource type="Script" path="res://entities/unit.gd" id="1_afkkk"]
 [ext_resource type="Texture2D" uid="uid://dpucki8c6es4q" path="res://assets/units/footman1.png" id="2_nd0kh"]
 
 [node name="Footman" type="Node2D"]

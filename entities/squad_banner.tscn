@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bior7vn41ep74"]
 
 [ext_resource type="Texture2D" uid="uid://dlrs68bkwrg4k" path="res://assets/banner_pole.png" id="1_go8rj"]
-[ext_resource type="Script" path="res://elements/squad_banner.gd" id="1_iwiwb"]
+[ext_resource type="Script" path="res://entities/squad_banner.gd" id="1_iwiwb"]
 [ext_resource type="Texture2D" uid="uid://cfbjlhvemqu3s" path="res://assets/banner.png" id="2_o0pnc"]
 
 [sub_resource type="Animation" id="Animation_7fyvb"]
