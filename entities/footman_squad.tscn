@@ -39,7 +39,6 @@ scale = Vector2(0.695, 0.695)
 texture = ExtResource("3_1s0g2")
 
 [node name="SquadBanner" parent="." instance=ExtResource("4_667vd")]
-visible = false
 z_index = 1
 position = Vector2(-3, -45)
 
