@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=15 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_rhduu"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
@@ -20,6 +20,8 @@ radius = 23.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
 radius = 121.017
 
+[sub_resource type="LabelSettings" id="LabelSettings_bc27l"]
+
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
 collision_mask = 2
@@ -37,6 +39,7 @@ scale = Vector2(0.695, 0.695)
 texture = ExtResource("3_1s0g2")
 
 [node name="SquadBanner" parent="." instance=ExtResource("4_667vd")]
+visible = false
 z_index = 1
 position = Vector2(-3, -45)
 
@@ -47,50 +50,50 @@ debug_enabled = true
 [node name="Rays" type="Node2D" parent="."]
 
 [node name="RayCastFront" type="RayCast2D" parent="Rays"]
+modulate = Color(0, 0.839216, 0.337255, 1)
 position = Vector2(0, 25)
-target_position = Vector2(0, 8)
+target_position = Vector2(0, 10)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastLeft" type="RayCast2D" parent="Rays"]
 position = Vector2(23, 9)
 rotation = -1.0472
-target_position = Vector2(0, 8)
+target_position = Vector2(0, 10)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastRight" type="RayCast2D" parent="Rays"]
 position = Vector2(-23, 9)
 rotation = 1.0472
-target_position = Vector2(0, 8)
+target_position = Vector2(0, 10)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
 position = Vector2(23, -9)
 rotation = -2.0944
-target_position = Vector2(0, 8)
+target_position = Vector2(0, 10)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastRight2" type="RayCast2D" parent="Rays"]
 position = Vector2(-23, -9)
 rotation = 2.0944
-target_position = Vector2(0, 8)
+target_position = Vector2(0, 10)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastBack" type="RayCast2D" parent="Rays"]
 position = Vector2(0, -25)
 rotation = 3.14159
-target_position = Vector2(0, 8)
+target_position = Vector2(0, 10)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="PersonalSpaceArea" type="Area2D" parent="."]
-editor_description = "After the squad finishes navigating to a target, it will reposition itself if this area is intersecting with other squds or obstacles"
+editor_description = "After the squad finishes navigating to a target position, it will reposition itself if this area is intersecting with other squds"
 collision_layer = 0
-collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpaceArea"]
 shape = SubResource("CircleShape2D_ejtey")
@@ -98,14 +101,33 @@ debug_color = Color(0.619608, 0.533333, 0, 0.419608)
 
 [node name="AwarenessArea" type="Area2D" parent="."]
 editor_description = "For detecting enemy squads"
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea"]
 shape = SubResource("CircleShape2D_8wtwe")
 debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("default_state")]
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = -59.0
+offset_right = 42.5
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Debug text"
+label_settings = SubResource("LabelSettings_bc27l")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("squad", "default_state")]
 script = ExtResource("5_m8n8y")
+squad = NodePath("..")
 default_state = NodePath("IdleState")
 
 [node name="IdleState" type="Node" parent="StateMachine"]

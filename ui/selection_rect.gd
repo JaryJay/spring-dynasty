@@ -10,7 +10,7 @@ func _input(event) -> void:
 	if Input.is_action_just_pressed("primary") and selecting:
 		select_corner = get_global_mouse_position()
 		is_selecting = true
-	if event is InputEventMouseMotion and Input.is_action_pressed("primary") and selecting:
+	if Input.is_action_pressed("primary") and selecting:
 		var mouse_pos: = get_global_mouse_position()
 		position = select_corner.lerp(mouse_pos, 0.5)
 		scale = mouse_pos - select_corner

@@ -17,10 +17,11 @@ signal health_depleted(health)
 @export_range(0, 500) var speed: float = 150
 @export_range(0, 100) var attack_speed: float = 5
 
-@onready var nav: = $NavigationAgent2D
-@onready var rays: = $Rays
-@onready var personal_space_area: = $PersonalSpaceArea
-@onready var awareness_area: = $AwarenessArea
+@onready var debug_label: Label = $DebugLabel
+@onready var nav: NavigationAgent2D = $NavigationAgent2D
+@onready var rays: Node2D = $Rays
+@onready var personal_space_area: Area2D = $PersonalSpaceArea
+@onready var awareness_area: Area2D = $AwarenessArea
 @onready var state_machine: StateMachine = $StateMachine
 
 var units: Array[Unit] = []
@@ -33,19 +34,21 @@ func _ready():
 	# exception (the ray will not detect this squad)
 	for ray in rays.get_children():
 		ray.add_exception(self)
+	
+	state_machine.initialize()
 
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		return
-	state_machine.process_state(self)
+	state_machine.process_state()
 
 ## Public function to begin navigation
 func set_target_position(target_position: Vector2) -> void:
 	nav.target_position = target_position
 	state_machine.state = $StateMachine/NavigatingState
 
-func rotate_and_move(safe_velocity: Vector2) -> void:
-	velocity = safe_velocity
+func rotate_and_move(direction: Vector2) -> void:
+	velocity = direction * speed
 	rays.rotation = velocity.angle() - PI / 2
 	move_and_slide()
 
