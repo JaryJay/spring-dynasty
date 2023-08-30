@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://d3odrh13873c8"]
+[gd_scene load_steps=2 format=3 uid="uid://d3odrh13873c8"]
+
+[ext_resource type="Script" path="res://ui/settings_menu.gd" id="1_vx3mw"]
 
 [node name="SettingsMenu" type="Control"]
 layout_mode = 3
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vx3mw")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -23,9 +26,90 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -157.0
-offset_top = 70.0
+offset_top = 30.0
 offset_right = 157.0
-offset_bottom = 195.0
+offset_bottom = 155.0
 grow_horizontal = 2
 theme_override_font_sizes/normal_font_size = 80
 text = "Settings"
+
+[node name="SettingsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -451.0
+offset_top = -154.0
+offset_right = 449.0
+offset_bottom = 296.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="SettingsSideBarColor" type="ColorRect" parent="SettingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.34
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="SettingsTabs" type="VBoxContainer" parent="SettingsContainer/SettingsSideBarColor"]
+layout_mode = 2
+offset_right = 228.0
+offset_bottom = 450.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+theme_override_constants/separation = 0
+
+[node name="AccountSettingsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
+layout_mode = 2
+text = "Account
+"
+
+[node name="KeybindsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
+layout_mode = 2
+text = "Keybinds
+"
+
+[node name="VideoSettingsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
+layout_mode = 2
+text = "Video
+"
+
+[node name="AudioSettingsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
+layout_mode = 2
+text = "Audio
+"
+
+[node name="SettingsBoxBackground" type="ColorRect" parent="SettingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.294118, 0.294118, 0.294118, 1)
+
+[node name="SettingsContainer" type="VBoxContainer" parent="SettingsContainer/SettingsBoxBackground"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 64.0
+offset_right = 300.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="QuitButton" type="Button" parent="."]
+offset_left = 850.0
+offset_top = 64.0
+offset_right = 1025.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[connection signal="pressed" from="SettingsContainer/SettingsSideBarColor/SettingsTabs/AccountSettingsButton" to="." method="_on_account_settings_button_pressed"]
+[connection signal="toggled" from="SettingsContainer/SettingsSideBarColor/SettingsTabs/AccountSettingsButton" to="." method="_on_account_settings_button_toggled"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
