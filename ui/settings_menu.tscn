@@ -62,23 +62,21 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 theme_override_constants/separation = 0
 
-[node name="AccountSettingsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
-layout_mode = 2
-text = "Account
-"
-
 [node name="KeybindsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Keybinds
 "
 
 [node name="VideoSettingsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Video
 "
 
 [node name="AudioSettingsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Audio
 "
 
@@ -109,7 +107,5 @@ offset_bottom = 124.0
 theme_override_font_sizes/font_size = 30
 text = "Quit"
 
-[connection signal="pressed" from="SettingsContainer/SettingsSideBarColor/SettingsTabs/AccountSettingsButton" to="." method="_on_account_settings_button_pressed"]
-[connection signal="toggled" from="SettingsContainer/SettingsSideBarColor/SettingsTabs/AccountSettingsButton" to="." method="_on_account_settings_button_toggled"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
