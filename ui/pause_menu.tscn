@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://yg75476prlvp"]
+[gd_scene load_steps=3 format=3 uid="uid://yg75476prlvp"]
 
+[ext_resource type="Theme" uid="uid://binjxxtsqnge" path="res://ui/pause_menu_theme.tres" id="1_isqfd"]
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_qistc"]
 
 [node name="PauseMenu" type="Control"]
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_isqfd")
 script = ExtResource("1_qistc")
 
 [node name="Panel" type="Panel" parent="."]
