@@ -10,7 +10,7 @@ var selected_squads: Array[Squad] = []
 var controlled_team: int = 0
 
 func _ready():
-	var pause_menu_resume_button: Button = $CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume
+	var pause_menu_resume_button: Button = $CanvasLayer/PauseMenu/ColorRect/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(_on_pause_menu_resume_pressed)
 
 func _process(_delta):

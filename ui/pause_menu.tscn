@@ -1,6 +1,5 @@
-[gd_scene load_steps=3 format=3 uid="uid://yg75476prlvp"]
+[gd_scene load_steps=2 format=3 uid="uid://yg75476prlvp"]
 
-[ext_resource type="Theme" uid="uid://binjxxtsqnge" path="res://ui/pause_menu_theme.tres" id="1_isqfd"]
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_qistc"]
 
 [node name="PauseMenu" type="Control"]
@@ -10,10 +9,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_isqfd")
 script = ExtResource("1_qistc")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.207843)
+
+[node name="Panel" type="Panel" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -27,7 +34,7 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,23 +42,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+[node name="Label" type="Label" parent="ColorRect/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Pause Menu"
 horizontal_alignment = 1
 
-[node name="Resume" type="Button" parent="Panel/VBoxContainer"]
+[node name="Resume" type="Button" parent="ColorRect/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Resume"
 
-[node name="Exit" type="Button" parent="Panel/VBoxContainer"]
+[node name="Exit" type="Button" parent="ColorRect/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Return to Main Menu
 "
 
-[node name="Quit" type="Button" parent="Panel/VBoxContainer"]
+[node name="Quit" type="Button" parent="ColorRect/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="Panel/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ColorRect/Panel/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="ColorRect/Panel/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

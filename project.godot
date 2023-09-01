@@ -23,6 +23,10 @@ User="*res://user.gd"
 
 window/stretch/mode="canvas_items"
 
+[gui]
+
+theme/custom="res://ui/base_theme.tres"
+
 [input]
 
 primary={
