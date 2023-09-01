@@ -31,6 +31,10 @@ func process(squad: Squad) -> void:
 			var dir: = other_squad.position.direction_to(squad.position)
 			squad.rotate_and_move(dir.normalized())
 			return
+	
+	for other_squad in overlapping_idle_or_repositioning_squads:
+		if not other_squad == squad and other_squad.position.distance_to(squad.position) < 2:
+			squad.position += other_squad.position.direction_to(squad.position) * 2
 
 	# Otherwise, use raycasts to determine direction
 	_reposition_using_raycasts(squad)

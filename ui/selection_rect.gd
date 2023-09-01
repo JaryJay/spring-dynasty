@@ -4,7 +4,7 @@ class_name SelectionRect
 var select_corner: Vector2
 var is_selecting: = false
 
-func _input(event) -> void:
+func _input(_event) -> void:
 	var selecting: = Input.is_action_pressed("select")
 	
 	if Input.is_action_just_pressed("primary") and selecting:

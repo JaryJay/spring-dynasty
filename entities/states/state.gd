@@ -1,11 +1,11 @@
 extends Node
 class_name State
 
-func _enter_state(squad: Squad) -> void:
+func _enter_state(_squad: Squad) -> void:
 	pass
 
-func process(squad: Squad) -> void:
+func process(_squad: Squad) -> void:
 	pass
 
-func _exit_state(squad: Squad) -> void:
+func _exit_state(_squad: Squad) -> void:
 	pass

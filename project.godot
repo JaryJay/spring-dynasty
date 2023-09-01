@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 User="*res://user.gd"
 
+[debug]
+
+gdscript/warnings/shadowed_global_identifier=0
+
 [input]
 
 primary={

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=16 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_rhduu"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://entities/states/repositioning_state.gd" id="8_kxedj"]
 [ext_resource type="Script" path="res://entities/states/chasing_state.gd" id="9_fplkg"]
 [ext_resource type="Script" path="res://entities/states/attacking_state.gd" id="10_shrxm"]
+[ext_resource type="Script" path="res://entities/states/dying_state.gd" id="11_uvfah"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
 radius = 28.0
@@ -24,7 +25,7 @@ radius = 121.017
 
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
-collision_mask = 2
+collision_mask = 3
 script = ExtResource("1_rhduu")
 unit_scene = ExtResource("2_fsh2l")
 
@@ -43,6 +44,7 @@ z_index = 1
 position = Vector2(-3, -45)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 0.1
 path_max_distance = 60.0
 debug_enabled = true
 
@@ -109,7 +111,7 @@ debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
 
 [node name="DebugLabel" type="Label" parent="."]
 visible = false
-z_index = 1
+z_index = 2
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -140,8 +142,13 @@ repositioning_state = NodePath("../RepositioningState")
 script = ExtResource("8_kxedj")
 idle_state = NodePath("../IdleState")
 
-[node name="ChasingState" type="Node" parent="StateMachine"]
+[node name="ChasingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("repositioning_state", "attacking_state")]
 script = ExtResource("9_fplkg")
+repositioning_state = NodePath("../RepositioningState")
+attacking_state = NodePath("../AttackingState")
 
 [node name="AttackingState" type="Node" parent="StateMachine"]
 script = ExtResource("10_shrxm")
+
+[node name="DyingState" type="Node" parent="StateMachine"]
+script = ExtResource("11_uvfah")

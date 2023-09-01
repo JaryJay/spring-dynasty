@@ -13,7 +13,8 @@ signal health_depleted(health)
 @export_group("Stats")
 @export_range(0, 200) var health: int = 100 : set = _set_health
 @export_range(0, 200) var attack: int = 10
-@export_range(0, 400) var range: float = 30
+@export_range(0, 400) var engage_range: float = 60
+@export_range(0, 400) var range: float = 80
 @export_range(0, 500) var speed: float = 150
 @export_range(0, 100) var attack_speed: float = 5
 
@@ -45,7 +46,6 @@ func _physics_process(_delta):
 ## Public function to begin navigation
 func set_target_position(target_position: Vector2) -> void:
 	nav.target_position = target_position
-	state_machine.state = $StateMachine/NavigatingState
 
 func rotate_and_move(direction: Vector2) -> void:
 	velocity = direction * speed
