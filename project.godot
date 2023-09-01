@@ -19,9 +19,13 @@ config/icon="res://icon.svg"
 
 User="*res://user.gd"
 
-[debug]
+[display]
 
-gdscript/warnings/shadowed_global_identifier=0
+window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom="res://ui/base_theme.tres"
 
 [input]
 

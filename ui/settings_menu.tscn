@@ -100,6 +100,7 @@ theme_override_font_sizes/font_size = 30
 text = "Back"
 
 [node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 850.0
 offset_top = 64.0
 offset_right = 1025.0
