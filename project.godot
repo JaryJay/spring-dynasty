@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-User="*res://user.gd"
+Client="*res://client.gd"
+Server="*res://server.gd"
 
 [display]
 
