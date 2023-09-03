@@ -6,14 +6,15 @@ extends Node
 # for more details!
 
 const PORT = 45000
-const DEFAULT_SERVER_IP = "99.250.93.242" # IPv4 localhost
+const DEFAULT_SERVER_IP = "99.250.93.242"
 const MAX_CONNECTIONS = 32
 
 var lobby: Lobby = Lobby.new()
 
+var player_id_to_name_map: Dictionary = {}
+
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_user_args():
-		queue_free()
 		return
 	
 	print("Initializing server...")
@@ -33,15 +34,48 @@ func _ready() -> void:
 
 func _on_player_connected(id: int) -> void:
 	print("Player %d connected" % id)
-	lobby.player_ids.append(id)
-	if lobby.host_id == 0:
-		lobby.host_id = id
 
 func _on_player_disconnected(id: int) -> void:
 	print("Player %d disconnected" % id)
-	lobby.player_ids.erase(id)
+	
+	if lobby.player_ids.find(id) == -1:
+		return
+	
+	# Calculate new host
+	var i: = lobby.player_ids.find(id)
+	lobby.player_ids.remove_at(i)
+	lobby.player_names.remove_at(i)
 	if lobby.host_id == id:
 		if lobby.player_ids.size() > 0:
 			lobby.host_id = lobby.player_ids[0]
 		else:
 			lobby.host_id = 0
+	
+	player_id_to_name_map.erase(id)
+
+# Any peer can call this RPC. See client.gd's _on_connected_ok function
+@rpc("any_peer", "reliable")
+func register_user_info(user_info: Dictionary) -> void:
+	var id: = multiplayer.get_remote_sender_id()
+	print("Registering peer %d" % id)
+	
+	if not ("name" in user_info and user_info.name is String):
+		print("Kicking peer %d because name not found" % id)
+		multiplayer.multiplayer_peer.disconnect_peer(id)
+		return
+	
+	var player_name: String = user_info.name
+	if player_name.length() > 50:
+		printerr("Kicking peer %d because name is too long" % player_name)
+		multiplayer.multiplayer_peer.disconnect_peer(id)
+		return
+	print("Peer %d successfully registered as '%s'" % [id, player_name])
+	player_id_to_name_map[id] = player_name
+	
+	lobby.player_ids.append(id)
+	lobby.player_names.append(player_name)
+	if lobby.host_id == 0:
+		lobby.host_id = id
+	
+	print("Updating client lobbies")
+	Client.update_lobby.rpc(lobby.player_ids, lobby.player_names)

@@ -2,12 +2,18 @@ extends Node
 
 # Autoload named Client
 
-var player_info: Dictionary
+signal server_disconnected
+signal player_connected(id)
+signal player_disconnected(id)
+
+var user_info: Dictionary = { "name": "Bob" }
+
+var lobby: Lobby = Lobby.new()
 
 func _ready():
 	if "--server" in OS.get_cmdline_user_args():
-		queue_free()
 		return
+	init()
 
 func init():
 	print("Initializing client...")
@@ -19,7 +25,12 @@ func init():
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(Server.DEFAULT_SERVER_IP, Server.PORT)
+	
+	const SERVER_IP: = Server.DEFAULT_SERVER_IP
+	const SERVER_PORT: = Server.PORT
+	
+	print("Attempting to connect to %s:%d..." % [SERVER_IP, SERVER_PORT])
+	var error = peer.create_client(SERVER_IP, SERVER_PORT)
 	if error:
 		printerr("Error %d occurred while creating the client. Aborting..." % error)
 		get_tree().quit()
@@ -28,29 +39,32 @@ func init():
 	
 	print("Client initialized")
 
+@rpc("authority", "reliable")
+func update_lobby(player_ids: PackedInt32Array, player_names: PackedStringArray) -> void:
+	print("Updating lobby")
+	lobby.player_ids = player_ids
+	lobby.player_names = player_names
+	print(player_names)
+
 func _on_player_connected(id: int) -> void:
-#	if id == 1:
-#		_register_player.rpc_id(id, player_info)
-	pass
+	player_connected.emit(id)
 
 func _on_player_disconnected(id: int) -> void:
 	print("Player %d disconnected" % id)
-	player_info.erase(id)
-#	player_disconnected.emit(id)
+	player_disconnected.emit(id)
 
 func _on_connected_ok() -> void:
 	var peer_id = multiplayer.get_unique_id()
-#	players[peer_id] = player_info
-#	player_connected.emit(peer_id, player_info)
+	Server.register_user_info.rpc_id(1, user_info)
 
 func _on_connected_fail() -> void:
-	printerr("Connection failed")
+	printerr("client.gd: Connection failed")
 	multiplayer.multiplayer_peer = null
 
 func _on_server_disconnected() -> void:
-	printerr("The server has disconnected")
+	printerr("Disconnected from server")
 	multiplayer.multiplayer_peer = null
-#	server_disconnected.emit()
+	server_disconnected.emit()
 
 # Note: this function will not work until steam_appid.txt has a valid app id
 func init_steam() -> void:

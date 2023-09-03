@@ -30,6 +30,10 @@ var selected: = false : set = _set_selected
 
 func _ready():
 	_recreate_units()
+	
+	if Engine.is_editor_hint():
+		return
+	
 	nav.target_position = global_position
 	# The raycasts should only detect other objects, so we add self as an
 	# exception (the ray will not detect this squad)
