@@ -29,18 +29,19 @@ func init():
 	print("Client initialized")
 
 func _on_player_connected(id: int) -> void:
-	if id == 1:
-		_register_player.rpc_id(id, player_info)
+#	if id == 1:
+#		_register_player.rpc_id(id, player_info)
+	pass
 
 func _on_player_disconnected(id: int) -> void:
 	print("Player %d disconnected" % id)
 	player_info.erase(id)
-	player_disconnected.emit(id)
+#	player_disconnected.emit(id)
 
 func _on_connected_ok() -> void:
 	var peer_id = multiplayer.get_unique_id()
-	players[peer_id] = player_info
-	player_connected.emit(peer_id, player_info)
+#	players[peer_id] = player_info
+#	player_connected.emit(peer_id, player_info)
 
 func _on_connected_fail() -> void:
 	printerr("Connection failed")
@@ -49,7 +50,7 @@ func _on_connected_fail() -> void:
 func _on_server_disconnected() -> void:
 	printerr("The server has disconnected")
 	multiplayer.multiplayer_peer = null
-	server_disconnected.emit()
+#	server_disconnected.emit()
 
 # Note: this function will not work until steam_appid.txt has a valid app id
 func init_steam() -> void:
