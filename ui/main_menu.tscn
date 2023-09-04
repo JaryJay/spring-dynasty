@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ql5gst60j1lm"]
 
 [ext_resource type="Script" path="res://ui/main_menu.gd" id="1_qx77c"]
-[ext_resource type="PackedScene" uid="uid://ctr7h1jl1kaxv" path="res://game.tscn" id="2_07c0u"]
+[ext_resource type="PackedScene" uid="uid://qo5lplwkoqa5" path="res://ui/join_lobby_menu.tscn" id="2_vi7wh"]
 [ext_resource type="PackedScene" uid="uid://d3odrh13873c8" path="res://ui/settings_menu.tscn" id="3_uclao"]
 
 [node name="MainMenu" type="Control"]
@@ -12,7 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qx77c")
-game_scene = ExtResource("2_07c0u")
+join_lobby_menu_scene = ExtResource("2_vi7wh")
 settings_menu = ExtResource("3_uclao")
 
 [node name="ColorRect" type="ColorRect" parent="."]

@@ -1,10 +1,10 @@
 extends Control
 
-@export var game_scene: PackedScene
+@export var join_lobby_menu_scene: PackedScene
 @export var settings_menu: PackedScene
 
 func _on_play_button_pressed():
-	get_tree().change_scene_to_packed(game_scene)
+	get_tree().change_scene_to_packed(join_lobby_menu_scene)
 
 func _on_settings_button_pressed():
 	var settingsMenuInstance = settings_menu.instantiate()

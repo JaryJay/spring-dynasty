@@ -1,0 +1,129 @@
+[gd_scene load_steps=2 format=3 uid="uid://bugmjjuox6k7p"]
+
+[ext_resource type="Script" path="res://ui/lobby_menu.gd" id="1_amchv"]
+
+[node name="LobbyMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_amchv")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.121569, 0.121569, 0.121569, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -117.0
+offset_right = 118.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 80
+text = "Lobby"
+fit_content = true
+
+[node name="Container" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -418.0
+offset_top = -154.0
+offset_right = 416.0
+offset_bottom = 296.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="SideBar" type="ColorRect" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.46
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/SideBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="HostControls" type="VBoxContainer" parent="Container/SideBar/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+theme_override_constants/separation = 30
+
+[node name="NameLabel" type="Label" parent="Container/SideBar/MarginContainer/HostControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<Name of Player>"
+
+[node name="Label" type="Label" parent="Container/SideBar/MarginContainer/HostControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You are the Host"
+
+[node name="StartButton" type="Button" parent="Container/SideBar/MarginContainer/HostControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start!"
+
+[node name="StatusLabel" type="Label" parent="Container/SideBar/MarginContainer/HostControls"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LobbyContainer" type="ColorRect" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/LobbyContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PlayerList" type="ItemList" parent="Container/LobbyContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 2
+item_0/text = "Placeholder Player A"
+item_1/text = "Placeholder Player B"
+
+[node name="LeaveButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 64.0
+offset_right = 300.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 30
+text = "Leave"
+
+[connection signal="pressed" from="Container/SideBar/MarginContainer/HostControls/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_back_button_pressed"]

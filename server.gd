@@ -6,7 +6,6 @@ extends Node
 # for more details!
 
 const PORT = 45000
-const DEFAULT_SERVER_IP = "99.250.93.242"
 const MAX_CONNECTIONS = 32
 
 var lobby: Lobby = Lobby.new()
@@ -50,8 +49,10 @@ func _on_player_disconnected(id: int) -> void:
 			lobby.host_id = lobby.player_ids[0]
 		else:
 			lobby.host_id = 0
-	
 	player_id_to_name_map.erase(id)
+	
+	print("Updating client lobbies")
+	Client.update_lobby.rpc(lobby.player_ids, lobby.player_names)
 
 # Any peer can call this RPC. See client.gd's _on_connected_ok function
 @rpc("any_peer", "reliable")
@@ -79,3 +80,13 @@ func register_user_info(user_info: Dictionary) -> void:
 	
 	print("Updating client lobbies")
 	Client.update_lobby.rpc(lobby.player_ids, lobby.player_names)
+
+@rpc("any_peer", "reliable")
+func start_game() -> void:
+	var sender_id: = multiplayer.get_remote_sender_id()
+	if not sender_id == lobby.host_id:
+		printerr("Start game called by non-host player")
+		return
+	
+	print("Game starting")
+	Client.start_game.rpc()
