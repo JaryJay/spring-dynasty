@@ -54,6 +54,7 @@ func _on_player_disconnected(id: int) -> void:
 	player_disconnected.emit(id)
 
 func _on_connected_ok() -> void:
+	print("Connected to server")
 	var peer_id = multiplayer.get_unique_id()
 	Server.register_user_info.rpc_id(1, user_info)
 

@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3 uid="uid://qo5lplwkoqa5"]
+
+[ext_resource type="Script" path="res://ui/join_lobby_menu.gd" id="1_8vf7l"]
+
+[node name="JoinLobbyMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8vf7l")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.121569, 0.121569, 0.121569, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -205.0
+offset_right = 205.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 80
+text = "Join Lobby"
+fit_content = true
+
+[node name="Container" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -286.0
+offset_top = -154.0
+offset_right = 284.0
+offset_bottom = 296.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="SideBar" type="ColorRect" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.34
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/SideBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/SideBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+theme_override_constants/separation = 0
+
+[node name="ServerIPInput" type="LineEdit" parent="Container/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Server IP"
+
+[node name="PortInput" type="LineEdit" parent="Container/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Port"
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="JoinButton" type="Button" parent="Container/SideBar/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 64.0
+offset_right = 300.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 850.0
+offset_top = 64.0
+offset_right = 1025.0
+offset_bottom = 124.0
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[connection signal="pressed" from="Container/SideBar/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
