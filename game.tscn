@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctr7h1jl1kaxv"]
+[gd_scene load_steps=5 format=3 uid="uid://ctr7h1jl1kaxv"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_8jko4"]
-[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/footman_squad.tscn" id="1_7300h"]
 [ext_resource type="PackedScene" uid="uid://diqb4edupeah0" path="res://ui/selection_rect.tscn" id="2_34i2k"]
 [ext_resource type="PackedScene" uid="uid://yg75476prlvp" path="res://ui/pause_menu.tscn" id="2_f655f"]
-[ext_resource type="PackedScene" uid="uid://3rqw1jdrjdn8" path="res://maps/map_0.tscn" id="2_g36xn"]
+[ext_resource type="PackedScene" uid="uid://3r6q0oteiybd" path="res://maps/map_1.tscn" id="3_uwne5"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
@@ -14,7 +13,7 @@ script = ExtResource("1_8jko4")
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("2_f655f")]
 visible = false
 
-[node name="Map0" parent="." instance=ExtResource("2_g36xn")]
+[node name="Map1" parent="." instance=ExtResource("3_uwne5")]
 
 [node name="SelectionRect" parent="." instance=ExtResource("2_34i2k")]
 
@@ -22,27 +21,3 @@ visible = false
 
 [node name="Squads" type="Node2D" parent="."]
 y_sort_enabled = true
-
-[node name="FootmanSquad" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-465, 263)
-
-[node name="FootmanSquad2" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-399, 262)
-
-[node name="FootmanSquad3" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-115, 267)
-
-[node name="FootmanSquad4" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-48, 260)
-
-[node name="FootmanSquad5" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-153, -226)
-team = 1
-
-[node name="FootmanSquad6" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-98, -197)
-team = 1
-
-[node name="FootmanSquad7" parent="Squads" instance=ExtResource("1_7300h")]
-position = Vector2(-205, -183)
-team = 1
