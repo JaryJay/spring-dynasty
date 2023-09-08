@@ -8,9 +8,14 @@ extends Node
 const PORT = 45000
 const MAX_CONNECTIONS = 32
 
+const game_scene: = preload("res://game.tscn")
+
 var lobby: Lobby = Lobby.new()
 
 var player_id_to_name_map: Dictionary = {}
+
+enum GameState { LOBBY, WAITING, IN_GAME }
+var state: GameState = GameState.LOBBY
 
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_user_args():
@@ -83,10 +88,21 @@ func register_user_info(user_info: Dictionary) -> void:
 
 @rpc("any_peer", "reliable")
 func start_game() -> void:
+	state = GameState.WAITING
 	var sender_id: = multiplayer.get_remote_sender_id()
 	if not sender_id == lobby.host_id:
 		printerr("Start game called by non-host player")
 		return
 	
 	print("Game starting")
-	Client.start_game.rpc()
+	
+	var game: = game_scene.instantiate()
+	game.is_server = true
+	add_child(game)
+	
+	var team_numbers: Array[int] = [0, 1, 2, 3, 4, 5]
+	team_numbers.shuffle()
+	for i in lobby.player_ids.size():
+		var player_id: = lobby.player_ids[i]
+		var team_number: = team_numbers[i]
+		Client.start_game.rpc_id(player_id, team_number)

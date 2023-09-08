@@ -4,12 +4,13 @@ extends Node
 
 signal server_disconnected
 signal lobby_updated
-signal game_started
+signal game_started(team_number)
 
 signal player_connected(id)
 signal player_disconnected(id)
 
 var user_info: Dictionary = { "name": "Bob" }
+var team_number: int = -1
 
 var lobby: Lobby = Lobby.new()
 
@@ -47,7 +48,9 @@ func update_lobby(player_ids: PackedInt32Array, player_names: PackedStringArray)
 	lobby_updated.emit()
 
 @rpc("authority", "reliable")
-func start_game() -> void:
+func start_game(team_num: int) -> void:
+	team_number = team_num
+	print("%s: Starting game as team %d" % [multiplayer.get_unique_id(), team_number])
 	game_started.emit()
 
 func _on_player_connected(id: int) -> void:

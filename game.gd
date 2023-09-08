@@ -2,6 +2,8 @@ extends Node2D
 
 class_name Game
 
+var is_server: = false
+
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $CanvasLayer/PauseMenu
 
@@ -9,6 +11,8 @@ var selected_squads: Array[Squad] = []
 var controlled_team: int = 0
 
 func _ready():
+	controlled_team = Client.team_number
+	
 	var pause_menu_resume_button: Button = $CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
 
