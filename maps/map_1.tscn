@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://3r6q0oteiybd"]
+[gd_scene load_steps=7 format=3 uid="uid://3r6q0oteiybd"]
 
 [ext_resource type="Texture2D" uid="uid://cgh6ld47nxrgj" path="res://assets/terrain/map_1.png" id="1_08n0g"]
+[ext_resource type="Script" path="res://maps/map_1.gd" id="1_sokf3"]
 [ext_resource type="Texture2D" uid="uid://dtnf55hdw1a2s" path="res://assets/terrain/mountain1.png" id="2_0l6xr"]
 [ext_resource type="Texture2D" uid="uid://bbp83x204koyh" path="res://assets/terrain/mountain2.png" id="3_yqbdk"]
 [ext_resource type="Texture2D" uid="uid://kpcpoo8pdpy" path="res://assets/terrain/mountain3.png" id="4_op33w"]
@@ -13,6 +14,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(0, -500, 20, -492, 116,
 [node name="Map1" type="NavigationRegion2D"]
 self_modulate = Color(1, 1, 1, 0)
 navigation_polygon = SubResource("NavigationPolygon_pjut6")
+script = ExtResource("1_sokf3")
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -5

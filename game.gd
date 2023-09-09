@@ -1,11 +1,12 @@
 extends Node2D
-
 class_name Game
 
-var is_server: = false
+const squad_scene: = preload("res://entities/footman_squad.tscn")
+
+var is_server: bool
 
 @onready var selection_rect: SelectionRect = $SelectionRect
-@onready var pause_menu: Control = $CanvasLayer/PauseMenu
+@onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 
 var selected_squads: Array[Squad] = []
 var controlled_team: int = 0
@@ -13,8 +14,18 @@ var controlled_team: int = 0
 func _ready():
 	controlled_team = Client.team_number
 	
-	var pause_menu_resume_button: Button = $CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume
+	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
+
+func _on_spawn_timer_timeout():
+	var lobby: Lobby = Server.lobby if is_server else Client.lobby
+	for player_info in lobby.player_info_list:
+		var team: int = player_info.team
+		var spawn_location: Marker2D = $Map1.spawn_locations[team]
+		var squad: Squad = squad_scene.instantiate()
+		squad.position = spawn_location.position
+		squad.team = team
+		$Squads.add_child(squad)
 
 func _process(_delta):
 	
@@ -73,3 +84,4 @@ func _navigate_squads_to_point(point: Vector2) -> void:
 	for squad in selected_squads:
 		squad.set_target_position(point)
 		squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
+

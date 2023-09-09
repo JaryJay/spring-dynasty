@@ -48,8 +48,10 @@ func update_lobby(player_ids: PackedInt32Array, player_names: PackedStringArray)
 	lobby_updated.emit()
 
 @rpc("authority", "reliable")
-func start_game(team_num: int) -> void:
-	team_number = team_num
+func start_game(player_info_list: Array) -> void:
+	for player_info in player_info_list:
+		lobby.player_info_list.append(player_info)
+	team_number = lobby.get_player_info(multiplayer.get_unique_id()).team
 	print("%s: Starting game as team %d" % [multiplayer.get_unique_id(), team_number])
 	game_started.emit()
 
@@ -74,12 +76,12 @@ func _on_server_disconnected() -> void:
 
 # Note: this function will not work until steam_appid.txt has a valid app id
 func init_steam() -> void:
-	var init: Dictionary = Steam.steamInit()
+	var init_status: Dictionary = Steam.steamInit()
 	print("client.gd: Initializing steam...")
-	print(init)
+	print(init_status)
 	
-	if init.status != 1:
+	if init_status.status != 1:
 		print("client.gd: Failed to initialize Steam. Error message:")
-		print(init.verbal)
+		print(init_status.verbal)
 		print("Shutting down...")
 		get_tree().quit()

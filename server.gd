@@ -12,10 +12,10 @@ const game_scene: = preload("res://game.tscn")
 
 var lobby: Lobby = Lobby.new()
 
-var player_id_to_name_map: Dictionary = {}
-
 enum GameState { LOBBY, WAITING, IN_GAME }
 var state: GameState = GameState.LOBBY
+
+var teams_in_use: Array[int] = []
 
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_user_args():
@@ -54,7 +54,6 @@ func _on_player_disconnected(id: int) -> void:
 			lobby.host_id = lobby.player_ids[0]
 		else:
 			lobby.host_id = 0
-	player_id_to_name_map.erase(id)
 	
 	print("Updating client lobbies")
 	Client.update_lobby.rpc(lobby.player_ids, lobby.player_names)
@@ -76,7 +75,6 @@ func register_user_info(user_info: Dictionary) -> void:
 		multiplayer.multiplayer_peer.disconnect_peer(id)
 		return
 	print("Peer %d successfully registered as '%s'" % [id, player_name])
-	player_id_to_name_map[id] = player_name
 	
 	lobby.player_ids.append(id)
 	lobby.player_names.append(player_name)
@@ -98,11 +96,14 @@ func start_game() -> void:
 	
 	var game: = game_scene.instantiate()
 	game.is_server = true
-	add_child(game)
+	get_tree().root.add_child(game)
 	
 	var team_numbers: Array[int] = [0, 1, 2, 3, 4, 5]
 	team_numbers.shuffle()
 	for i in lobby.player_ids.size():
-		var player_id: = lobby.player_ids[i]
 		var team_number: = team_numbers[i]
-		Client.start_game.rpc_id(player_id, team_number)
+		lobby.player_info_list.append({ "team": team_number })
+	
+	for i in lobby.player_ids.size():
+		Client.start_game.rpc_id(lobby.player_ids[i], lobby.player_info_list)
+	teams_in_use = team_numbers.slice(0, lobby.player_ids.size())
