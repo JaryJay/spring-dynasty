@@ -82,7 +82,7 @@ theme_override_constants/margin_top = 20
 [node name="ServerIPInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "99.250.93.242"
+text = "localhost"
 placeholder_text = "Server IP"
 
 [node name="PortInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer"]

@@ -14,10 +14,6 @@ var team_number: int = -1
 
 var lobby: Lobby = Lobby.new()
 
-func _ready():
-	if "--server" in OS.get_cmdline_user_args():
-		return
-
 func init(server_ip: String, server_port: int) -> Error:
 	print("Initializing client...")
 	

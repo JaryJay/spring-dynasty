@@ -1,6 +1,7 @@
 extends Node2D
 class_name Game
 
+const NUM_SAVED_INPUTS: = 30
 const squad_scene: = preload("res://entities/footman_squad.tscn")
 
 var is_server: bool
@@ -11,24 +12,38 @@ var is_server: bool
 var selected_squads: Array[Squad] = []
 var controlled_team: int = 0
 
+# Maps from player_id (int) to list of last 30 inputs (Array[Dictionary])
+var player_inputs: Dictionary = {}
+
 func _ready():
+	if multiplayer.is_server():
+		set_physics_process(false)
+		return
+	
 	controlled_team = Client.team_number
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
+	
+	for player_id in Client.lobby.player_ids:
+		player_inputs[player_id] = []
 
 func _on_spawn_timer_timeout():
 	var lobby: Lobby = Server.lobby if is_server else Client.lobby
 	for player_info in lobby.player_info_list:
 		var team: int = player_info.team
 		var spawn_location: Marker2D = $Map1.spawn_locations[team]
-		var squad: Squad = squad_scene.instantiate()
-		squad.position = spawn_location.position
-		squad.team = team
-		$Squads.add_child(squad)
+		
+		var offsets: Array[Vector2] = [Vector2.ZERO, Vector2(40, 50), Vector2(-50, 40)]
+		for i in offsets.size():
+			var offset: = offsets[i]
+			var squad: Squad = squad_scene.instantiate()
+			squad.position = spawn_location.position + offset
+			squad.team = team
+			squad.name = "FootmanSquad_%d_%d" % [team, i]
+			$Squads.add_child(squad)
 
-func _process(_delta):
-	
+func _physics_process(_delta):
 	if selection_rect.is_selecting:
 		for selected_squad in selected_squads:
 			selected_squad.selected = false
@@ -40,13 +55,23 @@ func _process(_delta):
 					body.selected = true
 			else:
 				print("Selected body is not a squad: %s" % body)
+	
+	var created_input: = handle_inputs()
+	if not created_input:
+		_add_input({})
+	
+	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
+	GameServer.receive_inputs.rpc_id(1, inputs)
 
-func _input(_event):
-	if _event.is_action_pressed("ui_cancel"):
+func handle_inputs() -> bool:
+	if Input.is_action_pressed("ui_cancel"):
 		pause_menu.visible = !pause_menu.visible
 	
 	var selecting: = Input.is_action_pressed("select")
 	if Input.is_action_pressed("primary") and not selecting:
+		if selected_squads.size() == 0:
+			return false
+		
 		var mouse_pos: = get_global_mouse_position()
 		var space_state = get_world_2d().direct_space_state
 		var query: = PhysicsPointQueryParameters2D.new()
@@ -57,7 +82,7 @@ func _input(_event):
 		
 		if collisions.size() == 0:
 			_navigate_squads_to_point(mouse_pos)
-			return
+			return false
 		
 		# The enemy squad closest to the cursor
 		var closest_enemy_squad: Squad
@@ -72,16 +97,44 @@ func _input(_event):
 					closest_dist_squared = dist_squared
 		
 		if closest_enemy_squad:
-			for squad in selected_squads:
-				var chasing_state: = squad.state_machine.get_node("ChasingState")
-				chasing_state.chased_squad = closest_enemy_squad
-				squad.state_machine.state = chasing_state
+			_navigate_squads_to_enemy(closest_enemy_squad)
 		else:
 			# This will happen if all clicked squads are friendly
 			_navigate_squads_to_point(mouse_pos)
+		return true
+	return false
+
+func _navigate_squads_to_enemy(enemy_squad: Squad) -> void:
+	for squad in selected_squads:
+		var chasing_state: = squad.state_machine.get_node("ChasingState")
+		chasing_state.chased_squad = enemy_squad
+		squad.state_machine.state = chasing_state
+	
+	var squad_names: Array[StringName] = []
+	for squad in selected_squads:
+		squad_names.append(squad.name)
+	_add_input({
+		"state": "ChasingState",
+		"squad_names": squad_names,
+		"enemy_squad": enemy_squad.name,
+	})
 
 func _navigate_squads_to_point(point: Vector2) -> void:
 	for squad in selected_squads:
 		squad.set_target_position(point)
 		squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
+	
+	var squad_names: Array[StringName] = []
+	for squad in selected_squads:
+		squad_names.append(squad.name)
+	_add_input({
+		"state": "NavigatingState",
+		"squad_names": squad_names,
+		"target": point,
+	})
 
+func _add_input(input: Dictionary) -> void:
+	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]
+	player_input_list.append(input)
+	if player_input_list.size() > NUM_SAVED_INPUTS:
+		player_input_list.remove_at(0)
