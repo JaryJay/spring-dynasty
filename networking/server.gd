@@ -95,8 +95,10 @@ func start_game() -> void:
 	print("Game starting")
 	
 	var game: = game_scene.instantiate()
-	game.is_server = true
+	GameServer.game = game
 	get_tree().root.add_child(game)
+	# Start GameServer after .5 seconds
+	get_tree().create_timer(.5).timeout.connect(GameServer.start)
 	
 	var team_numbers: Array[int] = [0, 1, 2, 3, 4, 5]
 	team_numbers.shuffle()
