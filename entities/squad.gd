@@ -28,6 +28,9 @@ signal health_depleted(health)
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
 
+# A record of the last 30 frame states
+var frame_states: Array[SquadFrameState] = []
+
 func _ready():
 	_recreate_units()
 	
@@ -40,12 +43,18 @@ func _ready():
 	for ray in rays.get_children():
 		ray.add_exception(self)
 	
+	var f: = Client.frame
+	frame_states.append(SquadFrameState.new(f, health, global_position, 0))
+	
 	state_machine.initialize()
 
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		return
 	state_machine.process_state()
+	
+	var f: = Client.frame
+	frame_states.append(SquadFrameState.new(f, health, nav.target_position, 0))
 
 ## Public function to begin navigation
 func set_target_position(target_position: Vector2) -> void:
@@ -56,11 +65,21 @@ func rotate_and_move(direction: Vector2) -> void:
 	rays.rotation = velocity.angle() - PI / 2
 	move_and_slide()
 
+func return_to_frame_state(frame: int) -> bool:
+	for i in frame_states.size():
+		var fs: = frame_states[i]
+		if fs.frame == frame:
+			health = fs.health
+			nav.target_position = fs.target_position
+			state_machine.state = state_machine.get_child(fs.state_index)
+			return true
+	return false
+
 func _is_obstacle_in_front() -> bool:
 	return $Rays/RayCastFront.is_colliding()
 
-## Called once when the squad is created, or every time the squad settings
-## (e.g. unit_scene, size) change in the editor
+## Called once, internally, when the squad is created, or every time the squad
+## settings (e.g. unit_scene, size) change in the editor
 func _recreate_units() -> void:
 	for unit in units:
 		unit.queue_free()

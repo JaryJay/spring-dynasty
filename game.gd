@@ -7,14 +7,13 @@ const squad_scene: = preload("res://entities/footman_squad.tscn")
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 
-var frame: int = 0
-
 var selected_squads: Array[Squad] = []
 var controlled_team: int = 0
 
 ## Maps from player_id (int) to list of last 30 inputs (Array[Dictionary])
 var player_inputs: Dictionary = {}
-## Maps from player_id (int) to whether that player needs a rollback (bool)
+## Maps from player_id (int) to the frame to rollback to (int),
+## -1 if no rollback needed
 var needs_rollback: Dictionary = {}
 
 func _ready():
@@ -62,12 +61,12 @@ func _physics_process(_delta):
 	
 	var created_input: = handle_inputs()
 	if not created_input:
-		_add_input({ "f": frame })
+		_add_input({ "f": Client.frame })
 	
 	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
 	GameServer.receive_inputs.rpc_id(1, inputs)
 	
-	frame += 1
+	Client.frame += 1
 
 @rpc("authority", "unreliable")
 func receive_other_player_inputs(inputs: Dictionary) -> void:
@@ -79,19 +78,27 @@ func receive_other_player_inputs(inputs: Dictionary) -> void:
 		var latest_new_input: Dictionary = inputs[player_id][-1]
 		if previous_inputs.size() == 0:
 			player_inputs[player_id] = inputs[player_id]
-			needs_rollback[player_id] = true
+			for input in inputs[player_id]:
+				if input.keys().size() > 1:
+					needs_rollback[player_id] = input.f
+					break
 		else:
 			var latest_previous_input: Dictionary = previous_inputs[-1]
 			if latest_new_input.f > latest_previous_input.f:
 				player_inputs[player_id] = inputs[player_id]
-				needs_rollback[player_id] = true
+				for input in inputs[player_id]:
+					if input.f > latest_previous_input.f and input.keys().size() > 1:
+						needs_rollback[player_id] = input.f
+						break
 
 func _rollback_and_resimulate() -> void:
 	# TODO: implement this
-	
+	var min_rollback_frame: = INF
 	for player_id in needs_rollback.keys():
-		if needs_rollback[player_id]:
-			pass
+		if needs_rollback[player_id] >= 0:
+			var rollback_frame: int = needs_rollback[player_id]
+			min_rollback_frame = mini(min_rollback_frame, rollback_frame)
+			needs_rollback[player_id] = -1
 	pass
 
 func handle_inputs() -> bool:
@@ -145,7 +152,7 @@ func _navigate_squads_to_enemy(enemy_squad: Squad) -> void:
 	for squad in selected_squads:
 		squad_names.append(squad.name)
 	_add_input({
-		"f": frame,
+		"f": Client.frame,
 		"state": "C",
 		"squads": squad_names,
 		"enemy_squad": enemy_squad.name,
@@ -160,7 +167,7 @@ func _navigate_squads_to_point(point: Vector2) -> void:
 	for squad in selected_squads:
 		squad_names.append(squad.name)
 	_add_input({
-		"f": frame,
+		"f": Client.frame,
 		"state": "N",
 		"squads": squad_names,
 		"target": point,

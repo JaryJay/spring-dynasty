@@ -56,11 +56,17 @@ func receive_inputs(inputs: Array) -> void:
 	var previous_inputs: Array = player_inputs[sender_id]
 	if previous_inputs.size() == 0:
 		player_inputs[sender_id] = inputs
-		needs_rollback[sender_id] = true
+		for input in inputs:
+			if input.keys().size() > 1:
+				needs_rollback[sender_id] = true
+				break
 	else:
 		var latest_previous_input: Dictionary = previous_inputs[-1]
 		# If the new input is more recent than the latest previous input
 		if latest_new_input.f > latest_previous_input.f:
 			player_inputs[sender_id] = inputs
-			needs_rollback[sender_id] = true
+			for input in inputs:
+				if input.f > latest_previous_input.f and input.keys().size() > 1:
+					needs_rollback[sender_id] = true
+					break
 
