@@ -28,7 +28,7 @@ func process(squad: Squad) -> void:
 		var direction: Vector2 = squad.global_position.direction_to(next_path_position)
 		squad.rotate_and_move(direction)
 
-func _exit_state(squad: Squad) -> void:
+func _exit_state(_squad: Squad) -> void:
 #	squad.debug_label.hide()
 	pass
 #	chased_squad = null

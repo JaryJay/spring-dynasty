@@ -55,6 +55,8 @@ func _physics_process(_delta):
 	
 	var f: = Client.frame
 	frame_states.append(SquadFrameState.new(f, health, nav.target_position, 0))
+	if frame_states.size() > 30:
+		frame_states.remove_at(0)
 
 ## Public function to begin navigation
 func set_target_position(target_position: Vector2) -> void:

@@ -21,6 +21,10 @@ Client="*res://networking/client.gd"
 Server="*res://networking/server.gd"
 GameServer="*res://networking/game_server.gd"
 
+[debug]
+
+gdscript/warnings/shadowed_global_identifier=0
+
 [display]
 
 window/stretch/mode="canvas_items"
