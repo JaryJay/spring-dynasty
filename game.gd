@@ -7,7 +7,11 @@ const squad_scene: = preload("res://entities/footman_squad.tscn")
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 
+## The list of squads that are within the blue selection_rect. Updated every
+## frame in _physics_process()
 var selected_squads: Array[Squad] = []
+## Integer between 0 and 5, inclusive, representing the team that the local
+## player controls. This value is set once in _ready(), and doesn't change
 var controlled_team: int = 0
 
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
@@ -29,6 +33,7 @@ func _ready():
 	for player_id in Client.lobby.player_ids:
 		player_inputs[player_id] = []
 
+## Spawns a few squads for each player
 func _on_spawn_timer_timeout():
 	var lobby: Lobby = Server.lobby if multiplayer.is_server() else Client.lobby
 	for player_info in lobby.player_info_list:
@@ -44,25 +49,22 @@ func _on_spawn_timer_timeout():
 			squad.name = "FS_%d_%d" % [team, i]
 			$Squads.add_child(squad)
 
+## Updates the game state
 func _physics_process(_delta):
-	_rollback_and_resimulate()
+	# Update selected_squads to be the squads overlapped by selection_rect
+	_update_squads_selection()
 	
-	if selection_rect.is_selecting:
-		for selected_squad in selected_squads:
-			selected_squad.selected = false
-		selected_squads.clear()
-		for body in selection_rect.get_overlapping_bodies():
-			if body is Squad:
-				if body.team == controlled_team:
-					selected_squads.append(body)
-					body.selected = true
-			else:
-				print("Selected body is not a squad: %s" % body)
-	
-	var created_input: = handle_inputs()
-	if not created_input:
+	# Note that detecting inputs is not the same as handling them
+	var input: ClientInput = _detect_input()
+	if input:
+		_add_input(input)
+	else:
 		_add_input(ClientInput.new(Client.frame, "", [], Vector2.ZERO))
 	
+	# Handles inputs from all players, including the local player
+	_rollback_and_resimulate()
+	
+	# Send last 30 inputs to the server
 	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
 	var serialized_inputs: = inputs.map(ClientInput.to_bytes)
 	GameServer.receive_inputs.rpc_id(1, serialized_inputs)
@@ -79,6 +81,8 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 
 	for player_id in inputs.keys():
 		if inputs[player_id].is_empty():
+			continue
+		elif player_id == multiplayer.get_unique_id():
 			continue
 		
 		var previous_inputs: Array = player_inputs[player_id]
@@ -98,41 +102,31 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 						needs_rollback[player_id] = input.frame
 						break
 
-func _rollback_and_resimulate() -> void:
-	# TODO: implement this
-	var min_rollback_frame: int = 9223372036854775807 # Max int
-	for player_id in needs_rollback.keys():
-		if needs_rollback[player_id] >= 0:
-			var rollback_frame: int = needs_rollback[player_id]
-			min_rollback_frame = mini(min_rollback_frame, rollback_frame)
-			needs_rollback[player_id] = -1
-	
-	# Rollback
-	for _squad in get_tree().get_nodes_in_group("squads"):
-		var squad: Squad = _squad
-		squad.return_to_frame_state(min_rollback_frame)
-	
-	# Resimulate
-	for frame in range(min_rollback_frame, Client.frame + 1):
-		for player_id in Client.lobby.player_ids:
-			var inputs: Array = player_inputs[player_id]
-			for input in inputs:
-				if input.frame == frame:
-					# TODO
-					pass
-		for _squad in get_tree().get_nodes_in_group("squads"):
-			var squad: Squad = _squad
-			squad._physics_process(0)
-	pass
+func _update_squads_selection() -> void:
+	if selection_rect.is_selecting:
+		for selected_squad in selected_squads:
+			selected_squad.selected = false
+		selected_squads.clear()
+		for body in selection_rect.get_overlapping_bodies():
+			if body is Squad:
+				if body.team == controlled_team:
+					selected_squads.append(body)
+					body.selected = true
+			else:
+				print("Selected body is not a squad: %s" % body)
 
-func handle_inputs() -> bool:
+func _detect_input() -> ClientInput:
 	if Input.is_action_pressed("ui_cancel"):
 		pause_menu.visible = !pause_menu.visible
 	
 	var selecting: = Input.is_action_pressed("select")
 	if Input.is_action_pressed("primary") and not selecting:
 		if selected_squads.size() == 0:
-			return false
+			return null
+		
+		var squad_names: Array[StringName] = []
+		for squad in selected_squads:
+			squad_names.append(squad.name)
 		
 		var mouse_pos: = get_global_mouse_position()
 		var space_state = get_world_2d().direct_space_state
@@ -143,8 +137,8 @@ func handle_inputs() -> bool:
 		var collisions: = space_state.intersect_point(query)
 		
 		if collisions.size() == 0:
-			_navigate_squads_to_point(mouse_pos)
-			return false
+			# Navigate to point
+			return ClientInput.new(Client.frame, "N", squad_names, mouse_pos)
 		
 		# The enemy squad closest to the cursor
 		var closest_enemy_squad: Squad
@@ -159,39 +153,68 @@ func handle_inputs() -> bool:
 					closest_dist_squared = dist_squared
 		
 		if closest_enemy_squad:
-			_navigate_squads_to_enemy(closest_enemy_squad)
+			# Chase enemy squad
+			var enemy_name: = closest_enemy_squad.name
+			return ClientInput.new(Client.frame, "C", squad_names, Vector2.ZERO, enemy_name)
 		else:
 			# This will happen if all clicked squads are friendly
-			_navigate_squads_to_point(mouse_pos)
-		return true
-	return false
+			return ClientInput.new(Client.frame, "N", squad_names, mouse_pos)
+	return null
 
-func _navigate_squads_to_enemy(enemy_squad: Squad) -> void:
-	for squad in selected_squads:
-		var chasing_state: = squad.state_machine.get_node("ChasingState")
-		chasing_state.chased_squad = enemy_squad
-		squad.state_machine.state = chasing_state
+## Loops through the needs_rollback dictionary, checking if any players need
+## to rollback (i.e. they sent a new input that we need to simulate). If any
+## players do, then we reset all squads back to the earliest rollback frame;
+## otherwise, 
+func _rollback_and_resimulate() -> void:
+	var min_rollback_frame: int = Client.frame
+	for player_id in needs_rollback.keys():
+		if needs_rollback[player_id] >= 0:
+			var rollback_frame: int = needs_rollback[player_id]
+			min_rollback_frame = mini(min_rollback_frame, rollback_frame)
+			needs_rollback[player_id] = -1
 	
-	var squad_names: Array[StringName] = []
-	for squad in selected_squads:
-		squad_names.append(squad.name)
-	_add_input(ClientInput.new(Client.frame, "N", squad_names, Vector2.ZERO, enemy_squad.name))
-
-func _navigate_squads_to_point(point: Vector2) -> void:
-	for squad in selected_squads:
-		squad.set_target_position(point)
-		squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
+	# Rollback
+	if min_rollback_frame < Client.frame:
+		for squad in get_tree().get_nodes_in_group("squads"):
+			squad.return_to_frame_state(min_rollback_frame)
 	
-	var squad_names: Array[StringName] = []
-	for squad in selected_squads:
-		squad_names.append(squad.name)
-	_add_input(ClientInput.new(Client.frame, "N", squad_names, point))
+	# Resimulate frames
+	for frame in range(min_rollback_frame, Client.frame + 1):
+		# Handle inputs from all players
+		for player_id in Client.lobby.player_ids:
+			var inputs: Array = player_inputs[player_id]
+			for input in inputs:
+				if input.frame == frame:
+					_handle_input(input)
+					break
+		# Process squads. Note that for frame == Client.frame, the function
+		# squad._physics_process() will automatically be called
+		if frame < Client.frame:
+			for squad in get_tree().get_nodes_in_group("squads"):
+				squad._physics_process(0)
+	pass
 
 func _add_input(input: ClientInput) -> void:
 	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]
 	player_input_list.append(input)
 	if player_input_list.size() > NUM_SAVED_INPUTS:
+		player_input_list[0] = null
 		player_input_list.remove_at(0)
 
-func handle_input(input: ClientInput) -> void:
-	pass
+func _handle_input(input: ClientInput) -> void:
+	var squads: Array[Squad] = []
+	for squad_name in input.squads:
+		var squad: Squad = $Squads.get_node_or_null(squad_name)
+		if squad == null:
+			print("Squad not found: %s" % squad_name)
+			continue
+		squads.append(squad)
+	if input.state == "N":
+		for squad in squads:
+			squad.set_target_position(input.target)
+			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
+	elif input.state == "C":
+		for squad in squads:
+			var chasing_state: = squad.state_machine.get_node("ChasingState")
+			chasing_state.chased_squad = $Squads.get_node_or_null(input.enemy_squad)
+			squad.state_machine.state = chasing_state

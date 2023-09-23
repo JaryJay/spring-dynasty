@@ -43,7 +43,9 @@ func _send_inputs() -> void:
 @rpc("any_peer", "unreliable")
 func receive_inputs(serialized_input_list: Array) -> void:
 	# Deserialize inputs
-	var input_list: Array = serialized_input_list.map(ClientInput.create_from)
+	var input_list: Array = []
+	for serialized_input in serialized_input_list:
+		input_list.append(ClientInput.create_from(serialized_input))
 	
 	if not multiplayer.is_server():
 		printerr("game_server.gd: This is not supposed to happen!")

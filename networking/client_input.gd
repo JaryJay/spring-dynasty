@@ -5,31 +5,34 @@ var frame: int
 var target: Vector2
 var squads: PackedStringArray
 var state: StringName
-var enemy_squad: StringName
+var enemy_squad: String
 
-func _init(frame: int, state: StringName, squads: PackedStringArray,
-	target: Vector2, enemy_squad: StringName = ""):
-		self.frame = frame
-		self.state = state
-		self.squads = squads
-		self.target = target
-		self.enemy_squad = enemy_squad
+func _init(_frame: int, _state: StringName, _squads: PackedStringArray,
+_target: Vector2, _enemy_squad: String = ""):
+	frame = _frame
+	state = _state
+	squads = _squads
+	target = _target
+	enemy_squad = _enemy_squad
 
 static func create_from(bytes: PackedByteArray) -> ClientInput:
-#	var frame: = bytes.decode_s64(0)
-#	var target_x: = bytes.decode_float(8)
-#	var target_y: = bytes.decode_float(16)
-#	var target: = Vector2(target_x, target_y)
-#	var _squads_size: = bytes.decode_var_size(24)
-#	var squads: = bytes.decode_var(24)
-#	var state: = bytes.decode_var(24 + _squads_size)
-	return bytes_to_var_with_objects(bytes) as ClientInput
+	var arr: Array = bytes_to_var(bytes)
+	var _frame: int = arr[0]
+	var _target: Vector2 = arr[1]
+	var _squads: PackedStringArray = arr[2]
+	var _state: StringName = arr[3]
+	var _enemy_squad: String = arr[4]
+	return ClientInput.new(_frame, _state, _squads, _target, _enemy_squad)
 
 static func to_bytes(input: ClientInput) -> PackedByteArray:
-#	var bytes: PackedByteArray = []
-#	bytes.append_array(var_to_bytes(frame))
-#	bytes.append_array(var_to_bytes(target))
-#	bytes.append_array(var_to_bytes(state))
-#	bytes.append_array(var_to_bytes(squads))
-#	bytes.append_array(var_to_bytes(enemy_squad))
-	return var_to_bytes_with_objects(input)
+	return var_to_bytes([input.frame, input.target, input.squads, input.state, input.enemy_squad])
+
+static func _test_serialization() -> void:
+	var input: = ClientInput.new(1, "1", ["A", "B"], Vector2(100, 42))
+	var bytes: PackedByteArray = ClientInput.to_bytes(input)
+	var unserialized_input: ClientInput = ClientInput.create_from(bytes)
+	assert(input.frame == unserialized_input.frame)
+	assert(input.state == unserialized_input.state)
+	assert(input.squads == unserialized_input.squads)
+	assert(input.target == unserialized_input.target)
+	assert(input.enemy_squad == unserialized_input.enemy_squad)
