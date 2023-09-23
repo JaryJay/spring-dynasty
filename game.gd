@@ -10,7 +10,7 @@ const squad_scene: = preload("res://entities/footman_squad.tscn")
 var selected_squads: Array[Squad] = []
 var controlled_team: int = 0
 
-## Maps from player_id (int) to list of last 30 inputs (Array[Dictionary])
+## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
 var player_inputs: Dictionary = {}
 ## Maps from player_id (int) to the frame to rollback to (int),
 ## -1 if no rollback needed
@@ -41,7 +41,7 @@ func _on_spawn_timer_timeout():
 			var squad: Squad = squad_scene.instantiate()
 			squad.position = spawn_location.position + offset
 			squad.team = team
-			squad.name = "FootmanSquad_%d_%d" % [team, i]
+			squad.name = "FS_%d_%d" % [team, i]
 			$Squads.add_child(squad)
 
 func _physics_process(_delta):
@@ -61,44 +61,68 @@ func _physics_process(_delta):
 	
 	var created_input: = handle_inputs()
 	if not created_input:
-		_add_input({ "f": Client.frame })
+		_add_input(ClientInput.new(Client.frame, "", [], Vector2.ZERO))
 	
 	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
-	GameServer.receive_inputs.rpc_id(1, inputs)
+	var serialized_inputs: = inputs.map(ClientInput.to_bytes)
+	GameServer.receive_inputs.rpc_id(1, serialized_inputs)
 	
 	Client.frame += 1
 
 @rpc("authority", "unreliable")
-func receive_other_player_inputs(inputs: Dictionary) -> void:
+func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
+	# Deserialize inputs
+	var inputs: Dictionary = {}
+	for player_id in Client.lobby.player_ids:
+		var serialized_input_list: Array = serialized_inputs[player_id]
+		inputs[player_id] = serialized_input_list.map(ClientInput.create_from)
+
 	for player_id in inputs.keys():
 		if inputs[player_id].is_empty():
 			continue
 		
 		var previous_inputs: Array = player_inputs[player_id]
-		var latest_new_input: Dictionary = inputs[player_id][-1]
+		var latest_new_input: ClientInput = inputs[player_id][-1]
 		if previous_inputs.size() == 0:
 			player_inputs[player_id] = inputs[player_id]
 			for input in inputs[player_id]:
-				if input.keys().size() > 1:
-					needs_rollback[player_id] = input.f
+				if not input.state == "":
+					needs_rollback[player_id] = input.frame
 					break
 		else:
-			var latest_previous_input: Dictionary = previous_inputs[-1]
-			if latest_new_input.f > latest_previous_input.f:
+			var latest_previous_input: ClientInput = previous_inputs[-1]
+			if latest_new_input.frame > latest_previous_input.frame:
 				player_inputs[player_id] = inputs[player_id]
 				for input in inputs[player_id]:
-					if input.f > latest_previous_input.f and input.keys().size() > 1:
-						needs_rollback[player_id] = input.f
+					if input.frame > latest_previous_input.frame and not input.state == "":
+						needs_rollback[player_id] = input.frame
 						break
 
 func _rollback_and_resimulate() -> void:
 	# TODO: implement this
-	var min_rollback_frame: = INF
+	var min_rollback_frame: int = 9223372036854775807 # Max int
 	for player_id in needs_rollback.keys():
 		if needs_rollback[player_id] >= 0:
 			var rollback_frame: int = needs_rollback[player_id]
 			min_rollback_frame = mini(min_rollback_frame, rollback_frame)
 			needs_rollback[player_id] = -1
+	
+	# Rollback
+	for _squad in get_tree().get_nodes_in_group("squads"):
+		var squad: Squad = _squad
+		squad.return_to_frame_state(min_rollback_frame)
+	
+	# Resimulate
+	for frame in range(min_rollback_frame, Client.frame + 1):
+		for player_id in Client.lobby.player_ids:
+			var inputs: Array = player_inputs[player_id]
+			for input in inputs:
+				if input.frame == frame:
+					# TODO
+					pass
+		for _squad in get_tree().get_nodes_in_group("squads"):
+			var squad: Squad = _squad
+			squad._physics_process(0)
 	pass
 
 func handle_inputs() -> bool:
@@ -151,12 +175,7 @@ func _navigate_squads_to_enemy(enemy_squad: Squad) -> void:
 	var squad_names: Array[StringName] = []
 	for squad in selected_squads:
 		squad_names.append(squad.name)
-	_add_input({
-		"f": Client.frame,
-		"state": "C",
-		"squads": squad_names,
-		"enemy_squad": enemy_squad.name,
-	})
+	_add_input(ClientInput.new(Client.frame, "N", squad_names, Vector2.ZERO, enemy_squad.name))
 
 func _navigate_squads_to_point(point: Vector2) -> void:
 	for squad in selected_squads:
@@ -166,15 +185,13 @@ func _navigate_squads_to_point(point: Vector2) -> void:
 	var squad_names: Array[StringName] = []
 	for squad in selected_squads:
 		squad_names.append(squad.name)
-	_add_input({
-		"f": Client.frame,
-		"state": "N",
-		"squads": squad_names,
-		"target": point,
-	})
+	_add_input(ClientInput.new(Client.frame, "N", squad_names, point))
 
-func _add_input(input: Dictionary) -> void:
+func _add_input(input: ClientInput) -> void:
 	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]
 	player_input_list.append(input)
 	if player_input_list.size() > NUM_SAVED_INPUTS:
 		player_input_list.remove_at(0)
+
+func handle_input(input: ClientInput) -> void:
+	pass
