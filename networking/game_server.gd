@@ -68,7 +68,7 @@ func receive_inputs(serialized_input_list: Array) -> void:
 	if previous_inputs.size() == 0:
 		player_inputs[sender_id] = input_list
 		for input in input_list:
-			if not input.state == "":
+			if input.state_index >= 0:
 				needs_rollback[sender_id] = true
 				break
 	else:
@@ -77,7 +77,7 @@ func receive_inputs(serialized_input_list: Array) -> void:
 		if latest_new_input.frame > latest_previous_input.frame:
 			player_inputs[sender_id] = input_list
 			for input in input_list:
-				if input.frame > latest_previous_input.frame and not input.state == "":
+				if input.frame > latest_previous_input.frame and input.state_index >= 0:
 					needs_rollback[sender_id] = true
 					break
 

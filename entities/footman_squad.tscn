@@ -147,8 +147,10 @@ script = ExtResource("9_fplkg")
 repositioning_state = NodePath("../RepositioningState")
 attacking_state = NodePath("../AttackingState")
 
-[node name="AttackingState" type="Node" parent="StateMachine"]
+[node name="AttackingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("repositioning_state", "chasing_state")]
 script = ExtResource("10_shrxm")
+repositioning_state = NodePath("../RepositioningState")
+chasing_state = NodePath("../ChasingState")
 
 [node name="DyingState" type="Node" parent="StateMachine"]
 script = ExtResource("11_uvfah")

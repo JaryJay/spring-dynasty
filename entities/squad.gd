@@ -43,8 +43,7 @@ func _ready():
 	for ray in rays.get_children():
 		ray.add_exception(self)
 	
-	var f: = Client.frame
-	frame_states.append(SquadFrameState.new(f, health, global_position, 0))
+	frame_states.append(SquadFrameState.new(Client.frame, health, position, global_position, 0))
 	
 	state_machine.initialize()
 
@@ -53,10 +52,12 @@ func _physics_process(_delta):
 		return
 	state_machine.process_state()
 	
-	var f: = Client.frame
-	frame_states.append(SquadFrameState.new(f, health, nav.target_position, 0))
-	if frame_states.size() > 30:
-		frame_states.remove_at(0)
+	if frame_states.is_empty() or frame_states[-1].frame < Client.frame:
+		var f: = Client.frame
+		var s: = state_machine.state.get_index()
+		frame_states.append(SquadFrameState.new(f, health, position, nav.target_position, s))
+		if frame_states.size() > 30:
+			frame_states.remove_at(0)
 
 ## Public function to begin navigation
 func set_target_position(target_position: Vector2) -> void:
@@ -72,6 +73,7 @@ func return_to_frame_state(frame: int) -> bool:
 		var fs: = frame_states[i]
 		if fs.frame == frame:
 			health = fs.health
+			position = fs.position
 			nav.target_position = fs.target_position
 			state_machine.state = state_machine.get_child(fs.state_index)
 			return true

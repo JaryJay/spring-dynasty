@@ -59,7 +59,8 @@ func _physics_process(_delta):
 	if input:
 		_add_input(input)
 	else:
-		_add_input(ClientInput.new(Client.frame, "", [], Vector2.ZERO))
+		# State index of -1 means that the input does nothing
+		_add_input(ClientInput.new(Client.frame, -1, [], Vector2.ZERO))
 	
 	# Handles inputs from all players, including the local player
 	_rollback_and_resimulate()
@@ -90,7 +91,7 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 		if previous_inputs.size() == 0:
 			player_inputs[player_id] = inputs[player_id]
 			for input in inputs[player_id]:
-				if not input.state == "":
+				if input.state_index >= 0:
 					needs_rollback[player_id] = input.frame
 					break
 		else:
@@ -98,7 +99,7 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 			if latest_new_input.frame > latest_previous_input.frame:
 				player_inputs[player_id] = inputs[player_id]
 				for input in inputs[player_id]:
-					if input.frame > latest_previous_input.frame and not input.state == "":
+					if input.frame > latest_previous_input.frame and input.state_index >= 0:
 						needs_rollback[player_id] = input.frame
 						break
 
@@ -137,8 +138,8 @@ func _detect_input() -> ClientInput:
 		var collisions: = space_state.intersect_point(query)
 		
 		if collisions.size() == 0:
-			# Navigate to point
-			return ClientInput.new(Client.frame, "N", squad_names, mouse_pos)
+			# Navigate to point (state_index of 1 refers to NavigatingState)
+			return ClientInput.new(Client.frame, 1, squad_names, mouse_pos)
 		
 		# The enemy squad closest to the cursor
 		var closest_enemy_squad: Squad
@@ -153,12 +154,13 @@ func _detect_input() -> ClientInput:
 					closest_dist_squared = dist_squared
 		
 		if closest_enemy_squad:
-			# Chase enemy squad
+			# Chase enemy squad (state_index of 3 refers to ChasingState)
 			var enemy_name: = closest_enemy_squad.name
-			return ClientInput.new(Client.frame, "C", squad_names, Vector2.ZERO, enemy_name)
+			return ClientInput.new(Client.frame, 3, squad_names, Vector2.ZERO, enemy_name)
 		else:
 			# This will happen if all clicked squads are friendly
-			return ClientInput.new(Client.frame, "N", squad_names, mouse_pos)
+			# Navigate to point
+			return ClientInput.new(Client.frame, 1, squad_names, mouse_pos)
 	return null
 
 ## Loops through the needs_rollback dictionary, checking if any players need
@@ -209,11 +211,11 @@ func _handle_input(input: ClientInput) -> void:
 			print("Squad not found: %s" % squad_name)
 			continue
 		squads.append(squad)
-	if input.state == "N":
+	if input.state_index == 1:
 		for squad in squads:
 			squad.set_target_position(input.target)
 			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
-	elif input.state == "C":
+	elif input.state_index == 3:
 		for squad in squads:
 			var chasing_state: = squad.state_machine.get_node("ChasingState")
 			chasing_state.chased_squad = $Squads.get_node_or_null(input.enemy_squad)
