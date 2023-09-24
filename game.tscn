@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctr7h1jl1kaxv"]
+[gd_scene load_steps=6 format=3 uid="uid://ctr7h1jl1kaxv"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_8jko4"]
 [ext_resource type="PackedScene" uid="uid://diqb4edupeah0" path="res://ui/selection_rect.tscn" id="2_34i2k"]
 [ext_resource type="PackedScene" uid="uid://yg75476prlvp" path="res://ui/pause_menu.tscn" id="2_f655f"]
 [ext_resource type="PackedScene" uid="uid://3r6q0oteiybd" path="res://maps/map_1.tscn" id="3_uwne5"]
+[ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="5_npod3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
@@ -17,8 +18,7 @@ visible = false
 
 [node name="SelectionRect" parent="." instance=ExtResource("2_34i2k")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
+[node name="Camera" parent="." instance=ExtResource("5_npod3")]
 
 [node name="Squads" type="Node2D" parent="."]
 y_sort_enabled = true

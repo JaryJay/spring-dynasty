@@ -6,6 +6,7 @@ const squad_scene: = preload("res://entities/footman_squad.tscn")
 
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
+@onready var camera: Camera2D = $Camera
 
 ## The list of squads that are within the blue selection_rect. Updated every
 ## frame in _physics_process()
@@ -48,6 +49,12 @@ func _on_spawn_timer_timeout():
 			squad.team = team
 			squad.name = "FS_%d_%d" % [team, i]
 			$Squads.add_child(squad)
+
+## Processes non-gameplay-related things, such as toggling the pause menu
+func _process(_delta):
+	if Input.is_action_just_pressed("ui_cancel"):
+		pause_menu.visible = !pause_menu.visible
+	camera.disable_pan = pause_menu.visible
 
 ## Updates the game state
 func _physics_process(_delta):
@@ -117,9 +124,6 @@ func _update_squads_selection() -> void:
 				print("Selected body is not a squad: %s" % body)
 
 func _detect_input() -> ClientInput:
-	if Input.is_action_pressed("ui_cancel"):
-		pause_menu.visible = !pause_menu.visible
-	
 	var selecting: = Input.is_action_pressed("select")
 	if Input.is_action_pressed("primary") and not selecting:
 		if selected_squads.size() == 0:
