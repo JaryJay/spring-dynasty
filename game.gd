@@ -194,10 +194,10 @@ func _rollback_and_resimulate() -> void:
 					_handle_input(input)
 					break
 		# Process squads. Note that for frame == Client.frame, the function
-		# squad._physics_process() will automatically be called
+		# squad.update() will automatically be called during _physics_process
 		if frame < Client.frame:
 			for squad in get_tree().get_nodes_in_group("squads"):
-				squad._physics_process(0)
+				squad.update(frame)
 	pass
 
 func _add_input(input: ClientInput) -> void:
@@ -222,5 +222,5 @@ func _handle_input(input: ClientInput) -> void:
 	elif input.state_index == 3:
 		for squad in squads:
 			var chasing_state: = squad.state_machine.get_node("ChasingState")
-			chasing_state.chased_squad = $Squads.get_node_or_null(input.enemy_squad)
+			chasing_state.target_squad = $Squads.get_node_or_null(input.enemy_squad)
 			squad.state_machine.state = chasing_state

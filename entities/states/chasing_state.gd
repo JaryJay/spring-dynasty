@@ -4,7 +4,7 @@ class_name ChasingState
 @export var repositioning_state: RepositioningState
 @export var attacking_state: AttackingState
 
-var chased_squad: Squad
+var target_squad: Squad
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
@@ -14,14 +14,14 @@ func _enter_state(squad: Squad) -> void:
 		unit.play_animation("run")
 
 func process(squad: Squad) -> void:
-	if chased_squad.state_machine.state is DyingState:
+	if target_squad.state_machine.state is DyingState:
 		squad.state_machine.state = repositioning_state
 		return
 	
-	squad.set_target_position(chased_squad.position)
+	squad.set_target_position(target_squad.position)
 	
-	if squad.position.distance_to(chased_squad.position) < squad.engage_range:
-		attacking_state.attacked_squad = chased_squad
+	if squad.position.distance_to(target_squad.position) < squad.engage_range:
+		attacking_state.target_squad = target_squad
 		squad.state_machine.state = attacking_state
 		squad.velocity = Vector2.ZERO
 	else:
@@ -33,4 +33,8 @@ func process(squad: Squad) -> void:
 func _exit_state(_squad: Squad) -> void:
 #	squad.debug_label.hide()
 	pass
-#	chased_squad = null
+#	target_squad = null
+
+# Override
+func _requires_target_squad() -> bool:
+	return true
