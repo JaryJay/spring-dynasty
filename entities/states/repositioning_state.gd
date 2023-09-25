@@ -7,6 +7,8 @@ func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
 #	squad.debug_label.show()
 	squad.debug_label.text = "Repositioning"
+	for unit in squad.units:
+		unit.play_animation("run")
 
 func process(squad: Squad) -> void:
 	# These also include the squad itself

@@ -5,6 +5,8 @@ func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
 #	squad.debug_label.show()
 	squad.debug_label.text = "Idle"
+	for unit in squad.units:
+		unit.play_animation("idle")
 
 func process(_squad: Squad) -> void:
 	# TODO: transition to ChasingState if there are enemies nearby

@@ -10,6 +10,8 @@ func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
 	squad.debug_label.show()
 	squad.debug_label.text = "Attacking"
+	for unit in squad.units:
+		unit.play_animation("attack")
 
 func process(squad: Squad) -> void:
 	if attacked_squad.state_machine.state is DyingState:
