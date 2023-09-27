@@ -52,7 +52,11 @@ func _physics_process(_delta):
 		return
 	update(Client.frame)
 
-func update(frame: int) -> void:
+func update(frame: int, manual: bool = false) -> void:
+	if manual:
+		for ray_cast in rays.get_children():
+			ray_cast.force_raycast_update()
+	
 	state_machine.process_state()
 	
 	if frame_states.is_empty() or frame_states[-1].frame < frame:
