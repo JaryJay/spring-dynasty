@@ -216,8 +216,18 @@ func _handle_input(input: ClientInput) -> void:
 			continue
 		squads.append(squad)
 	if input.state_index == 1:
+		var avg_squad_pos: = Vector2.ZERO
 		for squad in squads:
-			squad.set_target_position(input.target)
+			avg_squad_pos += squad.position
+		avg_squad_pos /= squads.size()
+		
+		for squad in squads:
+			if squads.size() == 1:
+				squad.set_target_position(input.target)
+			else:
+				var adjusted_target: = input.target + avg_squad_pos.direction_to(squad.position) * 28
+				squad.set_target_position(adjusted_target)
+			
 			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
 	elif input.state_index == 3:
 		var target_squad: = $Squads.get_node_or_null(input.enemy_squad)

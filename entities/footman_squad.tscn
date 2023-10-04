@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=17 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_rhduu"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
@@ -16,7 +16,10 @@
 radius = 28.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ejtey"]
-radius = 23.0
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fp8y0"]
+radius = 37.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
 radius = 121.017
@@ -25,7 +28,7 @@ radius = 121.017
 
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
-collision_mask = 2
+collision_mask = 3
 script = ExtResource("1_rhduu")
 unit_scene = ExtResource("2_fsh2l")
 
@@ -44,7 +47,7 @@ z_index = 1
 position = Vector2(-3, -45)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-target_desired_distance = 0.1
+target_desired_distance = 1.0
 path_max_distance = 60.0
 debug_enabled = true
 
@@ -53,52 +56,68 @@ debug_enabled = true
 [node name="RayCastFront" type="RayCast2D" parent="Rays"]
 modulate = Color(0, 0.839216, 0.337255, 1)
 position = Vector2(0, 25)
-target_position = Vector2(0, 10)
+target_position = Vector2(0, 15)
 collision_mask = 3
 hit_from_inside = true
 
-[node name="RayCastLeft" type="RayCast2D" parent="Rays"]
-position = Vector2(23, 9)
-rotation = -1.0472
-target_position = Vector2(0, 10)
+[node name="RayCastLeft1" type="RayCast2D" parent="Rays"]
+position = Vector2(12.5, 21.65)
+rotation = -0.523599
+target_position = Vector2(0, 15)
 collision_mask = 3
 hit_from_inside = true
 
-[node name="RayCastRight" type="RayCast2D" parent="Rays"]
-position = Vector2(-23, 9)
-rotation = 1.0472
-target_position = Vector2(0, 10)
+[node name="RayCastRight1" type="RayCast2D" parent="Rays"]
+position = Vector2(-12.5, 21.65)
+rotation = 0.523599
+target_position = Vector2(0, 15)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
-position = Vector2(23, -9)
-rotation = -2.0944
-target_position = Vector2(0, 10)
+position = Vector2(21.65, 12.5)
+rotation = -1.0472
+target_position = Vector2(0, 15)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="RayCastRight2" type="RayCast2D" parent="Rays"]
-position = Vector2(-23, -9)
-rotation = 2.0944
-target_position = Vector2(0, 10)
+position = Vector2(-21.65, 12.5)
+rotation = 1.0472
+target_position = Vector2(0, 15)
 collision_mask = 3
 hit_from_inside = true
 
-[node name="RayCastBack" type="RayCast2D" parent="Rays"]
-position = Vector2(0, -25)
-rotation = 3.14159
-target_position = Vector2(0, 10)
+[node name="RayCastLeft3" type="RayCast2D" parent="Rays"]
+position = Vector2(25, 0)
+rotation = -1.5708
+target_position = Vector2(0, 15)
+collision_mask = 3
+hit_from_inside = true
+
+[node name="RayCastRight3" type="RayCast2D" parent="Rays"]
+position = Vector2(-25, 0)
+rotation = 1.5708
+target_position = Vector2(0, 15)
 collision_mask = 3
 hit_from_inside = true
 
 [node name="PersonalSpaceArea" type="Area2D" parent="."]
 editor_description = "After the squad finishes navigating to a target position, it will reposition itself if this area is intersecting with other squds"
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpaceArea"]
 shape = SubResource("CircleShape2D_ejtey")
 debug_color = Color(0.619608, 0.533333, 0, 0.419608)
+
+[node name="PushArea" type="Area2D" parent="."]
+editor_description = "After the squad finishes navigating to a target position, it will reposition itself if this area is intersecting with other squds"
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea"]
+shape = SubResource("CircleShape2D_fp8y0")
+debug_color = Color(0.65098, 0.407843, 0.819608, 0.196078)
 
 [node name="AwarenessArea" type="Area2D" parent="."]
 editor_description = "For detecting enemy squads"
@@ -134,8 +153,9 @@ default_state = NodePath("IdleState")
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("6_lkxmy")
 
-[node name="NavigatingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("repositioning_state")]
+[node name="NavigatingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "repositioning_state")]
 script = ExtResource("7_k8y8u")
+idle_state = NodePath("../IdleState")
 repositioning_state = NodePath("../RepositioningState")
 
 [node name="RepositioningState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
