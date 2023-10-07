@@ -48,6 +48,7 @@ func _on_player_disconnected(id: int) -> void:
 	# Calculate new host
 	var i: = lobby.player_ids.find(id)
 	lobby.player_ids.remove_at(i)
+	lobby.player_info_list.remove_at(i)
 	lobby.player_names.remove_at(i)
 	if lobby.host_id == id:
 		if lobby.player_ids.size() > 0:
@@ -57,6 +58,17 @@ func _on_player_disconnected(id: int) -> void:
 	
 	print("Updating client lobbies")
 	Client.update_lobby.rpc(lobby.player_ids, lobby.player_names)
+	
+	# Reset game if no players left
+	if lobby.player_ids.is_empty():
+		lobby.player_info_list.clear()
+		lobby.player_names.clear()
+		lobby.host_id = 0
+		state = GameState.LOBBY
+		if GameServer.started:
+			GameServer.reset()
+		teams_in_use.clear()
+		print("Resetting")
 
 # Any peer can call this RPC. See client.gd's _on_connected_ok function
 @rpc("any_peer", "reliable")

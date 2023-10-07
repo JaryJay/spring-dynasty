@@ -81,3 +81,11 @@ func receive_inputs(serialized_input_list: Array) -> void:
 					needs_rollback[sender_id] = true
 					break
 
+func reset() -> void:
+	started = false
+	if game:
+		game.queue_free()
+		game = null
+	frame = 0
+	player_inputs.clear()
+	needs_rollback.clear()
