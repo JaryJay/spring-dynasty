@@ -23,6 +23,8 @@ visible = false
 [node name="Squads" type="Node2D" parent="."]
 y_sort_enabled = true
 
+[node name="Bases" type="Node2D" parent="."]
+
 [node name="SpawnTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true

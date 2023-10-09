@@ -1,11 +1,11 @@
 @tool
-extends Node2D
+extends StaticBody2D
 
-var team_index: int = 0 : set = _set_team_index
+@export_range(0, 5) var team: int = 0 : set = _set_team_index
 
 func _set_team_index(value: int) -> void:
 	if value >= 0 and value < TeamColors.colors.size():
-		team_index = value
-		$Banner.modulate = TeamColors.colors[team_index]
+		team = value
+		$Sprites/Fill.modulate = TeamColors.colors[team]
 	else:
 		print_debug("Invalid color index: %d" % value)

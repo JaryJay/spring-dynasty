@@ -43,27 +43,27 @@ polygon = PackedVector2Array(522, 136, 469, 174, 472, 195, 525, 235, 528, 343, 5
 
 [node name="SpawnLocations" type="Node2D" parent="."]
 
-[node name="Marker2D" type="Marker2D" parent="SpawnLocations"]
+[node name="Team0" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(62, -415)
 gizmo_extents = 20.0
 
-[node name="Marker2D2" type="Marker2D" parent="SpawnLocations"]
+[node name="Team1" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(377, 114)
 gizmo_extents = 20.0
 
-[node name="Marker2D3" type="Marker2D" parent="SpawnLocations"]
+[node name="Team2" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(288, 487)
 gizmo_extents = 20.0
 
-[node name="Marker2D4" type="Marker2D" parent="SpawnLocations"]
+[node name="Team3" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-183, 533)
 gizmo_extents = 20.0
 
-[node name="Marker2D5" type="Marker2D" parent="SpawnLocations"]
+[node name="Team4" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-251, 227)
 gizmo_extents = 20.0
 
-[node name="Marker2D6" type="Marker2D" parent="SpawnLocations"]
+[node name="Team5" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-395, -228)
 gizmo_extents = 20.0
 

@@ -76,8 +76,8 @@ func update(frame: int, manual: bool = false) -> void:
 func set_target_position(target_position: Vector2) -> void:
 	nav.target_position = target_position
 
-func rotate_and_move(direction: Vector2) -> void:
-	velocity = direction * speed
+func rotate_and_move(direction: Vector2, speed_multiplier: float = 1) -> void:
+	velocity = direction * speed * speed_multiplier
 	rays.rotation = velocity.angle() - PI / 2
 	move_and_slide()
 

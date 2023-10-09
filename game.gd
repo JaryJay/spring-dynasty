@@ -3,6 +3,7 @@ class_name Game
 
 const NUM_SAVED_INPUTS: = 30
 const squad_scene: = preload("res://entities/footman_squad.tscn")
+const base_scene: = preload("res://entities/base.tscn")
 
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
@@ -41,7 +42,13 @@ func _on_spawn_timer_timeout():
 		var team: int = player_info.team
 		var spawn_location: Marker2D = $Map1.spawn_locations[team]
 		
-		var offsets: Array[Vector2] = [Vector2.ZERO, Vector2(40, 50), Vector2(-50, 40)]
+		var base: = base_scene.instantiate()
+		base.position = spawn_location.position
+		base.team = team
+		base.name = "B_%d" % team
+		$Bases.add_child(base)
+		
+		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
 		for i in offsets.size():
 			var offset: = offsets[i]
 			var squad: Squad = squad_scene.instantiate()
