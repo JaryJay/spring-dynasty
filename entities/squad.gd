@@ -44,7 +44,7 @@ func _ready():
 	for ray in rays.get_children():
 		ray.add_exception(self)
 	
-	frame_states.append(SquadFrameState.new(Client.frame, health, position, 0, global_position))
+	frame_states.append(SquadFrameState.new(Client.frame, health, position, rotation, 0, global_position))
 	
 	state_machine.initialize()
 
@@ -65,9 +65,9 @@ func update(frame: int, manual: bool = false) -> void:
 		var frame_state: SquadFrameState
 		if state_machine.state._requires_target_squad():
 			var target_squad_name: String = state_machine.state.target_squad.name
-			frame_state = SquadFrameState.new(frame, health, position, s, position, target_squad_name)
+			frame_state = SquadFrameState.new(frame, health, position, rotation, s, position, target_squad_name)
 		else:
-			frame_state = SquadFrameState.new(frame, health, position, s, nav.target_position)
+			frame_state = SquadFrameState.new(frame, health, position, rotation, s, nav.target_position)
 		frame_states.append(frame_state)
 		if frame_states.size() > 30:
 			frame_states.remove_at(0)
