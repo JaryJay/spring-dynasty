@@ -4,6 +4,8 @@ class_name NavigatingState
 @export var idle_state: IdleState
 @export var repositioning_state: RepositioningState
 
+var actual_velocity
+
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
 #	squad.debug_label.show()
@@ -37,15 +39,17 @@ func process(squad: Squad) -> void:
 				squad.velocity = Vector2.ZERO
 			else:
 				
-				var avg_non_colliding_ray: = Vector2.ZERO
-				for ray in non_colliding_rays:
-					avg_non_colliding_ray += Vector2.from_angle(ray.global_rotation)
-				avg_non_colliding_ray /= non_colliding_rays.size()
-				if avg_non_colliding_ray.is_zero_approx():
-					squad.rotate_and_move(direction)
-				else:
-					direction = direction.lerp(avg_non_colliding_ray.normalized(), 0.2).normalized()
-					squad.rotate_and_move(direction)
+#				var avg_non_colliding_ray: = Vector2.ZERO
+#				for ray in non_colliding_rays:
+#					avg_non_colliding_ray += Vector2.from_angle(ray.global_rotation)
+#				avg_non_colliding_ray /= non_colliding_rays.size()
+#				if avg_non_colliding_ray.is_zero_approx():
+#					squad.rotate_and_move(direction)
+#				else:
+#					direction = direction.lerp(avg_non_colliding_ray.normalized(), 0.1).normalized()
+#					squad.rotate_and_move(direction)
+#				direction = direction.lerp(Vector2.from_angle(non_colliding_rays[0].global_rotation), 0.1).normalized()
+				squad.rotate_and_move(direction)
 		else:
 			squad.rotate_and_move(direction)
 

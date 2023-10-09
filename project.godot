@@ -74,6 +74,7 @@ pan_camera_analog={
 
 2d_physics/layer_1="squads"
 2d_physics/layer_2="obstacles"
+2d_physics/layer_3="bases"
 2d_physics/layer_4="mountains"
 2d_physics/layer_9="team_0_squads"
 2d_physics/layer_10="team_1_squads"
@@ -83,3 +84,8 @@ pan_camera_analog={
 2d_physics/layer_14="team_5_squads"
 2d_physics/layer_15="team_6_squads"
 2d_physics/layer_16="team_7_squads"
+avoidance/layer_2="bases"
+
+[physics]
+
+2d/run_on_separate_thread=true

@@ -6,11 +6,19 @@
 [ext_resource type="Texture2D" uid="uid://dsmhm75q0u3cp" path="res://assets/bases/base_outer.png" id="3_3o7s8"]
 
 [node name="Base" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("1_fuft1")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(-42, -91)
 polygon = PackedVector2Array(1, 96, 1, 79, 41, 54, 83, 79, 83, 92, 42, 114)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.0588235)
+avoidance_enabled = false
+vertices = PackedVector2Array(0, -60, 62, -24, 62, 20, 0, 51, -62, 20, -62, -24)
+avoidance_layers = 2
 
 [node name="Sprites" type="Node2D" parent="."]
 position = Vector2(-13, -26)

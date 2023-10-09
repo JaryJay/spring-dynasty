@@ -19,7 +19,7 @@ radius = 28.0
 radius = 30.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fp8y0"]
-radius = 37.0
+radius = 31.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
 radius = 121.017
@@ -28,7 +28,7 @@ radius = 121.017
 
 [node name="FootmanSquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
-collision_mask = 3
+collision_mask = 7
 script = ExtResource("1_rhduu")
 unit_scene = ExtResource("2_fsh2l")
 
@@ -49,57 +49,61 @@ position = Vector2(-3, -45)
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 1.0
 path_max_distance = 60.0
+radius = 28.0
+avoidance_layers = 0
+avoidance_mask = 2
 debug_enabled = true
 
 [node name="Rays" type="Node2D" parent="."]
+rotation = -1.5708
 
 [node name="RayCastFront" type="RayCast2D" parent="Rays"]
 modulate = Color(0, 0.839216, 0.337255, 1)
 position = Vector2(0, 25)
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="RayCastLeft1" type="RayCast2D" parent="Rays"]
 position = Vector2(12.5, 21.65)
 rotation = -0.523599
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="RayCastRight1" type="RayCast2D" parent="Rays"]
 position = Vector2(-12.5, 21.65)
 rotation = 0.523599
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
 position = Vector2(21.65, 12.5)
 rotation = -1.0472
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="RayCastRight2" type="RayCast2D" parent="Rays"]
 position = Vector2(-21.65, 12.5)
 rotation = 1.0472
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="RayCastLeft3" type="RayCast2D" parent="Rays"]
 position = Vector2(25, 0)
 rotation = -1.5708
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="RayCastRight3" type="RayCast2D" parent="Rays"]
 position = Vector2(-25, 0)
 rotation = 1.5708
 target_position = Vector2(0, 15)
-collision_mask = 3
+collision_mask = 7
 hit_from_inside = true
 
 [node name="PersonalSpaceArea" type="Area2D" parent="."]
@@ -174,3 +178,5 @@ chasing_state = NodePath("../ChasingState")
 
 [node name="DyingState" type="Node" parent="StateMachine"]
 script = ExtResource("11_uvfah")
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_velocity_computed"]

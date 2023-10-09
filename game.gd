@@ -8,6 +8,7 @@ const base_scene: = preload("res://entities/base.tscn")
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var camera: Camera2D = $Camera
+@onready var map: NavigationRegion2D = $Map1
 
 ## The list of squads that are within the blue selection_rect. Updated every
 ## frame in _physics_process()
@@ -38,6 +39,9 @@ func _ready():
 ## Spawns a few squads for each player
 func _on_spawn_timer_timeout():
 	var lobby: Lobby = Server.lobby if multiplayer.is_server() else Client.lobby
+	
+	var bases: Array[StaticBody2D] = []
+	
 	for player_info in lobby.player_info_list:
 		var team: int = player_info.team
 		var spawn_location: Marker2D = $Map1.spawn_locations[team]
@@ -46,6 +50,7 @@ func _on_spawn_timer_timeout():
 		base.position = spawn_location.position
 		base.team = team
 		base.name = "B_%d" % team
+		bases.append(base)
 		$Bases.add_child(base)
 		
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
@@ -56,6 +61,18 @@ func _on_spawn_timer_timeout():
 			squad.team = team
 			squad.name = "FS_%d_%d" % [team, i]
 			$Squads.add_child(squad)
+	# Remake navigation region
+	var nav_polygon: = map.navigation_polygon
+	for base in bases:
+		var obstacle: NavigationObstacle2D = base.get_node("NavigationObstacle2D")
+		var polygon_transform: Transform2D = obstacle.get_global_transform()
+		var polygon: PackedVector2Array = obstacle.vertices
+
+		var new_collision_outline: PackedVector2Array = polygon_transform * polygon
+
+		nav_polygon.add_outline(new_collision_outline)
+	nav_polygon.make_polygons_from_outlines()
+	map.navigation_polygon = nav_polygon
 
 ## Processes non-gameplay-related things, such as toggling the pause menu
 func _process(_delta):
