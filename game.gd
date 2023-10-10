@@ -5,6 +5,7 @@ const NUM_SAVED_INPUTS: = 30
 const squad_scene: = preload("res://entities/footman_squad.tscn")
 const base_scene: = preload("res://entities/base.tscn")
 
+@onready var debug_overlay: = $DebugLayer/DebugOverlay
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var camera: Camera2D = $Camera
@@ -35,6 +36,9 @@ func _ready():
 	
 	for player_id in Client.lobby.player_ids:
 		player_inputs[player_id] = []
+	
+	$DebugLayer.show()
+	debug_overlay.initialize(self)
 
 ## Spawns a few squads for each player
 func _on_spawn_timer_timeout():

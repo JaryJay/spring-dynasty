@@ -62,12 +62,13 @@ func update(frame: int, manual: bool = false) -> void:
 	
 	if frame_states.is_empty() or frame_states[-1].frame < frame:
 		var s: = state_machine.state.get_index()
+		var rot: = rays.global_rotation
 		var frame_state: SquadFrameState
 		if state_machine.state._requires_target_squad():
 			var target_squad_name: String = state_machine.state.target_squad.name
-			frame_state = SquadFrameState.new(frame, health, position, rotation, s, position, target_squad_name)
+			frame_state = SquadFrameState.new(frame, health, position, rot, s, position, target_squad_name)
 		else:
-			frame_state = SquadFrameState.new(frame, health, position, rotation, s, nav.target_position)
+			frame_state = SquadFrameState.new(frame, health, position, rot, s, nav.target_position)
 		frame_states.append(frame_state)
 		if frame_states.size() > 30:
 			frame_states.remove_at(0)
@@ -102,6 +103,7 @@ func return_to_frame_state(frame: int) -> bool:
 		if fs.frame == frame:
 			health = fs.health
 			position = fs.position
+			rays.rotation = fs.rotation
 			nav.target_position = fs.target_position
 			state_machine.state = state_machine.get_child(fs.state_index)
 			if state_machine.state._requires_target_squad():
