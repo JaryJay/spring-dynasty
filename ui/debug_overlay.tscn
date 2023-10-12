@@ -5,20 +5,51 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_83n10"]
 font = ExtResource("2_517cg")
+font_size = 12
 
-[node name="DebugOverlay" type="VBoxContainer"]
-offset_right = 286.0
-offset_bottom = 182.0
-theme_override_constants/separation = 20
+[node name="DebugOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_xmbtc")
 
-[node name="ClientDataLabelTemplate" type="Label" parent="."]
+[node name="ClientInputsContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 327.0
+offset_bottom = 648.0
+theme_override_constants/separation = 20
+
+[node name="Template" type="Label" parent="ClientInputsContainer"]
 layout_mode = 2
 text = "Client %s | Team %d
-Last 5 inputs:
+Last %d inputs:
 %d: target=%v, squads=%v, state=%d
 %d: target=%v, squads=%v, state=%d
 %d: target=%v, squads=%v, state=%d
 %d: target=%v, squads=%v, state=%d
 %d: target=%v, squads=%v, state=%d"
+label_settings = SubResource("LabelSettings_83n10")
+
+[node name="SquadInfoContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -404.0
+offset_bottom = 648.0
+grow_horizontal = 0
+
+[node name="Template" type="Label" parent="SquadInfoContainer"]
+layout_mode = 2
+text = "Squad %s | Team %d
+Last %d states:
+%d: state=%s, rot=%d pos=%v, target_pos=%v
+%d: state=%s, rot=%d pos=%v, target_pos=%v
+%d: state=%s, rot=%d pos=%v, target_pos=%v
+%d: state=%s, rot=%d pos=%v, target_pos=%v
+%d: state=%s, rot=%d pos=%v, target_pos=%v"
 label_settings = SubResource("LabelSettings_83n10")

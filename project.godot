@@ -25,10 +25,6 @@ GameServer="*res://networking/game_server.gd"
 
 gdscript/warnings/shadowed_global_identifier=0
 
-[display]
-
-window/stretch/mode="canvas_items"
-
 [gui]
 
 theme/custom="res://ui/base_theme.tres"

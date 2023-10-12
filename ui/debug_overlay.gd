@@ -1,26 +1,41 @@
-extends VBoxContainer
+extends Control
 
-@export_range(0, 30) var num_inputs_to_show: = 10
+@export_range(0, 30) var num_inputs_to_show: = 15
+@export_range(0, 30) var num_states_to_show: = 15
 
 var game: Game
 var actually_ready: = false
 
 func _ready() -> void:
-	var client_data_label_template: = $ClientDataLabelTemplate
+	hide()
+
+func _create_client_input_labels() -> void:
+	var client_input_label_template: = $ClientInputsContainer/Template
 	
-	var lobby: Lobby = Client.lobby
-	for i in lobby.player_ids.size():
-		var p_team: int = lobby.player_info_list[i].team
-		
-		var data_label: = client_data_label_template.duplicate()
-		data_label.name = "ClientDataLabel%d" % p_team
-		add_child(data_label)
+	for i in Client.lobby.player_ids.size():
+		var p_team: int = Client.lobby.player_info_list[i].team
+		var data_label: = client_input_label_template.duplicate()
+		data_label.name = "ClientInputsLabel%d" % p_team
+		$ClientInputsContainer.add_child(data_label)
 	
-	client_data_label_template.queue_free()
+	client_input_label_template.queue_free()
+
+func _create_squad_info_labels() -> void:
+	var squad_info_label_template: = $SquadInfoContainer/Template
+	
+	for squad in get_tree().get_nodes_in_group("squads"):
+		var data_label: = squad_info_label_template.duplicate()
+		data_label.name = "SquadInfoLabel%s" % squad.name
+		$SquadInfoContainer.add_child(data_label)
+	
+	squad_info_label_template.queue_free()
 
 func initialize(game: Game) -> void:
+	_create_client_input_labels()
+	_create_squad_info_labels()
 	self.game = game
 	actually_ready = true
+	show()
 
 func _process(_delta) -> void:
 	if not actually_ready:
@@ -33,16 +48,31 @@ func _process(_delta) -> void:
 		var p_team: int = lobby.player_info_list[i].team
 		var p_inputs: Array = game.player_inputs[p_id]
 		
-		var data_label: Label = get_node("ClientDataLabel%d" % p_team)
-		data_label.text = generate_text(p_id, p_name, p_team, p_inputs)
+		var label: Label = get_node("ClientInputsContainer/ClientInputsLabel%d" % p_team)
+		label.text = _generate_client_input_text(p_id, p_name, p_team, p_inputs)
+	
+	for squad in get_tree().get_nodes_in_group("squads"):
+		var label: Label = get_node("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
+		label.text = _generate_squad_info_text(squad)
 
-func generate_text(p_id: int, p_name: String, p_team: int, p_inputs: Array) -> String:
+func _generate_client_input_text(p_id: int, p_name: String, p_team: int, p_inputs: Array) -> String:
 	var text: = "Client %s | Team %d\nLast %d inputs:" % [p_name, p_team, num_inputs_to_show]
 	var num_inputs: = p_inputs.size()
 	if num_inputs < num_inputs_to_show:
 		for p_input in p_inputs:
 			text += "\n" + str(p_input)
 	else:
-		for i in range(num_inputs - num_inputs_to_show - 1, num_inputs):
+		for i in range(num_inputs - num_inputs_to_show, num_inputs):
 			text += "\n" + str(p_inputs[i])
+	return text
+
+func _generate_squad_info_text(squad: Squad) -> String:
+	var text: = "Squad %s | Team %d\nLast %d states:" % [squad.name, squad.team, num_states_to_show]
+	var num_states: = squad.frame_states.size()
+	if num_states < num_states_to_show:
+		for state in squad.frame_states:
+			text += "\n" + str(state)
+	else:
+		for i in range(num_states - num_states_to_show, num_states):
+			text += "\n" + str(squad.frame_states[i])
 	return text

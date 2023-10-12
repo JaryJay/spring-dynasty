@@ -38,7 +38,6 @@ func _ready():
 		player_inputs[player_id] = []
 	
 	$DebugLayer.show()
-	debug_overlay.initialize(self)
 
 ## Spawns a few squads for each player
 func _on_spawn_timer_timeout():
@@ -46,6 +45,7 @@ func _on_spawn_timer_timeout():
 	
 	var bases: Array[StaticBody2D] = []
 	
+	# Spawn bases and squads
 	for player_info in lobby.player_info_list:
 		var team: int = player_info.team
 		var spawn_location: Marker2D = $Map1.spawn_locations[team]
@@ -58,7 +58,7 @@ func _on_spawn_timer_timeout():
 		$Bases.add_child(base)
 		
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
-		for i in offsets.size():
+		for i in 1:
 			var offset: = offsets[i]
 			var squad: Squad = squad_scene.instantiate()
 			squad.position = spawn_location.position + offset
@@ -77,6 +77,8 @@ func _on_spawn_timer_timeout():
 		nav_polygon.add_outline(new_collision_outline)
 	nav_polygon.make_polygons_from_outlines()
 	map.navigation_polygon = nav_polygon
+	
+	debug_overlay.initialize(self)
 
 ## Processes non-gameplay-related things, such as toggling the pause menu
 func _process(_delta):
