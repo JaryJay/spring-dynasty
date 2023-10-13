@@ -88,6 +88,8 @@ func _process(_delta):
 
 ## Updates the game state
 func _physics_process(_delta):
+	Client.frame += 1
+	
 	# Update selected_squads to be the squads overlapped by selection_rect
 	_update_squads_selection()
 	
@@ -106,8 +108,6 @@ func _physics_process(_delta):
 	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
 	var serialized_inputs: = inputs.map(ClientInput.to_bytes)
 	GameServer.receive_inputs.rpc_id(1, serialized_inputs)
-	
-	Client.frame += 1
 
 @rpc("authority", "unreliable")
 func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
@@ -212,9 +212,9 @@ func _rollback_and_resimulate() -> void:
 	# Rollback
 	if min_rollback_frame < Client.frame:
 		for squad in get_tree().get_nodes_in_group("squads"):
-			squad.return_to_frame_state(min_rollback_frame)
+			squad.return_to_frame_state(min_rollback_frame - 1)
 	
-	# Resimulate frames
+	# Handle inputs
 	for frame in range(min_rollback_frame, Client.frame + 1):
 		# Handle inputs from all players
 		for player_id in Client.lobby.player_ids:
@@ -228,7 +228,6 @@ func _rollback_and_resimulate() -> void:
 		if frame < Client.frame:
 			for squad in get_tree().get_nodes_in_group("squads"):
 				squad.update(frame, true)
-	pass
 
 func _add_input(input: ClientInput) -> void:
 	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]

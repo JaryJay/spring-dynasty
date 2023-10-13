@@ -4,7 +4,9 @@ const lobby_menu_scene: PackedScene = preload("res://ui/lobby_menu.tscn")
 
 @onready var error_label: = %ErrorLabel
 
-func _on_join_button_pressed():
+
+
+func _enter_lobby():
 	var username: String = %NameInput.text
 	var server_ip: String = %ServerIPInput.text
 	var port: String = %PortInput.text
@@ -25,3 +27,6 @@ func _on_join_button_pressed():
 
 func _on_back_button_pressed():
 	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
+
+func _on_name_input_text_submitted(_new_text: String):
+	_enter_lobby()

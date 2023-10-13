@@ -108,5 +108,6 @@ offset_bottom = 124.0
 theme_override_font_sizes/font_size = 30
 text = "Back"
 
-[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="text_submitted" from="ColorRect/MarginContainer/VBoxContainer/NameInput" to="." method="_on_name_input_text_submitted"]
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/JoinButton" to="." method="_enter_lobby"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

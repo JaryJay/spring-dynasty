@@ -1,11 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl75aog1s15k1"]
+[gd_scene load_steps=3 format=3 uid="uid://dl75aog1s15k1"]
 
 [ext_resource type="Script" path="res://ui/debug_overlay.gd" id="1_xmbtc"]
-[ext_resource type="FontFile" uid="uid://p5vfnc5c6v23" path="res://assets/fonts/RobotoMono-VariableFont_wght.ttf" id="2_517cg"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_83n10"]
-font = ExtResource("2_517cg")
-font_size = 12
+[ext_resource type="LabelSettings" uid="uid://b1oswo7cxni2x" path="res://ui/debug_label_settings.tres" id="2_v7guk"]
 
 [node name="DebugOverlay" type="Control"]
 layout_mode = 3
@@ -32,7 +28,7 @@ Last %d inputs:
 %d: target=%v, squads=%v, state=%d
 %d: target=%v, squads=%v, state=%d
 %d: target=%v, squads=%v, state=%d"
-label_settings = SubResource("LabelSettings_83n10")
+label_settings = ExtResource("2_v7guk")
 
 [node name="SquadInfoContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -42,6 +38,7 @@ anchor_right = 1.0
 offset_left = -404.0
 offset_bottom = 648.0
 grow_horizontal = 0
+theme_override_constants/separation = 20
 
 [node name="Template" type="Label" parent="SquadInfoContainer"]
 layout_mode = 2
@@ -51,5 +48,13 @@ Last %d states:
 %d: state=%s, rot=%d pos=%v, target_pos=%v
 %d: state=%s, rot=%d pos=%v, target_pos=%v
 %d: state=%s, rot=%d pos=%v, target_pos=%v
-%d: state=%s, rot=%d pos=%v, target_pos=%v"
-label_settings = SubResource("LabelSettings_83n10")
+%d: state=%s, rot=%d pos=%v, target_pos=%v
+"
+label_settings = ExtResource("2_v7guk")
+
+[node name="FrameLabel" type="Label" parent="SquadInfoContainer"]
+layout_mode = 2
+text = "Frame: ...100"
+label_settings = ExtResource("2_v7guk")
+horizontal_alignment = 2
+vertical_alignment = 2

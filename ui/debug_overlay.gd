@@ -6,6 +6,8 @@ extends Control
 var game: Game
 var actually_ready: = false
 
+@onready var frame_label: = $SquadInfoContainer/FrameLabel
+
 func _ready() -> void:
 	hide()
 
@@ -29,6 +31,9 @@ func _create_squad_info_labels() -> void:
 		$SquadInfoContainer.add_child(data_label)
 	
 	squad_info_label_template.queue_free()
+	
+	# Move FrameLabel to the bottom
+	$SquadInfoContainer.move_child(frame_label, -1)
 
 func initialize(game: Game) -> void:
 	_create_client_input_labels()
@@ -54,11 +59,15 @@ func _process(_delta) -> void:
 	for squad in get_tree().get_nodes_in_group("squads"):
 		var label: Label = get_node("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
 		label.text = _generate_squad_info_text(squad)
+	
+	frame_label.text = "Frame: %s" % Strings.pad(str(Client.frame), 6)
 
 func _generate_client_input_text(p_id: int, p_name: String, p_team: int, p_inputs: Array) -> String:
 	var text: = "Client %s | Team %d\nLast %d inputs:" % [p_name, p_team, num_inputs_to_show]
 	var num_inputs: = p_inputs.size()
 	if num_inputs < num_inputs_to_show:
+		for i in num_inputs_to_show - num_inputs:
+			text += "\n"
 		for p_input in p_inputs:
 			text += "\n" + str(p_input)
 	else:
@@ -70,6 +79,8 @@ func _generate_squad_info_text(squad: Squad) -> String:
 	var text: = "Squad %s | Team %d\nLast %d states:" % [squad.name, squad.team, num_states_to_show]
 	var num_states: = squad.frame_states.size()
 	if num_states < num_states_to_show:
+		for i in num_states_to_show - num_states:
+			text += "\n"
 		for state in squad.frame_states:
 			text += "\n" + str(state)
 	else:

@@ -31,15 +31,12 @@ func _init(fr: int, h: int, p: Vector2, r: float, st_idx: int, tp: Vector2, tss:
 
 const _states: Array[String] = ["Idle", "Navigating", "Repositioning", "Chasing", "Attacking", "Dying"]
 
-# I know this is weird, but at least it works (sometimes)
-func _pad(s: String, num: int) -> String:
-	return "...................".substr(0, num - s.length()) + s
-
 func _to_string() -> String:
-	var prefix: = _pad(str(frame), 6)
+	var prefix: = Strings.pad(str(frame), 6)
 	if state_index == -1:
 		return prefix + " no input"
-	var state: = _states[state_index]
+	var state: = Strings.pad(_states[state_index], 13)
+	var rot: = rad_to_deg(rotation)
 	if target_squad_name:
-		return prefix + " state=%s, rot=%.d, pos=%.v, target=%s" % [_pad(state, 13), rad_to_deg(rotation), position, target_squad_name]
-	return prefix + " state=%s, rot=%.d, pos=%.v, target=%.v" % [_pad(state, 13), rad_to_deg(rotation), position, target_position]
+		return prefix + " state=%s, rot=%.d, pos=%.v, target=%s" % [state, rot, position, target_squad_name]
+	return prefix + " state=%s, rot=%.d, pos=%.v, target=%.v" % [state, rot, position, target_position]

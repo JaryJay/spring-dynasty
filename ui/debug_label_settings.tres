@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://b1oswo7cxni2x"]
+
+[ext_resource type="FontFile" uid="uid://p5vfnc5c6v23" path="res://assets/fonts/RobotoMono-VariableFont_wght.ttf" id="1_pdfmd"]
+
+[resource]
+font = ExtResource("1_pdfmd")
+font_size = 12

@@ -25,6 +25,10 @@ GameServer="*res://networking/game_server.gd"
 
 gdscript/warnings/shadowed_global_identifier=0
 
+[display]
+
+window/stretch/aspect="expand"
+
 [gui]
 
 theme/custom="res://ui/base_theme.tres"
@@ -81,7 +85,3 @@ pan_camera_analog={
 2d_physics/layer_15="team_6_squads"
 2d_physics/layer_16="team_7_squads"
 avoidance/layer_2="bases"
-
-[physics]
-
-2d/run_on_separate_thread=true

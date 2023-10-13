@@ -111,10 +111,12 @@ func return_to_frame_state(frame: int) -> bool:
 				state_machine.state.target_squad = _targ
 			
 			index = i
+			
+			# Delete every element in frame_states with a later frame
+			frame_states = frame_states.slice(0, index + 1)
 			return true
 	
-	# Delete every element in frame_states with a later frame
-	frame_states = frame_states.slice(0, index + 1)
+	printerr("%s: trying to return to frame %d, but the latest frame is %d" % [name, frame, frame_states[-1].frame])
 	return false
 
 func _is_obstacle_in_front() -> bool:

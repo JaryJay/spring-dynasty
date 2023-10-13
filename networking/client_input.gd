@@ -39,15 +39,11 @@ static func _test_serialization() -> void:
 
 const _states: Array[String] = ["Idle", "Navigating", "Repositioning", "Chasing", "Attacking", "Dying"]
 
-# I know this is weird, but at least it works (sometimes)
-func _pad(s: String, num: int) -> String:
-	return "...................".substr(0, num - s.length()) + s
-
 func _to_string() -> String:
-	var prefix: = _pad(str(frame), 6)
+	var prefix: = Strings.pad(str(frame), 6)
 	if state_index == -1:
 		return prefix + " no input"
-	var state: = _states[state_index]
+	var state: = Strings.pad(_states[state_index], 13)
 	if enemy_squad:
-		return prefix + " state=%s, squads=%s, enemy=%s" % [_pad(state, 13), squads, enemy_squad]
-	return prefix + " state=%s, squads=%s, target=%.v" % [_pad(state, 13), squads, target]
+		return prefix + " state=%s, squads=%s, enemy=%s" % [state, squads, enemy_squad]
+	return prefix + " state=%s, squads=%s, target=%.v" % [state, squads, target]
