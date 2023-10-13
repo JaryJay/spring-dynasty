@@ -5,6 +5,7 @@ class_name AttackingState
 @export var chasing_state: ChasingState
 
 var target_squad: Squad
+var cooldown: = 0
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
@@ -19,8 +20,10 @@ func process(squad: Squad) -> void:
 		return
 	
 	if squad.position.distance_to(target_squad.position) < squad.range:
-		# TODO: take squad attack speed into account
-		target_squad.health -= squad.attack
+		if cooldown == 0:
+			target_squad.health -= squad.attack
+			cooldown = squad.attack_speed
+		cooldown -= 1
 	else:
 		chasing_state.target_squad = target_squad
 		squad.state_machine.state = chasing_state

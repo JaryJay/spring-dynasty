@@ -5,6 +5,8 @@ const NUM_SAVED_INPUTS: = 30
 const squad_scene: = preload("res://entities/footman_squad.tscn")
 const base_scene: = preload("res://entities/base.tscn")
 
+@export var enable_debug_overlay: = true
+
 @onready var debug_overlay: = $DebugLayer/DebugOverlay
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
@@ -36,7 +38,6 @@ func _ready():
 	
 	for player_id in Client.lobby.player_ids:
 		player_inputs[player_id] = []
-	
 	$DebugLayer.show()
 
 ## Spawns a few squads for each player
@@ -78,7 +79,8 @@ func _on_spawn_timer_timeout():
 	nav_polygon.make_polygons_from_outlines()
 	map.navigation_polygon = nav_polygon
 	
-	debug_overlay.initialize(self)
+	if enable_debug_overlay:
+		debug_overlay.initialize(self)
 
 ## Processes non-gameplay-related things, such as toggling the pause menu
 func _process(_delta):
@@ -147,7 +149,8 @@ func _update_squads_selection() -> void:
 		selected_squads.clear()
 		for body in selection_rect.get_overlapping_bodies():
 			if body is Squad:
-				if body.team == controlled_team:
+				if body.team == controlled_team and \
+				not body.state_machine.state is DyingState:
 					selected_squads.append(body)
 					body.selected = true
 			else:
@@ -163,7 +166,7 @@ func _detect_input() -> ClientInput:
 		for squad in selected_squads:
 			squad_names.append(squad.name)
 		
-		var mouse_pos: = get_global_mouse_position()
+		var mouse_pos: = get_global_mouse_position().round()
 		var space_state = get_world_2d().direct_space_state
 		var query: = PhysicsPointQueryParameters2D.new()
 		query.position = mouse_pos
@@ -223,11 +226,13 @@ func _rollback_and_resimulate() -> void:
 				if input.frame == frame:
 					_handle_input(input)
 					break
-		# Process squads. Note that for frame == Client.frame, the function
-		# squad.update() will automatically be called during _physics_process
-		if frame < Client.frame:
-			for squad in get_tree().get_nodes_in_group("squads"):
-				squad.update(frame, true)
+		# Update squads.
+		for squad in get_tree().get_nodes_in_group("squads"):
+			squad.update(frame, true)
+		for squad in get_tree().get_nodes_in_group("squads"):
+			# Post update checks if the squad is dead, and it also creates
+			# a frame_state for the squad at that frame
+			squad.post_update(frame)
 
 func _add_input(input: ClientInput) -> void:
 	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]

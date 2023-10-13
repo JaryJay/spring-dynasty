@@ -19,8 +19,10 @@ var state_index: int
 
 var target_position: Vector2
 var target_squad_name: String
+var attack_cooldown: int
 
-func _init(fr: int, h: int, p: Vector2, r: float, st_idx: int, tp: Vector2, tss: String = "") -> void:
+func _init(fr: int, h: int, p: Vector2, r: float, st_idx: int, tp: Vector2, \
+tss: String = "", att_cd: int = 0) -> void:
 	frame = fr
 	health = h
 	position = p
@@ -28,6 +30,7 @@ func _init(fr: int, h: int, p: Vector2, r: float, st_idx: int, tp: Vector2, tss:
 	state_index = st_idx
 	target_position = tp
 	target_squad_name = tss
+	attack_cooldown = att_cd
 
 const _states: Array[String] = ["Idle", "Navigating", "Repositioning", "Chasing", "Attacking", "Dying"]
 
@@ -38,5 +41,5 @@ func _to_string() -> String:
 	var state: = Strings.pad(_states[state_index], 13)
 	var rot: = rad_to_deg(rotation)
 	if target_squad_name:
-		return prefix + " state=%s, rot=%.d, pos=%.v, target=%s" % [state, rot, position, target_squad_name]
-	return prefix + " state=%s, rot=%.d, pos=%.v, target=%.v" % [state, rot, position, target_position]
+		return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%s" % [state, rot, position, target_squad_name]
+	return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%4.v" % [state, rot, position, target_position]

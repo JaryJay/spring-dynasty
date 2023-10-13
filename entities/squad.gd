@@ -16,7 +16,7 @@ signal health_depleted(health)
 @export_range(0, 400) var engage_range: float = 60
 @export_range(0, 400) var range: float = 80
 @export_range(0, 500) var speed: float = 150
-@export_range(0, 100) var attack_speed: float = 5
+@export_range(0, 100) var attack_speed: float = 60
 
 @onready var debug_label: Label = $DebugLabel
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
@@ -48,17 +48,18 @@ func _ready():
 	
 	state_machine.initialize()
 
-func _physics_process(_delta):
-	if Engine.is_editor_hint():
-		return
-	update(Client.frame)
-
+## Called in game.gd
 func update(frame: int, manual: bool = false) -> void:
 	if manual:
 		for ray_cast in rays.get_children():
 			ray_cast.force_raycast_update()
 	
 	state_machine.process_state()
+
+## Called in game.gd after update() is called on all squads
+func post_update(frame: int) -> void:
+	if health <= 0:
+		state_machine.state = $StateMachine/DyingState
 	
 	if frame_states.is_empty() or frame_states[-1].frame < frame:
 		var s: = state_machine.state.get_index()
@@ -69,6 +70,8 @@ func update(frame: int, manual: bool = false) -> void:
 			frame_state = SquadFrameState.new(frame, health, position, rot, s, position, target_squad_name)
 		else:
 			frame_state = SquadFrameState.new(frame, health, position, rot, s, nav.target_position)
+		if state_machine.state is AttackingState:
+			frame_state.attack_cooldown = state_machine.state.cooldown
 		frame_states.append(frame_state)
 		if frame_states.size() > 30:
 			frame_states.remove_at(0)
@@ -109,6 +112,8 @@ func return_to_frame_state(frame: int) -> bool:
 			if state_machine.state._requires_target_squad():
 				var _targ: = get_node("/root/Game/Squads").get_node(fs.target_squad_name)
 				state_machine.state.target_squad = _targ
+			if state_machine.state is AttackingState:
+				state_machine.state.cooldown = fs.attack_cooldown
 			
 			index = i
 			
