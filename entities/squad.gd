@@ -26,6 +26,8 @@ signal health_depleted(health)
 @onready var awareness_area: Area2D = $AwarenessArea
 @onready var state_machine: StateMachine = $StateMachine
 
+@onready var attack_particles: = $AttackParticles
+
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
 
@@ -83,16 +85,6 @@ func set_target_position(target_position: Vector2) -> void:
 func rotate_and_move(direction: Vector2, speed_multiplier: float = 1) -> void:
 	velocity = direction * speed * speed_multiplier
 	rays.rotation = velocity.angle() - PI / 2
-	if nav.avoidance_enabled:
-		nav.velocity = velocity
-	else:
-		move_and_slide()
-
-func _on_velocity_computed(vel: Vector2) -> void:
-	velocity = vel
-	rays.rotation = velocity.angle() - PI / 2
-	if not vel.is_zero_approx():
-		print(vel)
 	move_and_slide()
 
 ## Returns the squad's state to what it was at the specified frame. Also deletes

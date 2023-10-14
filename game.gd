@@ -261,7 +261,6 @@ func _handle_input(input: ClientInput) -> void:
 			else:
 				var adjusted_target: = input.target + avg_squad_pos.direction_to(squad.position) * 28
 				squad.set_target_position(adjusted_target)
-			
 			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
 	elif input.state_index == 3:
 		var target_squad: = $Squads.get_node_or_null(input.enemy_squad)

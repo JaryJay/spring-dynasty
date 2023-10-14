@@ -7,6 +7,7 @@ func _enter_state(squad: Squad) -> void:
 	squad.debug_label.text = "Idle"
 	for unit in squad.units:
 		unit.play_animation("idle")
+		unit.scale.x = 1
 
 func process(squad: Squad) -> void:
 	handle_pushing(squad)

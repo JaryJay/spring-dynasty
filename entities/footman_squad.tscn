@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=20 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_rhduu"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
 [ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_1s0g2"]
 [ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squad_banner.tscn" id="4_667vd"]
+[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/particles/damage.png" id="5_3m5iy"]
 [ext_resource type="Script" path="res://entities/states/state_machine.gd" id="5_m8n8y"]
 [ext_resource type="Script" path="res://entities/states/idle_state.gd" id="6_lkxmy"]
 [ext_resource type="Script" path="res://entities/states/navigating_state.gd" id="7_k8y8u"]
@@ -14,6 +15,27 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
 radius = 28.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_icjdd"]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e2di1"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -180.0
+angle_max = 180.0
+turbulence_noise_strength = 9.58
+turbulence_noise_scale = 7.21
+turbulence_noise_speed = Vector3(10, 0, 0)
+turbulence_influence_min = 1.0
+turbulence_influence_max = 1.0
+anim_speed_min = 1.0
+anim_speed_max = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ejtey"]
 radius = 30.0
@@ -46,8 +68,19 @@ texture = ExtResource("3_1s0g2")
 z_index = 1
 position = Vector2(-3, -45)
 
+[node name="AttackParticles" type="GPUParticles2D" parent="."]
+z_index = 1
+material = SubResource("CanvasItemMaterial_icjdd")
+emitting = false
+amount = 2
+process_material = SubResource("ParticleProcessMaterial_e2di1")
+texture = ExtResource("5_3m5iy")
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.5
+
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-target_desired_distance = 1.0
+target_desired_distance = 20.0
 path_max_distance = 60.0
 radius = 28.0
 avoidance_layers = 0
@@ -178,5 +211,3 @@ chasing_state = NodePath("../ChasingState")
 
 [node name="DyingState" type="Node" parent="StateMachine"]
 script = ExtResource("11_uvfah")
-
-[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_velocity_computed"]
