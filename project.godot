@@ -85,3 +85,7 @@ pan_camera_analog={
 2d_physics/layer_15="team_6_squads"
 2d_physics/layer_16="team_7_squads"
 avoidance/layer_2="bases"
+
+[physics]
+
+common/physics_ticks_per_second=144
