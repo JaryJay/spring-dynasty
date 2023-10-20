@@ -8,4 +8,4 @@ func _set_team_index(value: int) -> void:
 		team = value
 		$Sprites/Fill.modulate = TeamColors.colors[team]
 	else:
-		print_debug("Invalid color index: %d" % value)
+		printerr("Invalid color index: %d" % value)

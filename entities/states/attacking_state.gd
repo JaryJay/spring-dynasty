@@ -14,6 +14,7 @@ func _enter_state(squad: Squad) -> void:
 	var speed: = roundf(1.0 * Engine.physics_ticks_per_second / squad.attack_speed)
 	for unit in squad.units:
 		unit.play_animation("attack", speed)
+	squad.banner.play_animation("idle")
 
 func process(squad: Squad) -> void:
 	if target_squad.state_machine.state is DyingState:

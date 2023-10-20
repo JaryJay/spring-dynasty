@@ -12,6 +12,7 @@ func _enter_state(squad: Squad) -> void:
 	squad.debug_label.text = "Chasing"
 	for unit in squad.units:
 		unit.play_animation("run")
+	squad.banner.play_animation("moving")
 
 func process(squad: Squad) -> void:
 	if target_squad.state_machine.state is DyingState:

@@ -26,6 +26,7 @@ signal health_depleted(health)
 @onready var awareness_area: Area2D = $AwarenessArea
 @onready var state_machine: StateMachine = $StateMachine
 
+@onready var banner: = $SquadBanner
 @onready var attack_particles: = $AttackParticles
 
 var units: Array[Unit] = []
