@@ -1,7 +1,7 @@
 extends State
 class_name ChasingState
 
-@export var repositioning_state: RepositioningState
+@export var idle_state: IdleState
 @export var attacking_state: AttackingState
 
 var target_squad: Squad
@@ -15,7 +15,7 @@ func _enter_state(squad: Squad) -> void:
 
 func process(squad: Squad) -> void:
 	if target_squad.state_machine.state is DyingState:
-		squad.state_machine.state = repositioning_state
+		squad.state_machine.state = idle_state
 		return
 	
 	squad.set_target_position(target_squad.position)

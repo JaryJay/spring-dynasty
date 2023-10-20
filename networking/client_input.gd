@@ -37,13 +37,13 @@ static func _test_serialization() -> void:
 	assert(input.target == unserialized_input.target)
 	assert(input.enemy_squad == unserialized_input.enemy_squad)
 
-const _states: Array[String] = ["Idle", "Navigating", "Repositioning", "Chasing", "Attacking", "Dying"]
+const _states: Array[String] = ["Idle", "Navigating", "Chasing", "Attacking", "Dying"]
 
 func _to_string() -> String:
 	var prefix: = Strings.pad(str(frame), 6)
 	if state_index == -1:
 		return prefix + " no input"
-	var state: = Strings.pad(_states[state_index], 13)
+	var state: = Strings.pad(_states[state_index], 10)
 	if enemy_squad:
 		return prefix + " state=%s, squads=%s, enemy=%s" % [state, squads, enemy_squad]
 	return prefix + " state=%s, squads=%s, target=%.v" % [state, squads, target]

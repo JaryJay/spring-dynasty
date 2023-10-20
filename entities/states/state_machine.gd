@@ -11,7 +11,7 @@ func initialize() -> void:
 	
 	for child in get_children():
 		if not child is State:
-			print_debug("StateMachine Error: Child %s is not a state." % child.name)
+			printerr("StateMachine Error: Child %s is not a state." % child.name)
 
 func process_state() -> void:
 	state.process(squad)
@@ -21,8 +21,8 @@ func _set_state(value: State) -> void:
 		state._exit_state(squad)
 	
 	if not value:
-		print_debug("Hey! You're setting the state to null. That's not right")
-		print_debug("Transitioning from %s to null" % state.name)
+		printerr("Hey! You're setting the state to null. That's not right")
+		printerr("Transitioning from %s to null" % state.name)
 		return
 	state = value
 	state._enter_state(squad)

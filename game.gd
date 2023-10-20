@@ -59,7 +59,7 @@ func _on_spawn_timer_timeout():
 		$Bases.add_child(base)
 		
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
-		for i in 1:
+		for i in offsets.size():
 			var offset: = offsets[i]
 			var squad: Squad = squad_scene.instantiate()
 			squad.position = spawn_location.position + offset
@@ -145,7 +145,8 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:
 		for selected_squad in selected_squads:
-			selected_squad.selected = false
+			if is_instance_valid(selected_squad):
+				selected_squad.selected = false
 		selected_squads.clear()
 		for body in selection_rect.get_overlapping_bodies():
 			if body is Squad:
@@ -164,7 +165,8 @@ func _detect_input() -> ClientInput:
 		
 		var squad_names: Array[StringName] = []
 		for squad in selected_squads:
-			squad_names.append(squad.name)
+			if is_instance_valid(squad) and not squad.state_machine.state is DyingState:
+				squad_names.append(squad.name)
 		
 		var mouse_pos: = get_global_mouse_position().round()
 		var space_state = get_world_2d().direct_space_state
@@ -191,9 +193,9 @@ func _detect_input() -> ClientInput:
 					closest_dist_squared = dist_squared
 		
 		if closest_enemy_squad:
-			# Chase enemy squad (state_index of 3 refers to ChasingState)
+			# Chase enemy squad (state_index of 2 refers to ChasingState)
 			var enemy_name: = closest_enemy_squad.name
-			return ClientInput.new(Client.frame, 3, squad_names, Vector2.ZERO, enemy_name)
+			return ClientInput.new(Client.frame, 2, squad_names, Vector2.ZERO, enemy_name)
 		else:
 			# This will happen if all clicked squads are friendly
 			# Navigate to point
@@ -262,7 +264,7 @@ func _handle_input(input: ClientInput) -> void:
 				var adjusted_target: = input.target + avg_squad_pos.direction_to(squad.position) * 28
 				squad.set_target_position(adjusted_target)
 			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
-	elif input.state_index == 3:
+	elif input.state_index == 2:
 		var target_squad: = $Squads.get_node_or_null(input.enemy_squad)
 		for squad in squads:
 			var current_state: = squad.state_machine.state

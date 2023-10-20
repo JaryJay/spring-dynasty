@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://blhxyp0cnaeh7"]
+[gd_scene load_steps=19 format=3 uid="uid://blhxyp0cnaeh7"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_rhduu"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://entities/states/state_machine.gd" id="5_m8n8y"]
 [ext_resource type="Script" path="res://entities/states/idle_state.gd" id="6_lkxmy"]
 [ext_resource type="Script" path="res://entities/states/navigating_state.gd" id="7_k8y8u"]
-[ext_resource type="Script" path="res://entities/states/repositioning_state.gd" id="8_kxedj"]
 [ext_resource type="Script" path="res://entities/states/chasing_state.gd" id="9_fplkg"]
 [ext_resource type="Script" path="res://entities/states/attacking_state.gd" id="10_shrxm"]
 [ext_resource type="Script" path="res://entities/states/dying_state.gd" id="11_uvfah"]
@@ -190,23 +189,18 @@ default_state = NodePath("IdleState")
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("6_lkxmy")
 
-[node name="NavigatingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "repositioning_state")]
+[node name="NavigatingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
 script = ExtResource("7_k8y8u")
 idle_state = NodePath("../IdleState")
-repositioning_state = NodePath("../RepositioningState")
 
-[node name="RepositioningState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
-script = ExtResource("8_kxedj")
-idle_state = NodePath("../IdleState")
-
-[node name="ChasingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("repositioning_state", "attacking_state")]
+[node name="ChasingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "attacking_state")]
 script = ExtResource("9_fplkg")
-repositioning_state = NodePath("../RepositioningState")
+idle_state = NodePath("../IdleState")
 attacking_state = NodePath("../AttackingState")
 
-[node name="AttackingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("repositioning_state", "chasing_state")]
+[node name="AttackingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "chasing_state")]
 script = ExtResource("10_shrxm")
-repositioning_state = NodePath("../RepositioningState")
+idle_state = NodePath("../IdleState")
 chasing_state = NodePath("../ChasingState")
 
 [node name="DyingState" type="Node" parent="StateMachine"]
