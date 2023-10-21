@@ -5,30 +5,27 @@ extends Node
 var started: bool = false
 var game: Game
 
-var frame: int = 0
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
 var player_inputs: Dictionary = {}
 ## Maps from player_id (int) to whether that player needs a rollback (bool)
 var needs_rollback: Dictionary = {}
 
+var send_game_state_timer: = 144 * 1
+
+func _ready() -> void:
+	set_physics_process(false)
+
 func start() -> void:
 	for player_id in Server.lobby.player_ids:
 		player_inputs[player_id] = []
 	started = true
+	set_physics_process(true)
 
 func _physics_process(_delta) -> void:
-	if not started:
-		return
-	_rollback_and_resimulate()
+	game.frame += 1
+	game._rollback_and_resimulate()
 	_send_inputs()
-	frame += 1
-
-func _rollback_and_resimulate() -> void:
-	for player_id in needs_rollback.keys():
-		if needs_rollback[player_id]:
-			print("%d needs rollback" % player_id)
-			# TODO: Do rollback :)
-			needs_rollback[player_id] = false
+#	_send_game_frame_state()
 
 func _send_inputs() -> void:
 	# Serialize player_inputs
@@ -75,17 +72,34 @@ func receive_inputs(serialized_input_list: Array) -> void:
 		var latest_previous_input: ClientInput = previous_inputs[-1]
 		# If the new input is more recent than the latest previous input
 		if latest_new_input.frame > latest_previous_input.frame:
+			if latest_new_input.state_index != -1:
+				print("Frame %d: Received new input from %d" % [game.frame, sender_id])
 			player_inputs[sender_id] = input_list
 			for input in input_list:
 				if input.frame > latest_previous_input.frame and input.state_index >= 0:
 					needs_rollback[sender_id] = true
 					break
 
+func _send_game_frame_state() -> void:
+	if send_game_state_timer == 0:
+		var game_frame_state: = GameFrameState.new(game.frame)
+		for _squad in get_tree().get_nodes_in_group("squads"):
+			var squad: Squad = _squad
+			game_frame_state.squad_names.append(squad.name)
+			game_frame_state.squad_frame_states.append(squad.frame_states[-1])
+			print("Created frame state: " + str(squad.frame_states[-1]))
+		# TODO: use a better serialization method
+		game.receive_game_frame_state.rpc(var_to_str(game_frame_state))
+		send_game_state_timer = 144 * 1 # 10 seconds
+	
+	send_game_state_timer -= 1
+
 func reset() -> void:
 	started = false
+	set_physics_process(false)
 	if game:
+		game.frame = 0
 		game.queue_free()
 		game = null
-	frame = 0
 	player_inputs.clear()
 	needs_rollback.clear()

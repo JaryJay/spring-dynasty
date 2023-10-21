@@ -13,6 +13,9 @@ const base_scene: = preload("res://entities/base.tscn")
 @onready var camera: Camera2D = $Camera
 @onready var map: NavigationRegion2D = $Map1
 
+## The current frame number in the game
+var frame: int = 0
+
 ## The list of squads that are within the blue selection_rect. Updated every
 ## frame in _physics_process()
 var selected_squads: Array[Squad] = []
@@ -22,15 +25,16 @@ var controlled_team: int = 0
 
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
 var player_inputs: Dictionary = {}
-## Maps from player_id (int) to the frame to rollback to (int),
-## -1 if no rollback needed
-var needs_rollback: Dictionary = {}
+## Equal to frame + 1 if no frames are desynced
+var earliest_desynced_frame: int = 0
 
 func _ready():
 	if multiplayer.is_server():
+		Client.game = self
 		set_physics_process(false)
 		return
 	
+	Client.game = self
 	controlled_team = Client.team_number
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
@@ -90,18 +94,14 @@ func _process(_delta):
 
 ## Updates the game state
 func _physics_process(_delta):
-	Client.frame += 1
+	frame += 1
 	
 	# Update selected_squads to be the squads overlapped by selection_rect
 	_update_squads_selection()
 	
 	# Note that detecting inputs is not the same as handling them
 	var input: ClientInput = _detect_input()
-	if input:
-		_add_input(input)
-	else:
-		# State index of -1 means that the input does nothing
-		_add_input(ClientInput.new(Client.frame, -1, [], Vector2.ZERO))
+	_add_input(input)
 	
 	# Handles inputs from all players, including the local player
 	_rollback_and_resimulate()
@@ -131,7 +131,7 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 			player_inputs[player_id] = inputs[player_id]
 			for input in inputs[player_id]:
 				if input.state_index >= 0:
-					needs_rollback[player_id] = input.frame
+					earliest_desynced_frame = mini(earliest_desynced_frame, input.frame)
 					break
 		else:
 			var latest_previous_input: ClientInput = previous_inputs[-1]
@@ -139,8 +139,30 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 				player_inputs[player_id] = inputs[player_id]
 				for input in inputs[player_id]:
 					if input.frame > latest_previous_input.frame and input.state_index >= 0:
-						needs_rollback[player_id] = input.frame
+						earliest_desynced_frame = mini(earliest_desynced_frame, input.frame)
 						break
+
+## Receive game frame state from the server for a given frame
+@rpc("authority", "unreliable")
+func receive_game_frame_state(game_frame_state_str: String) -> void:
+	# Very broken. Do not use this function
+	var game_frame_state = str_to_var(game_frame_state_str)
+	var state_frame: int = game_frame_state.frame
+	if frame < state_frame:
+		frame = state_frame
+	
+	for i in game_frame_state.squad_names.size():
+		var squad_name: String = game_frame_state.squad_names[i]
+		var squad_frame_state: SquadFrameState = game_frame_state.squad_frame_states[i]
+		var squad: Squad = $Squads.get_node_or_null(squad_name)
+		if not squad:
+			continue
+		
+		for j in range(squad.frame_states.size() - 1, -1, -1):
+			if squad.frame_states[j].frame == state_frame:
+				squad.frame_states[j] = squad_frame_state
+				earliest_desynced_frame = mini(earliest_desynced_frame, state_frame)
+				break
 
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:
@@ -178,7 +200,7 @@ func _detect_input() -> ClientInput:
 		
 		if collisions.size() == 0:
 			# Navigate to point (state_index of 1 refers to NavigatingState)
-			return ClientInput.new(Client.frame, 1, squad_names, mouse_pos)
+			return ClientInput.new(frame, 1, squad_names, mouse_pos)
 		
 		# The enemy squad closest to the cursor
 		var closest_enemy_squad: Squad
@@ -195,46 +217,42 @@ func _detect_input() -> ClientInput:
 		if closest_enemy_squad:
 			# Chase enemy squad (state_index of 2 refers to ChasingState)
 			var enemy_name: = closest_enemy_squad.name
-			return ClientInput.new(Client.frame, 2, squad_names, Vector2.ZERO, enemy_name)
+			return ClientInput.new(frame, 2, squad_names, Vector2.ZERO, enemy_name)
 		else:
 			# This will happen if all clicked squads are friendly
 			# Navigate to point
-			return ClientInput.new(Client.frame, 1, squad_names, mouse_pos)
-	return null
-
-## Loops through the needs_rollback dictionary, checking if any players need
-## to rollback (i.e. they sent a new input that we need to simulate). If any
-## players do, then we reset all squads back to the earliest rollback frame;
-## otherwise, 
-func _rollback_and_resimulate() -> void:
-	var min_rollback_frame: int = Client.frame
-	for player_id in needs_rollback.keys():
-		if needs_rollback[player_id] >= 0:
-			var rollback_frame: int = needs_rollback[player_id]
-			min_rollback_frame = mini(min_rollback_frame, rollback_frame)
-			needs_rollback[player_id] = -1
+			return ClientInput.new(frame, 1, squad_names, mouse_pos)
 	
+	# State index of -1 means that the input does nothing
+	return ClientInput.new(frame, -1, [], Vector2.ZERO)
+
+## Resets the game state back to the earliest desynced frame, then resimulates
+## those desynced frames.
+## Sets the earliest desynced frame to frame + 1.
+func _rollback_and_resimulate(as_server: bool = false) -> void:
 	# Rollback
-	if min_rollback_frame < Client.frame:
+	if earliest_desynced_frame < frame:
 		for squad in get_tree().get_nodes_in_group("squads"):
-			squad.return_to_frame_state(min_rollback_frame - 1)
+			squad.return_to_frame_state(earliest_desynced_frame - 1)
 	
 	# Handle inputs
-	for frame in range(min_rollback_frame, Client.frame + 1):
+	for f in range(earliest_desynced_frame, frame + 1):
 		# Handle inputs from all players
 		for player_id in Client.lobby.player_ids:
 			var inputs: Array = player_inputs[player_id]
 			for input in inputs:
-				if input.frame == frame:
+				if input.frame == f:
 					_handle_input(input)
 					break
 		# Update squads.
 		for squad in get_tree().get_nodes_in_group("squads"):
-			squad.update(frame, true)
+			squad.update(f, true)
 		for squad in get_tree().get_nodes_in_group("squads"):
 			# Post update checks if the squad is dead, and it also creates
 			# a frame_state for the squad at that frame
-			squad.post_update(frame)
+			squad.post_update(f)
+	
+	earliest_desynced_frame = frame + 1
 
 func _add_input(input: ClientInput) -> void:
 	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]

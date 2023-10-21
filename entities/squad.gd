@@ -47,7 +47,7 @@ func _ready():
 	for ray in rays.get_children():
 		ray.add_exception(self)
 	
-	frame_states.append(SquadFrameState.new(Client.frame, health, position, rotation, 0, global_position))
+	frame_states.append(SquadFrameState.new(Client.game.frame, health, position, rotation, 0, global_position))
 	
 	state_machine.initialize()
 

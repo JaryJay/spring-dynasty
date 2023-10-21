@@ -14,8 +14,7 @@ var team_number: int = -1
 
 var lobby: Lobby = Lobby.new()
 
-## The current frame number in the game. Modified by game.gd
-var frame: int = 0
+var game: Game = null
 
 func init(server_ip: String, server_port: int) -> Error:
 	print("Initializing client...")

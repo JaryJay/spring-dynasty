@@ -12,8 +12,8 @@ const game_scene: = preload("res://game.tscn")
 
 var lobby: Lobby = Lobby.new()
 
-enum GameState { LOBBY, WAITING, IN_GAME }
-var state: GameState = GameState.LOBBY
+enum { LOBBY, WAITING, IN_GAME }
+var state: = LOBBY
 
 var teams_in_use: Array[int] = []
 
@@ -64,7 +64,7 @@ func _on_player_disconnected(id: int) -> void:
 		lobby.player_info_list.clear()
 		lobby.player_names.clear()
 		lobby.host_id = 0
-		state = GameState.LOBBY
+		state = LOBBY
 		if GameServer.started:
 			GameServer.reset()
 		teams_in_use.clear()
@@ -98,7 +98,7 @@ func register_user_info(user_info: Dictionary) -> void:
 
 @rpc("any_peer", "reliable")
 func start_game() -> void:
-	state = GameState.WAITING
+	state = IN_GAME
 	var sender_id: = multiplayer.get_remote_sender_id()
 	if not sender_id == lobby.host_id:
 		printerr("Start game called by non-host player")

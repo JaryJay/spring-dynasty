@@ -60,7 +60,7 @@ func _process(_delta) -> void:
 		var label: Label = get_node("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
 		label.text = _generate_squad_info_text(squad)
 	
-	frame_label.text = "Frame: %s" % Strings.pad(str(Client.frame), 6)
+	frame_label.text = "Frame: %s" % Strings.pad(str(Client.game.frame), 6)
 
 func _generate_client_input_text(p_id: int, p_name: String, p_team: int, p_inputs: Array) -> String:
 	var text: = "Client %s | Team %d\nLast %d inputs:" % [p_name, p_team, num_inputs_to_show]
