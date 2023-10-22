@@ -1,0 +1,205 @@
+[gd_scene load_steps=18 format=3 uid="uid://kd38esbaawca"]
+
+[ext_resource type="Script" path="res://entities/squad.gd" id="1_32e7a"]
+[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_4d1hh"]
+[ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squad_banner.tscn" id="4_0cm58"]
+[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/particles/damage.png" id="5_qsf60"]
+[ext_resource type="Script" path="res://entities/states/state_machine.gd" id="6_4oc3l"]
+[ext_resource type="Script" path="res://entities/states/idle_state.gd" id="7_ms2vq"]
+[ext_resource type="Script" path="res://entities/states/navigating_state.gd" id="8_hud4u"]
+[ext_resource type="Script" path="res://entities/states/chasing_state.gd" id="9_ujcix"]
+[ext_resource type="Script" path="res://entities/states/attacking_state.gd" id="10_7sxe7"]
+[ext_resource type="Script" path="res://entities/states/dying_state.gd" id="11_lhs0i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
+radius = 28.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_icjdd"]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e2di1"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -180.0
+angle_max = 180.0
+turbulence_noise_strength = 9.58
+turbulence_noise_scale = 7.21
+turbulence_noise_speed = Vector3(10, 0, 0)
+turbulence_influence_min = 1.0
+turbulence_influence_max = 1.0
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ejtey"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fp8y0"]
+radius = 31.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
+radius = 121.017
+
+[sub_resource type="LabelSettings" id="LabelSettings_bc27l"]
+
+[node name="Squad" type="CharacterBody2D" groups=["squads"]]
+y_sort_enabled = true
+collision_mask = 7
+script = ExtResource("1_32e7a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_806k5")
+
+[node name="SelectOval" type="Sprite2D" parent="."]
+editor_description = "This will be visible whenever the squad is selected"
+visible = false
+z_index = -1
+scale = Vector2(0.695, 0.695)
+texture = ExtResource("3_4d1hh")
+
+[node name="SquadBanner" parent="." instance=ExtResource("4_0cm58")]
+z_index = 1
+position = Vector2(-3, -45)
+
+[node name="AttackParticles" type="GPUParticles2D" parent="."]
+z_index = 1
+material = SubResource("CanvasItemMaterial_icjdd")
+emitting = false
+amount = 2
+process_material = SubResource("ParticleProcessMaterial_e2di1")
+texture = ExtResource("5_qsf60")
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.5
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 20.0
+path_max_distance = 60.0
+radius = 28.0
+avoidance_layers = 0
+avoidance_mask = 2
+debug_enabled = true
+
+[node name="Rays" type="Node2D" parent="."]
+rotation = -1.5708
+
+[node name="RayCastFront" type="RayCast2D" parent="Rays"]
+modulate = Color(0, 0.839216, 0.337255, 1)
+position = Vector2(0, 25)
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="RayCastLeft1" type="RayCast2D" parent="Rays"]
+position = Vector2(12.5, 21.65)
+rotation = -0.523599
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="RayCastRight1" type="RayCast2D" parent="Rays"]
+position = Vector2(-12.5, 21.65)
+rotation = 0.523599
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
+position = Vector2(21.65, 12.5)
+rotation = -1.0472
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="RayCastRight2" type="RayCast2D" parent="Rays"]
+position = Vector2(-21.65, 12.5)
+rotation = 1.0472
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="RayCastLeft3" type="RayCast2D" parent="Rays"]
+position = Vector2(25, 0)
+rotation = -1.5708
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="RayCastRight3" type="RayCast2D" parent="Rays"]
+position = Vector2(-25, 0)
+rotation = 1.5708
+target_position = Vector2(0, 15)
+collision_mask = 7
+hit_from_inside = true
+
+[node name="PersonalSpaceArea" type="Area2D" parent="."]
+editor_description = "After the squad finishes navigating to a target position, it will reposition itself if this area is intersecting with other squds"
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpaceArea"]
+shape = SubResource("CircleShape2D_ejtey")
+debug_color = Color(0.619608, 0.533333, 0, 0.419608)
+
+[node name="PushArea" type="Area2D" parent="."]
+editor_description = "After the squad finishes navigating to a target position, it will reposition itself if this area is intersecting with other squds"
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea"]
+shape = SubResource("CircleShape2D_fp8y0")
+debug_color = Color(0.65098, 0.407843, 0.819608, 0.196078)
+
+[node name="AwarenessArea" type="Area2D" parent="."]
+editor_description = "For detecting enemy squads"
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea"]
+shape = SubResource("CircleShape2D_8wtwe")
+debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
+
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = -59.0
+offset_right = 42.5
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Debug text"
+label_settings = SubResource("LabelSettings_bc27l")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("squad", "default_state")]
+script = ExtResource("6_4oc3l")
+squad = NodePath("..")
+default_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("7_ms2vq")
+
+[node name="NavigatingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("8_hud4u")
+idle_state = NodePath("../IdleState")
+
+[node name="ChasingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "attacking_state")]
+script = ExtResource("9_ujcix")
+idle_state = NodePath("../IdleState")
+attacking_state = NodePath("../AttackingState")
+
+[node name="AttackingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "chasing_state")]
+script = ExtResource("10_7sxe7")
+idle_state = NodePath("../IdleState")
+chasing_state = NodePath("../ChasingState")
+
+[node name="DyingState" type="Node" parent="StateMachine"]
+script = ExtResource("11_lhs0i")

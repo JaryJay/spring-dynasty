@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://doowijbnvegux"]
+[gd_scene load_steps=13 format=3 uid="uid://doowijbnvegux"]
 
 [ext_resource type="Script" path="res://entities/unit.gd" id="1_8etrx"]
 [ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/units/footman1_body.png" id="2_gwcu7"]
 [ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/units/footman1_left_arm.png" id="3_tafkc"]
 [ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/units/footman1_right_arm.png" id="4_cwirb"]
+[ext_resource type="Texture2D" uid="uid://bl4kfvfgwlvbc" path="res://assets/units/arrow.png" id="4_iyqqv"]
 [ext_resource type="Texture2D" uid="uid://d4gtaeodmjjiq" path="res://assets/units/bow.png" id="5_o0dwd"]
 [ext_resource type="Texture2D" uid="uid://cr03lxequnffd" path="res://assets/units/bowstring.png" id="6_sthje"]
 
@@ -55,7 +56,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-1.13446]
+"values": [-2.61799]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -79,7 +80,7 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(14, 21)]
+"values": [Vector2(20, 0)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -140,6 +141,376 @@ tracks/10/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 0.85)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:rotation")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.14159]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-19, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_auwiv"]
+resource_name = "attack"
+loop_mode = 1
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArcherBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.6, 0.925),
+"transitions": PackedFloat32Array(1, 0.5, 1, 0.378929, 1),
+"update": 0,
+"values": [Vector2(-3, -2.2), Vector2(-3, -2), Vector2(-4, -2.012), Vector2(-4, -2.012), Vector2(-3, -2.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArcherBody:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.925),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.255), Vector2(0.25, 0.25), Vector2(0.25, 0.255)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ArcherBody/ArcherLeftArm:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.1, 0.25, 0.3, 0.425, 0.675, 0.8, 0.9),
+"transitions": PackedFloat32Array(0.5, 1, -2.21914, 1, 0.5, 2, 1, 1, 1),
+"update": 0,
+"values": [-2.99848, -2.61799, -2.61799, -5.23598, -5.23598, -2.61799, -2.99848, -3.14159, -2.99848]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ArcherBody/ArcherRightArm:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.2, 0.575, 0.7, 0.9),
+"transitions": PackedFloat32Array(0.5, -2, 1, -2, 1, 1),
+"update": 0,
+"values": [-0.20944, -0.139626, 0.785397, 0.785397, 0.0, -0.20944]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.275, 0.45, 0.575, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [2.87979, 2.87979, 0.523598, 2.87979, 3.40339, 3.14242, 2.87979]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075, 0.575, 0.725),
+"transitions": PackedFloat32Array(0.5, 2, 1, 1, 1),
+"update": 0,
+"values": [0.523598, -0.139626, 0.0, 0.0, 0.523598]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.575, 0.725),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.85), Vector2(1, 0.85), Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075, 0.575, 0.725),
+"transitions": PackedFloat32Array(0.5, 2, 1, 1, 1),
+"update": 0,
+"values": [-3.66519, -3.00197, -3.14159, -3.14159, -3.66519]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.575, 0.725),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.85), Vector2(1, 0.85), Vector2(1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.175),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-19, 0), Vector2(-37.2134, 18.8084), Vector2(-19, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.275),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.075, 0.575, 0.725),
+"transitions": PackedFloat32Array(0.25, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.105, 0.85), Vector2(0.955, 1.085), Vector2(1, 1), Vector2(1, 1), Vector2(1.105, 0.85)]
+}
+
+[sub_resource type="Animation" id="Animation_3e0pg"]
+resource_name = "idle"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArcherBody:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -2), Vector2(0, -2.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArcherBody:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ArcherBody:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(0.25, 0.27)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ArcherBody/ArcherLeftArm:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-2.61799]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ArcherBody/ArcherRightArm:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.785398]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0.85)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-3.14159]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0.85)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-19, 0)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:rotation")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.14159]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_62xux"]
@@ -217,7 +588,7 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(14, 21)]
+"values": [Vector2(20, 0)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -231,135 +602,107 @@ tracks/6/keys = {
 "update": 0,
 "values": [0.0]
 }
-
-[sub_resource type="Animation" id="Animation_3e0pg"]
-resource_name = "idle"
-length = 1.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ArcherBody:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.9),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, -2), Vector2(0, -2.5)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ArcherBody:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ArcherBody:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.9),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0.25, 0.25), Vector2(0.25, 0.27)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ArcherBody/ArcherLeftArm:rotation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-1.13446]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ArcherBody/ArcherRightArm:rotation")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.785398]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow:rotation")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:rotation")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:scale")
+tracks/7/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 0.85)]
+"values": [2.61799]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:rotation")
+tracks/8/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-3.14159]
+"values": [Vector2(-5, -12)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:scale")
+tracks/9/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:rotation")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringTop:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
 "values": [Vector2(1, 0.85)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:rotation")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-3.14159]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("ArcherBody/ArcherRightArm/ArcherBow/BowstringBottom:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 0.85)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("ArcherBody/ArcherLeftArm/Arrow:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_koiil"]
 _data = {
 "RESET": SubResource("Animation_wdxcl"),
+"attack": SubResource("Animation_auwiv"),
 "idle": SubResource("Animation_3e0pg"),
 "run": SubResource("Animation_62xux")
 }
@@ -372,12 +715,6 @@ position = Vector2(0, -2)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_gwcu7")
 
-[node name="ArcherLeftArm" type="Sprite2D" parent="ArcherBody"]
-position = Vector2(-13.16, -4.065)
-rotation = -1.13446
-texture = ExtResource("3_tafkc")
-offset = Vector2(-12, 0)
-
 [node name="ArcherRightArm" type="Sprite2D" parent="ArcherBody"]
 position = Vector2(13.73, -2.605)
 rotation = 0.785398
@@ -385,22 +722,35 @@ texture = ExtResource("4_cwirb")
 offset = Vector2(9, 0)
 
 [node name="ArcherBow" type="Sprite2D" parent="ArcherBody/ArcherRightArm"]
-position = Vector2(14, 21)
+position = Vector2(20, 0)
 texture = ExtResource("5_o0dwd")
-offset = Vector2(0, -22.585)
+offset = Vector2(-7, 0)
 
 [node name="BowstringTop" type="Sprite2D" parent="ArcherBody/ArcherRightArm/ArcherBow"]
-position = Vector2(-2, -50)
+position = Vector2(-9, -28)
 scale = Vector2(1, 0.85)
 texture = ExtResource("6_sthje")
 offset = Vector2(0.3, 16)
 
 [node name="BowstringBottom" type="Sprite2D" parent="ArcherBody/ArcherRightArm/ArcherBow"]
-position = Vector2(-2, 5)
+position = Vector2(-9, 27)
 rotation = -3.14159
 scale = Vector2(1, 0.85)
 texture = ExtResource("6_sthje")
 offset = Vector2(0.3, 16)
+
+[node name="ArcherLeftArm" type="Sprite2D" parent="ArcherBody"]
+position = Vector2(-13.73, -4.065)
+rotation = -2.61799
+texture = ExtResource("3_tafkc")
+offset = Vector2(-12, 0)
+
+[node name="Arrow" type="Sprite2D" parent="ArcherBody/ArcherLeftArm"]
+position = Vector2(-19, 0)
+rotation = 3.14159
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_iyqqv")
+offset = Vector2(26, -1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.2

@@ -2,7 +2,7 @@ extends Node2D
 class_name Game
 
 const NUM_SAVED_INPUTS: = 30
-const squad_scene: = preload("res://entities/footman_squad.tscn")
+const squad_scene: = preload("res://entities/archer_squad.tscn")
 const base_scene: = preload("res://entities/base.tscn")
 
 @export var enable_debug_overlay: = true
