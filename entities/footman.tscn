@@ -92,6 +92,18 @@ tracks/6/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Footman1Body:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_at7wd"]
 resource_name = "attack"
@@ -172,6 +184,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_by3qk"]
 resource_name = "die"
+length = 1.5
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -204,10 +217,10 @@ tracks/2/path = NodePath("Footman1Body/Footman1RightArm/Footman1Spear:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.45, 0.5, 0.55),
+"transitions": PackedFloat32Array(1, 0.5, 2, 1),
 "update": 0,
-"values": [Vector2(17.665, 0)]
+"values": [Vector2(17.665, 0), Vector2(17.665, 0), Vector2(24, -5), Vector2(40, -3)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -216,10 +229,10 @@ tracks/3/path = NodePath("Footman1Body/Footman1RightArm/Footman1Spear:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.4, 0.45, 0.5, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 0.5, 2, 1),
 "update": 0,
-"values": [0.0, 0.261799, 0.261799, 1.309]
+"values": [0.0, 0.261799, 0.261799, 1.309, 1.309, 1.27933, 1.309]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -229,9 +242,9 @@ tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.25, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5, 0.5, 1),
 "update": 0,
-"values": [Vector2(0, -2), Vector2(2, -3), Vector2(3, -3), Vector2(11, 0), Vector2(11, -1)]
+"values": [Vector2(0, -2), Vector2(2, -3), Vector2(3, -3), Vector2(11, 1), Vector2(11, 0)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -241,7 +254,7 @@ tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.25, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5, 0.5),
 "update": 0,
 "values": [0.0, 0.10472, 0.174533, 1.50098]
 }
@@ -252,10 +265,22 @@ tracks/6/path = NodePath("Footman1Body:scale")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.35, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0.25, 0.25), Vector2(0.25, 0.25), Vector2(0.21, 0.25), Vector2(0.25, 0.25)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Footman1Body:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_k2m7m"]

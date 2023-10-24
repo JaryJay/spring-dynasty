@@ -10,8 +10,8 @@ func _enter_state(squad: Squad) -> void:
 #	squad.debug_label.show()
 	squad.debug_label.text = "Dying"
 	for unit in squad.units:
-		unit.play_animation("idle")
-	squad.banner.play_animation("idle")
+		unit.play_animation("die", randf_range(0.9, 1.1))
+	squad.banner.play_animation("die")
 
 func process(squad: Squad) -> void:
 	if frames_until_deletion == 0:
