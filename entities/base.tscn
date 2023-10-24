@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://berxiq3rdkj5m"]
 
 [ext_resource type="Script" path="res://entities/base.gd" id="1_fuft1"]
-[ext_resource type="Texture2D" uid="uid://yh1kbd8a5cj5" path="res://assets/bases/shadow.png" id="1_qttgg"]
-[ext_resource type="Texture2D" uid="uid://b8gse7aueargg" path="res://assets/bases/fill.png" id="2_balsy"]
-[ext_resource type="Texture2D" uid="uid://dsmhm75q0u3cp" path="res://assets/bases/base_outer.png" id="3_3o7s8"]
+[ext_resource type="Texture2D" uid="uid://yh1kbd8a5cj5" path="res://assets/buildings/shadow.png" id="1_qttgg"]
+[ext_resource type="Texture2D" uid="uid://b8gse7aueargg" path="res://assets/buildings/fill.png" id="2_balsy"]
+[ext_resource type="Texture2D" uid="uid://dsmhm75q0u3cp" path="res://assets/buildings/base_outer.png" id="3_3o7s8"]
 
 [node name="Base" type="StaticBody2D"]
 collision_layer = 4

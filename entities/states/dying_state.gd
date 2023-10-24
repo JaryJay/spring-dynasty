@@ -3,7 +3,7 @@ class_name DyingState
 
 ## Number of frames that the unit will stay on-screen for until it
 ## actually disappears
-var frames_until_deletion: = 30
+var frames_until_deletion: = 1 * Engine.physics_ticks_per_second
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug

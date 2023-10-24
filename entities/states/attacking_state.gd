@@ -11,7 +11,7 @@ func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
 	squad.debug_label.show()
 	squad.debug_label.text = "Attacking"
-	var speed: = roundf(1.0 * Engine.physics_ticks_per_second / squad.attack_speed)
+	var speed: = roundf(1.0 * Engine.physics_ticks_per_second / squad.attack_cooldown)
 	for unit in squad.units:
 		unit.play_animation("attack", speed)
 	squad.banner.play_animation("idle")
@@ -24,12 +24,12 @@ func process(squad: Squad) -> void:
 	if squad.position.distance_to(target_squad.position) < squad.range:
 		if cooldown == 0:
 			target_squad.health -= squad.attack
-			cooldown = squad.attack_speed
+			cooldown = squad.attack_cooldown
 			squad.attack_particles.emitting = true
 		cooldown -= 1
 		
 		# Update unit visual direction (left or right)
-		var scale_x: = signf(Vector2.RIGHT.dot(squad.position - target_squad.position))
+		var scale_x: = signf(Vector2.RIGHT.dot(target_squad.position - squad.position))
 		if not is_zero_approx(scale_x):
 			for unit in squad.units:
 				unit.scale.x = scale_x

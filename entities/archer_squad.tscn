@@ -8,4 +8,3 @@ unit_scene = ExtResource("2_amnhd")
 health = 80
 engage_range = 180.0
 range = 200.0
-attack_speed = 144.0

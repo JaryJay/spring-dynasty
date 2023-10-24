@@ -16,7 +16,7 @@ signal health_depleted(health)
 @export_range(0, 400) var engage_range: float = 60
 @export_range(0, 400) var range: float = 80
 @export_range(0, 500) var speed: float = 150
-@export_range(0, 288) var attack_speed: float = 60
+@export_range(0, 288) var attack_cooldown: float = 144
 
 @onready var debug_label: Label = $DebugLabel
 @onready var nav: NavigationAgent2D = $NavigationAgent2D

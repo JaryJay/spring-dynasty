@@ -52,6 +52,7 @@ y_sort_enabled = true
 collision_mask = 7
 script = ExtResource("1_rhduu")
 unit_scene = ExtResource("2_fsh2l")
+attack_cooldown = 72.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_806k5")

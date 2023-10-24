@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dsmhm75q0u3cp"
-path="res://.godot/imported/base_outer.png-fe6cccb6df9020d2ab2d1cb86186d154.ctex"
+path="res://.godot/imported/base_outer.png-9879d52e617e310667cda2eaeb3ab53b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/bases/base_outer.png"
-dest_files=["res://.godot/imported/base_outer.png-fe6cccb6df9020d2ab2d1cb86186d154.ctex"]
+source_file="res://assets/buildings/base_outer.png"
+dest_files=["res://.godot/imported/base_outer.png-9879d52e617e310667cda2eaeb3ab53b.ctex"]
 
 [params]
 

@@ -10,7 +10,7 @@ var frame: int
 var health: int
 #var attack: int
 #var speed: float
-#var attack_speed: float
+#var attack_cooldown: float
 
 var position: Vector2
 var rotation: float

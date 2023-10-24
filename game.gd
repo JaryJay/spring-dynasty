@@ -2,7 +2,8 @@ extends Node2D
 class_name Game
 
 const NUM_SAVED_INPUTS: = 30
-const squad_scene: = preload("res://entities/archer_squad.tscn")
+const footman_squad_scene: = preload("res://entities/footman_squad.tscn")
+const archer_squad_scene: = preload("res://entities/archer_squad.tscn")
 const base_scene: = preload("res://entities/base.tscn")
 
 @export var enable_debug_overlay: = true
@@ -62,13 +63,14 @@ func _on_spawn_timer_timeout():
 		bases.append(base)
 		$Bases.add_child(base)
 		
+		var squad_types: Array[PackedScene] = [footman_squad_scene, footman_squad_scene, archer_squad_scene]
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
-		for i in offsets.size():
+		for i in squad_types.size():
 			var offset: = offsets[i]
-			var squad: Squad = squad_scene.instantiate()
+			var squad: Squad = squad_types[i].instantiate()
 			squad.position = spawn_location.position + offset
 			squad.team = team
-			squad.name = "FS_%d_%d" % [team, i]
+			squad.name = "S_%d_%d" % [team, i]
 			$Squads.add_child(squad)
 	# Remake navigation region
 	var nav_polygon: = map.navigation_polygon
@@ -183,7 +185,7 @@ func _detect_input() -> ClientInput:
 	var selecting: = Input.is_action_pressed("select")
 	if Input.is_action_pressed("primary") and not selecting:
 		if selected_squads.size() == 0:
-			return null
+			return ClientInput.new(frame, -1, [], Vector2.ZERO)
 		
 		var squad_names: Array[StringName] = []
 		for squad in selected_squads:
