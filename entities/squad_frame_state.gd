@@ -43,3 +43,21 @@ func _to_string() -> String:
 	if target_squad_name:
 		return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%s" % [state, rot, position, target_squad_name]
 	return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%4.v" % [state, rot, position, target_position]
+
+static func create_from(bytes: PackedByteArray) -> SquadFrameState:
+	var arr: Array = bytes_to_var(bytes)
+	var _frame: int = arr[0]
+	var _health: int = arr[1]
+	var _position: Vector2 = arr[2]
+	var _rotation: float = arr[3]
+	var _state_index: int = arr[4]
+	var _target_position: Vector2 = arr[5]
+	var _target_squad_name: String = arr[6]
+	var _attack_cooldown: int = arr[7]
+	return SquadFrameState.new(_frame, _health, _position, _rotation, \
+		_state_index, _target_position, _target_squad_name, _attack_cooldown)
+
+static func to_bytes(state: SquadFrameState) -> PackedByteArray:
+	return var_to_bytes([state.frame, state.health, state.position, \
+		state.rotation, state.state_index, state.target_position, \
+		state.target_squad_name, state.attack_cooldown])
