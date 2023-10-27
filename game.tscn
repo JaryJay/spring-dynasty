@@ -9,7 +9,6 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
-enable_debug_overlay = false
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false
@@ -29,12 +28,14 @@ visible = false
 [node name="Camera" parent="." instance=ExtResource("5_npod3")]
 
 [node name="Squads" type="Node2D" parent="."]
+process_mode = 3
 y_sort_enabled = true
 
 [node name="Bases" type="Node2D" parent="."]
 
-[node name="SpawnTimer" type="Timer" parent="."]
+[node name="StartTimer" type="Timer" parent="."]
+process_callback = 0
 one_shot = true
 autostart = true
 
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

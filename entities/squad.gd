@@ -52,7 +52,7 @@ func _ready():
 	state_machine.initialize()
 
 ## Called in game.gd
-func update(frame: int, manual: bool = false) -> void:
+func update(_frame: int, manual: bool = false) -> void:
 	if manual:
 		for ray_cast in rays.get_children():
 			ray_cast.force_raycast_update()

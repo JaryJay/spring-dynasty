@@ -27,15 +27,15 @@ var controlled_team: int = 0
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
 var player_inputs: Dictionary = {}
 ## Equal to frame + 1 if no frames are desynced
-var earliest_desynced_frame: int = 0
+var earliest_desynced_frame: int = 1
 
 func _ready():
+	Client.game = self
+	set_physics_process(false)
+	
 	if multiplayer.is_server():
-		Client.game = self
-		set_physics_process(false)
 		return
 	
-	Client.game = self
 	controlled_team = Client.team_number
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
@@ -46,8 +46,8 @@ func _ready():
 	$DebugLayer.show()
 
 ## Spawns a few squads for each player
-func _on_spawn_timer_timeout():
-	var lobby: Lobby = Server.lobby if multiplayer.is_server() else Client.lobby
+func _on_start_timer_timeout():
+	var lobby: Lobby = Client.lobby if not multiplayer.is_server() else Server.lobby
 	
 	var bases: Array[StaticBody2D] = []
 	
@@ -85,8 +85,14 @@ func _on_spawn_timer_timeout():
 	nav_polygon.make_polygons_from_outlines()
 	map.navigation_polygon = nav_polygon
 	
+	print("Spawned squads")
+	print(get_tree().get_nodes_in_group("squads").size())
+	
 	if enable_debug_overlay:
 		debug_overlay.initialize(self)
+	
+	if not multiplayer.is_server():
+		set_physics_process(true)
 
 ## Processes non-gameplay-related things, such as toggling the pause menu
 func _process(_delta):
@@ -146,11 +152,15 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 
 ## Receive game frame state from the server for a given frame
 @rpc("authority", "unreliable")
-func receive_game_frame_state(game_frame_state_str: String) -> void:
-	# Very broken. Do not use this function
-	var game_frame_state = str_to_var(game_frame_state_str)
+func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
+	var game_frame_state = GameFrameState.create_from(game_frame_state_bytes)
 	var state_frame: int = game_frame_state.frame
+	
+	print("Received game frame state. frame=%d, state_frame=%d" % [frame, state_frame])
+	print(str(game_frame_state))
+	
 	if frame < state_frame:
+		# We are too far behind the server
 		frame = state_frame
 	
 	for i in game_frame_state.squad_names.size():
@@ -163,7 +173,7 @@ func receive_game_frame_state(game_frame_state_str: String) -> void:
 		for j in range(squad.frame_states.size() - 1, -1, -1):
 			if squad.frame_states[j].frame == state_frame:
 				squad.frame_states[j] = squad_frame_state
-				earliest_desynced_frame = mini(earliest_desynced_frame, state_frame)
+				earliest_desynced_frame = mini(earliest_desynced_frame, state_frame + 1)
 				break
 
 func _update_squads_selection() -> void:
@@ -231,7 +241,7 @@ func _detect_input() -> ClientInput:
 ## Resets the game state back to the earliest desynced frame, then resimulates
 ## those desynced frames.
 ## Sets the earliest desynced frame to frame + 1.
-func _rollback_and_resimulate(as_server: bool = false) -> void:
+func _rollback_and_resimulate(_as_server: bool = false) -> void:
 	# Rollback
 	if earliest_desynced_frame < frame:
 		for squad in get_tree().get_nodes_in_group("squads"):

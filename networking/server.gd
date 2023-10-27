@@ -106,12 +106,7 @@ func start_game() -> void:
 	
 	print("Game starting")
 	
-	var game: = game_scene.instantiate()
-	GameServer.game = game
-	get_tree().root.add_child(game)
-	# Start GameServer after .5 seconds
-	get_tree().create_timer(.5).timeout.connect(GameServer.start)
-	
+	# Assign team numbers
 	var team_numbers: Array[int] = [0, 1, 2, 3, 4, 5]
 	team_numbers.shuffle()
 	for i in lobby.player_ids.size():
@@ -121,3 +116,12 @@ func start_game() -> void:
 	for i in lobby.player_ids.size():
 		Client.start_game.rpc_id(lobby.player_ids[i], lobby.player_info_list)
 	teams_in_use = team_numbers.slice(0, lobby.player_ids.size())
+	
+	# Create game
+	var game: = game_scene.instantiate()
+	GameServer.game = game
+	get_tree().root.add_child(game)
+	
+	# Start GameServer after 1 secondw
+	get_tree().create_timer(1, true, true).timeout.connect(GameServer.start)
+	

@@ -35,10 +35,10 @@ func _create_squad_info_labels() -> void:
 	# Move FrameLabel to the bottom
 	$SquadInfoContainer.move_child(frame_label, -1)
 
-func initialize(game: Game) -> void:
+func initialize(_game: Game) -> void:
 	_create_client_input_labels()
 	_create_squad_info_labels()
-	self.game = game
+	self.game = _game
 	actually_ready = true
 	show()
 
@@ -54,7 +54,7 @@ func _process(_delta) -> void:
 		var p_inputs: Array = game.player_inputs[p_id]
 		
 		var label: Label = get_node("ClientInputsContainer/ClientInputsLabel%d" % p_team)
-		label.text = _generate_client_input_text(p_id, p_name, p_team, p_inputs)
+		label.text = _generate_client_input_text(p_name, p_team, p_inputs)
 	
 	for squad in get_tree().get_nodes_in_group("squads"):
 		var label: Label = get_node("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
@@ -62,7 +62,7 @@ func _process(_delta) -> void:
 	
 	frame_label.text = "Frame: %s" % Strings.pad(str(Client.game.frame), 6)
 
-func _generate_client_input_text(p_id: int, p_name: String, p_team: int, p_inputs: Array) -> String:
+func _generate_client_input_text(p_name: String, p_team: int, p_inputs: Array) -> String:
 	var text: = "Client %s | Team %d\nLast %d inputs:" % [p_name, p_team, num_inputs_to_show]
 	var num_inputs: = p_inputs.size()
 	if num_inputs < num_inputs_to_show:
