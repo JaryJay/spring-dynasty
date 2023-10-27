@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxry4y10s3egj"]
+
+[ext_resource type="Texture2D" uid="uid://cgb5htfowr45j" path="res://assets/ui/health_bar.png" id="1_5ehe8"]
+[ext_resource type="Script" path="res://entities/health_bar.gd" id="2_vl84j"]
+
+[node name="HealthBar" type="Sprite2D"]
+z_index = 1
+texture = ExtResource("1_5ehe8")
+script = ExtResource("2_vl84j")
+full_health_color = Color(0.113725, 0.698039, 0.207843, 1)
+empty_health_color = Color(0.87451, 0.27451, 0.278431, 1)
+
+[node name="DifferenceBar" type="Polygon2D" parent="."]
+z_index = -1
+position = Vector2(58, 0)
+scale = Vector2(1e-05, 1)
+color = Color(0.960784, 0.960784, 0.960784, 1)
+polygon = PackedVector2Array(0, -10, 0, 10, 108, 10, 108, -10)
+
+[node name="Bar" type="Polygon2D" parent="."]
+z_index = -1
+position = Vector2(-58, 0)
+color = Color(0.113725, 0.698039, 0.207843, 1)
+polygon = PackedVector2Array(0, -10, 0, 10, 116, 10, 116, -10)
+
+[node name="StartMarker" type="Marker2D" parent="."]
+position = Vector2(-58, 0)
+
+[node name="EndMarker" type="Marker2D" parent="."]
+position = Vector2(58, 0)
+
+[node name="HealthDifferenceTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="FadeTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="HealthDifferenceTimer" to="." method="_on_health_difference_timer_timeout"]
+[connection signal="timeout" from="FadeTimer" to="." method="_on_fade_timer_timeout"]

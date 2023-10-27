@@ -11,9 +11,8 @@ func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
 	squad.debug_label.show()
 	squad.debug_label.text = "Attacking"
-	var speed: = roundf(1.0 * Engine.physics_ticks_per_second / squad.attack_cooldown)
 	for unit in squad.units:
-		unit.play_animation("attack", speed)
+		unit.play_animation("idle")
 	squad.banner.play_animation("idle")
 
 func process(squad: Squad) -> void:
@@ -26,6 +25,10 @@ func process(squad: Squad) -> void:
 			target_squad.health -= squad.attack
 			cooldown = squad.attack_cooldown
 			squad.attack_particles.emitting = true
+			
+			var speed: = roundf(1.0 * Engine.physics_ticks_per_second / squad.attack_cooldown)
+			for unit in squad.units:
+				unit.play_animation("attack", speed)
 		cooldown -= 1
 		
 		# Update unit visual direction (left or right)

@@ -2,6 +2,8 @@
 extends CharacterBody2D
 class_name Squad
 
+## Emitted when the health changes
+signal health_changed(old, new)
 ## Emitted when health reaches 0
 signal health_depleted(health)
 
@@ -48,8 +50,9 @@ func _ready():
 		ray.add_exception(self)
 	
 	frame_states.append(SquadFrameState.new(Client.game.frame, health, position, rotation, 0, global_position))
-	
 	state_machine.initialize()
+	
+	$HealthBar.max_health = health
 
 ## Called in game.gd
 func update(_frame: int, manual: bool = false) -> void:
@@ -166,7 +169,14 @@ func _set_size(s: int) -> void:
 		_recreate_units()
 
 func _set_health(value: int) -> void:
+	if health == value: return
+	
+	var old: = health
 	health = value
+	
+	if not is_node_ready(): return
+	
+	health_changed.emit(old, health)
 	if not Engine.is_editor_hint() and health <= 0:
 		health_depleted.emit(health)
 
