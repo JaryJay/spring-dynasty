@@ -12,8 +12,6 @@ signal player_disconnected(id)
 var user_info: Dictionary = { "name": "Bob" }
 var team_number: int = -1
 
-var lobby: Lobby = Lobby.new()
-
 var game: Game = null
 
 func init(server_ip: String, server_port: int) -> Error:
@@ -40,16 +38,16 @@ func init(server_ip: String, server_port: int) -> Error:
 @rpc("authority", "reliable")
 func update_lobby(player_ids: PackedInt32Array, player_names: PackedStringArray) -> void:
 	print("%s: Updating lobby" % multiplayer.get_unique_id())
-	lobby.player_ids = player_ids
-	lobby.player_names = player_names
-	lobby.host_id = lobby.player_ids[0] if lobby.player_ids.size() > 0 else 0
+	Server.lobby.player_ids = player_ids
+	Server.lobby.player_names = player_names
+	Server.lobby.host_id = Server.lobby.player_ids[0] if Server.lobby.player_ids.size() > 0 else 0
 	lobby_updated.emit()
 
 @rpc("authority", "reliable")
 func start_game(player_info_list: Array) -> void:
 	for player_info in player_info_list:
-		lobby.player_info_list.append(player_info)
-	team_number = lobby.get_player_info(multiplayer.get_unique_id()).team
+		Server.lobby.player_info_list.append(player_info)
+	team_number = Server.lobby.get_player_info(multiplayer.get_unique_id()).team
 	print("%s: Starting game as team %d" % [multiplayer.get_unique_id(), team_number])
 	game_started.emit()
 

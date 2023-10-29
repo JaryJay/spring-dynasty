@@ -10,9 +10,10 @@ config_version=5
 
 [application]
 
-config/name="spring-dynasty"
+config/name="Spring Dynasty"
 run/main_scene="res://ui/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]

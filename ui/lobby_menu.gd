@@ -14,14 +14,14 @@ func _ready():
 	Client.game_started.connect(_on_game_started)
 
 func _on_lobby_updated() -> void:
-	var is_host: = Client.lobby.host_id == multiplayer.get_unique_id()
+	var is_host: = Server.lobby.host_id == multiplayer.get_unique_id()
 	%StartButton.visible = is_host
 	if not is_host:
 		%Label.text = "Waiting for Host..."
 	else:
 		%Label.text = "You are the Host"
 	
-	var lobby: = Client.lobby
+	var lobby: = Server.lobby
 	player_list.clear()
 	for i in range(lobby.player_ids.size()):
 		if lobby.player_ids[i] == lobby.host_id:

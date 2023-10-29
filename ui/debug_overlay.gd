@@ -14,8 +14,10 @@ func _ready() -> void:
 func _create_client_input_labels() -> void:
 	var client_input_label_template: = $ClientInputsContainer/Template
 	
-	for i in Client.lobby.player_ids.size():
-		var p_team: int = Client.lobby.player_info_list[i].team
+	var lobby: = Server.lobby
+	
+	for i in lobby.player_ids.size():
+		var p_team: int = lobby.player_info_list[i].team
 		var data_label: = client_input_label_template.duplicate()
 		data_label.name = "ClientInputsLabel%d" % p_team
 		$ClientInputsContainer.add_child(data_label)
@@ -46,7 +48,7 @@ func _process(_delta) -> void:
 	if not actually_ready:
 		return
 	
-	var lobby: Lobby = Client.lobby
+	var lobby: = Server.lobby
 	for i in lobby.player_ids.size():
 		var p_id: = lobby.player_ids[i]
 		var p_name: = lobby.player_names[i]

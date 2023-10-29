@@ -33,21 +33,25 @@ func _ready():
 	Client.game = self
 	set_physics_process(false)
 	
+	
 	if multiplayer.is_server():
+		for player_id in Server.lobby.player_ids:
+			player_inputs[player_id] = []
 		return
+	
+	for player_id in Server.lobby.player_ids:
+		player_inputs[player_id] = []
 	
 	controlled_team = Client.team_number
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
 	
-	for player_id in Client.lobby.player_ids:
-		player_inputs[player_id] = []
 	$DebugLayer.show()
 
 ## Spawns a few squads for each player
 func _on_start_timer_timeout():
-	var lobby: Lobby = Client.lobby if not multiplayer.is_server() else Server.lobby
+	var lobby: Lobby = Server.lobby
 	
 	var bases: Array[StaticBody2D] = []
 	
@@ -65,7 +69,8 @@ func _on_start_timer_timeout():
 		
 		var squad_types: Array[PackedScene] = [footman_squad_scene, footman_squad_scene, archer_squad_scene]
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
-		for i in squad_types.size():
+		#for i in squad_types.size():
+		for i in 1:
 			var offset: = offsets[i]
 			var squad: Squad = squad_types[i].instantiate()
 			squad.position = spawn_location.position + offset
@@ -84,9 +89,6 @@ func _on_start_timer_timeout():
 		nav_polygon.add_outline(new_collision_outline)
 	nav_polygon.make_polygons_from_outlines()
 	map.navigation_polygon = nav_polygon
-	
-	print("Spawned squads")
-	print(get_tree().get_nodes_in_group("squads").size())
 	
 	if enable_debug_overlay:
 		debug_overlay.initialize(self)
@@ -123,7 +125,7 @@ func _physics_process(_delta):
 func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 	# Deserialize inputs
 	var inputs: Dictionary = {}
-	for player_id in Client.lobby.player_ids:
+	for player_id in Server.lobby.player_ids:
 		var serialized_input_list: Array = serialized_inputs[player_id]
 		inputs[player_id] = serialized_input_list.map(ClientInput.create_from)
 
@@ -159,8 +161,8 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	print("Received game frame state. frame=%d, state_frame=%d" % [frame, state_frame])
 	print(str(game_frame_state))
 	
-	if frame < state_frame:
-		# We are too far behind the server
+	if frame < state_frame or frame > state_frame + 5:
+		# We are too far behind or ahead of the server
 		frame = state_frame
 	
 	for i in game_frame_state.squad_names.size():
@@ -250,7 +252,7 @@ func _rollback_and_resimulate(_as_server: bool = false) -> void:
 	# Handle inputs
 	for f in range(earliest_desynced_frame, frame + 1):
 		# Handle inputs from all players
-		for player_id in Client.lobby.player_ids:
+		for player_id in Server.lobby.player_ids:
 			var inputs: Array = player_inputs[player_id]
 			for input in inputs:
 				if input.frame == f:

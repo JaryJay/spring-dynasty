@@ -23,6 +23,8 @@ func _ready() -> void:
 	
 	print("Initializing server...")
 	
+	DisplayServer.window_set_title("Spring Dynasty [SERVER]")
+	
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	
@@ -122,6 +124,6 @@ func start_game() -> void:
 	GameServer.game = game
 	get_tree().root.add_child(game)
 	
-	# Start GameServer after 1 secondw
+	# Start GameServer after 1 second
 	get_tree().create_timer(1, true, true).timeout.connect(GameServer.start)
 	
