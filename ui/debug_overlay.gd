@@ -1,15 +1,12 @@
 extends Control
 
-@export_range(0, 30) var num_inputs_to_show: = 15
-@export_range(0, 30) var num_states_to_show: = 15
+@export_range(0, 30) var num_inputs_to_show: int
+@export_range(0, 30) var num_states_to_show: int
 
 var game: Game
 var actually_ready: = false
 
 @onready var frame_label: = $SquadInfoContainer/FrameLabel
-
-func _ready() -> void:
-	hide()
 
 func _create_client_input_labels() -> void:
 	var client_input_label_template: = $ClientInputsContainer/Template
@@ -42,7 +39,6 @@ func initialize(_game: Game) -> void:
 	_create_squad_info_labels()
 	self.game = _game
 	actually_ready = true
-	show()
 
 func _process(_delta) -> void:
 	if not actually_ready:

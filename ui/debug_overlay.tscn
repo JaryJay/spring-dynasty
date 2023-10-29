@@ -12,6 +12,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_xmbtc")
+num_inputs_to_show = 15
+num_states_to_show = 1
 
 [node name="ClientInputsContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

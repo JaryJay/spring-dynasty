@@ -6,7 +6,7 @@ const footman_squad_scene: = preload("res://entities/footman_squad.tscn")
 const archer_squad_scene: = preload("res://entities/archer_squad.tscn")
 const base_scene: = preload("res://entities/base.tscn")
 
-@export var enable_debug_overlay: = true
+@export var enable_debug_overlay: bool
 
 @onready var debug_overlay: = $DebugLayer/DebugOverlay
 @onready var selection_rect: SelectionRect = $SelectionRect
@@ -46,8 +46,6 @@ func _ready():
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
-	
-	$DebugLayer.show()
 
 ## Spawns a few squads for each player
 func _on_start_timer_timeout():
@@ -69,8 +67,8 @@ func _on_start_timer_timeout():
 		
 		var squad_types: Array[PackedScene] = [footman_squad_scene, footman_squad_scene, archer_squad_scene]
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
-		#for i in squad_types.size():
-		for i in 1:
+		for i in squad_types.size():
+		#for i in 1: # Uncomment this to only spawn 1 squad per player
 			var offset: = offsets[i]
 			var squad: Squad = squad_types[i].instantiate()
 			squad.position = spawn_location.position + offset
@@ -90,8 +88,8 @@ func _on_start_timer_timeout():
 	nav_polygon.make_polygons_from_outlines()
 	map.navigation_polygon = nav_polygon
 	
-	if enable_debug_overlay:
-		debug_overlay.initialize(self)
+	debug_overlay.initialize(self)
+	$DebugLayer.visible = enable_debug_overlay
 	
 	if not multiplayer.is_server():
 		set_physics_process(true)
@@ -158,8 +156,8 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	var game_frame_state = GameFrameState.create_from(game_frame_state_bytes)
 	var state_frame: int = game_frame_state.frame
 	
-	print("Received game frame state. frame=%d, state_frame=%d" % [frame, state_frame])
-	print(str(game_frame_state))
+	#print("Received game frame state. frame=%d, state_frame=%d" % [frame, state_frame])
+	#print(str(game_frame_state))
 	
 	if frame < state_frame or frame > state_frame + 5:
 		# We are too far behind or ahead of the server
