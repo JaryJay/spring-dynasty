@@ -496,8 +496,8 @@ texture = ExtResource("3_75g2t")
 offset = Vector2(0, -22.585)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_default_blend_time = 0.2
 libraries = {
 "": SubResource("AnimationLibrary_koiil")
 }
+playback_default_blend_time = 0.2
 blend_times = [&"idle", &"idle", 0.02, &"idle", &"run", 0.02]

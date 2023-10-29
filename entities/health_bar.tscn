@@ -15,13 +15,13 @@ z_index = -1
 position = Vector2(58, 0)
 scale = Vector2(1e-05, 1)
 color = Color(0.960784, 0.960784, 0.960784, 1)
-polygon = PackedVector2Array(0, -10, 0, 10, 108, 10, 108, -10)
+polygon = PackedVector2Array(0, -12, 0, 12, 108, 12, 108, -12)
 
 [node name="Bar" type="Polygon2D" parent="."]
 z_index = -1
 position = Vector2(-58, 0)
 color = Color(0.113725, 0.698039, 0.207843, 1)
-polygon = PackedVector2Array(0, -10, 0, 10, 116, 10, 116, -10)
+polygon = PackedVector2Array(0, -12, 0, 12, 116, 12, 116, -12)
 
 [node name="StartMarker" type="Marker2D" parent="."]
 position = Vector2(-58, 0)
@@ -30,7 +30,7 @@ position = Vector2(-58, 0)
 position = Vector2(58, 0)
 
 [node name="HealthDifferenceTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.3
 
 [node name="FadeTimer" type="Timer" parent="."]
 
