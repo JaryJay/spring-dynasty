@@ -2,10 +2,12 @@ extends Node
 
 # Autoload named GameServer
 
+@onready var send_game_state_interval: int = Engine.physics_ticks_per_second * 1
+
 var started: bool = false
 var game: Game
 
-var send_game_state_timer: = 144 * 1
+@onready var send_game_state_timer: = send_game_state_interval
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -80,7 +82,7 @@ func _send_game_frame_state() -> void:
 			game_frame_state.squad_frame_states.append(squad.frame_states[-1])
 		#print(str(game_frame_state))
 		game.receive_game_frame_state.rpc(GameFrameState.to_bytes(game_frame_state))
-		send_game_state_timer = 144 * 1 # 1 second
+		send_game_state_timer = send_game_state_interval
 	send_game_state_timer -= 1
 
 func reset() -> void:

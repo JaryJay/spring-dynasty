@@ -63,7 +63,7 @@ func _on_start_timer_timeout():
 		base.team = team
 		base.name = "B_%d" % team
 		bases.append(base)
-		$Bases.add_child(base)
+		$Buildings.add_child(base)
 		
 		var squad_types: Array[PackedScene] = [footman_squad_scene, footman_squad_scene, archer_squad_scene]
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
