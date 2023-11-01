@@ -15,10 +15,10 @@ signal health_depleted(health)
 @export_group("Stats")
 @export_range(0, 200) var health: int = 100 : set = _set_health
 @export_range(0, 200) var attack: int = 10
-@export_range(0, 400) var engage_range: float = 60
-@export_range(0, 400) var range: float = 80
-@export_range(0, 500) var speed: float = 150
-@export_range(0, 288) var attack_cooldown: float = 144
+@export_range(0, 400) var engage_range: int = 60
+@export_range(0, 400) var range: int = 80
+@export_range(0, 500) var speed: int = 150
+@export_range(0, 288) var attack_cooldown: int = 144
 
 @onready var debug_label: Label = $DebugLabel
 @onready var nav: NavigationAgent2D = $NavigationAgent2D

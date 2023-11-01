@@ -48,25 +48,43 @@ polygon = PackedVector2Array(522, 136, 469, 174, 472, 195, 525, 235, 528, 343, 5
 position = Vector2(62, -415)
 gizmo_extents = 20.0
 
+[node name="Farm" type="Marker2D" parent="SpawnLocations/Team0"]
+position = Vector2(143, 57)
+
 [node name="Team1" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(377, 114)
 gizmo_extents = 20.0
 
+[node name="Farm" type="Marker2D" parent="SpawnLocations/Team1"]
+position = Vector2(10, 153)
+
 [node name="Team2" type="Marker2D" parent="SpawnLocations"]
-position = Vector2(316, 494)
+position = Vector2(316, 523)
 gizmo_extents = 20.0
+
+[node name="Farm" type="Marker2D" parent="SpawnLocations/Team2"]
+position = Vector2(-22, -116)
 
 [node name="Team3" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-181, 524)
 gizmo_extents = 20.0
 
+[node name="Farm" type="Marker2D" parent="SpawnLocations/Team3"]
+position = Vector2(79, -72)
+
 [node name="Team4" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-241, 179)
 gizmo_extents = 20.0
 
+[node name="Farm" type="Marker2D" parent="SpawnLocations/Team4"]
+position = Vector2(22, -110)
+
 [node name="Team5" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-395, -228)
 gizmo_extents = 20.0
+
+[node name="Farm" type="Marker2D" parent="SpawnLocations/Team5"]
+position = Vector2(86, 79)
 
 [node name="Mountains" type="Node2D" parent="."]
 

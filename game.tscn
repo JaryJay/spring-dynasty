@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctr7h1jl1kaxv"]
+[gd_scene load_steps=7 format=3 uid="uid://ctr7h1jl1kaxv"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_8jko4"]
 [ext_resource type="PackedScene" uid="uid://diqb4edupeah0" path="res://ui/selection_rect.tscn" id="2_34i2k"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dl75aog1s15k1" path="res://ui/debug_overlay.tscn" id="2_i5wue"]
 [ext_resource type="PackedScene" uid="uid://3r6q0oteiybd" path="res://maps/map_1.tscn" id="3_uwne5"]
 [ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="5_npod3"]
-[ext_resource type="PackedScene" uid="uid://cj6ji0rp28eiq" path="res://entities/buildings/farm.tscn" id="7_h8wh3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
@@ -33,10 +32,6 @@ process_mode = 3
 y_sort_enabled = true
 
 [node name="Buildings" type="Node2D" parent="."]
-
-[node name="Farm" parent="Buildings" instance=ExtResource("7_h8wh3")]
-position = Vector2(-246, 17)
-team = 3
 
 [node name="StartTimer" type="Timer" parent="."]
 process_callback = 0

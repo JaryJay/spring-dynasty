@@ -5,7 +5,7 @@ class_name AttackingState
 @export var chasing_state: ChasingState
 
 var target_squad: Squad
-var cooldown: = 0
+var cooldown: int = 0
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug

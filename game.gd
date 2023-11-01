@@ -5,6 +5,7 @@ const NUM_SAVED_INPUTS: = 30
 const footman_squad_scene: = preload("res://entities/footman_squad.tscn")
 const archer_squad_scene: = preload("res://entities/archer_squad.tscn")
 const base_scene: = preload("res://entities/base.tscn")
+const farm_scene: = preload("res://entities/buildings/farm.tscn")
 
 @export var enable_debug_overlay: bool
 
@@ -51,7 +52,7 @@ func _ready():
 func _on_start_timer_timeout():
 	var lobby: Lobby = Server.lobby
 	
-	var bases: Array[StaticBody2D] = []
+	var buildings: Array[StaticBody2D] = []
 	
 	# Spawn bases and squads
 	for player_info in lobby.player_info_list:
@@ -59,11 +60,19 @@ func _on_start_timer_timeout():
 		var spawn_location: Marker2D = $Map1.spawn_locations[team]
 		
 		var base: = base_scene.instantiate()
-		base.position = spawn_location.position
+		base.position = spawn_location.global_position
 		base.team = team
 		base.name = "B_%d" % team
-		bases.append(base)
+		buildings.append(base)
 		$Buildings.add_child(base)
+		
+		var farm_spawn: Marker2D = spawn_location.get_node("Farm")
+		var farm: = farm_scene.instantiate()
+		farm.position = farm_spawn.global_position
+		farm.team = team
+		farm.name = "F_%d" % team
+		buildings.append(farm)
+		$Buildings.add_child(farm)
 		
 		var squad_types: Array[PackedScene] = [footman_squad_scene, footman_squad_scene, archer_squad_scene]
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
@@ -77,8 +86,8 @@ func _on_start_timer_timeout():
 			$Squads.add_child(squad)
 	# Remake navigation region
 	var nav_polygon: = map.navigation_polygon
-	for base in bases:
-		var obstacle: NavigationObstacle2D = base.get_node("NavigationObstacle2D")
+	for building in buildings:
+		var obstacle: NavigationObstacle2D = building.get_node("NavigationObstacle2D")
 		var polygon_transform: Transform2D = obstacle.get_global_transform()
 		var polygon: PackedVector2Array = obstacle.vertices
 
