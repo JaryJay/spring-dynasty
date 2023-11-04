@@ -2,9 +2,6 @@ extends State
 class_name NavigatingState
 
 @export var idle_state: IdleState
-@export var repositioning_state: RepositioningState
-
-var actual_velocity
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
@@ -30,6 +27,7 @@ func process(squad: Squad) -> void:
 			else:
 				non_colliding_rays.append(ray)
 		
+		squad.set_target_position(squad.nav.target_position)
 		var next_path_position: Vector2 = nav.get_next_path_position()
 		var direction: Vector2 = squad.global_position.direction_to(next_path_position)
 		if colliding_rays.size() > 0:

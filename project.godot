@@ -28,6 +28,7 @@ gdscript/warnings/shadowed_global_identifier=0
 
 [display]
 
+window/size/initial_position_type=4
 window/stretch/aspect="expand"
 
 [gui]
