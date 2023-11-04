@@ -7,7 +7,7 @@
 size = Vector2(162, 13)
 
 [node name="Mountain" type="StaticBody2D"]
-collision_layer = 8
+collision_layer = 16
 collision_mask = 0
 
 [node name="Mountain1" type="Sprite2D" parent="."]

@@ -18,18 +18,18 @@ var rotation: float
 var state_index: int
 
 var target_position: Vector2
-var target_squad_name: String
+var target_name: String
 var attack_cooldown: int
 
 func _init(fr: int, h: int, p: Vector2, r: float, st_idx: int, tp: Vector2, \
-tss: String = "", att_cd: int = 0) -> void:
+tn: String = "", att_cd: int = 0) -> void:
 	frame = fr
 	health = h
 	position = p
 	rotation = r
 	state_index = st_idx
 	target_position = tp
-	target_squad_name = tss
+	target_name = tn
 	attack_cooldown = att_cd
 
 const _states: Array[String] = ["Idle", "Navigating", "Repositioning", "Chasing", "Attacking", "Dying"]
@@ -40,8 +40,8 @@ func _to_string() -> String:
 		return prefix + " no input"
 	var state: = Strings.pad(_states[state_index], 13)
 	var rot: = rad_to_deg(rotation)
-	if target_squad_name:
-		return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%s" % [state, rot, position, target_squad_name]
+	if target_name:
+		return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%s" % [state, rot, position, target_name]
 	return prefix + " state=%s, rot=%4.d, pos=%4.v, target=%4.v" % [state, rot, position, target_position]
 
 static func create_from(bytes: PackedByteArray) -> SquadFrameState:
@@ -52,12 +52,12 @@ static func create_from(bytes: PackedByteArray) -> SquadFrameState:
 	var _rotation: float = arr[3]
 	var _state_index: int = arr[4]
 	var _target_position: Vector2 = arr[5]
-	var _target_squad_name: String = arr[6]
+	var _target_name: String = arr[6]
 	var _attack_cooldown: int = arr[7]
 	return SquadFrameState.new(_frame, _health, _position, _rotation, \
-		_state_index, _target_position, _target_squad_name, _attack_cooldown)
+		_state_index, _target_position, _target_name, _attack_cooldown)
 
 static func to_bytes(state: SquadFrameState) -> PackedByteArray:
 	return var_to_bytes([state.frame, state.health, state.position, \
 		state.rotation, state.state_index, state.target_position, \
-		state.target_squad_name, state.attack_cooldown])
+		state.target_name, state.attack_cooldown])

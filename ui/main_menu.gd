@@ -6,6 +6,10 @@ extends Control
 func _ready() -> void:
 	if "--server" in OS.get_cmdline_user_args():
 		queue_free()
+		return
+	
+	# Dev only
+	_on_play_button_pressed.call_deferred()
 
 func _on_play_button_pressed():
 	get_tree().change_scene_to_packed(join_lobby_menu_scene)

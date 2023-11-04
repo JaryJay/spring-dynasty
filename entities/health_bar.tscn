@@ -1,11 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxry4y10s3egj"]
 
-[ext_resource type="Texture2D" uid="uid://cgb5htfowr45j" path="res://assets/textures/ui/health_bar.png" id="1_5ehe8"]
+[ext_resource type="Texture2D" uid="uid://cgb5htfowr45j" path="res://assets/textures/ui/health_bar.png" id="1_b0qbj"]
 [ext_resource type="Script" path="res://entities/health_bar.gd" id="2_vl84j"]
 
 [node name="HealthBar" type="Sprite2D"]
 z_index = 1
-texture = ExtResource("1_5ehe8")
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_b0qbj")
 script = ExtResource("2_vl84j")
 full_health_color = Color(0.113725, 0.698039, 0.207843, 1)
 empty_health_color = Color(0.87451, 0.27451, 0.278431, 1)

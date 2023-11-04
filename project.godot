@@ -82,9 +82,9 @@ pan_camera_analog={
 [layer_names]
 
 2d_physics/layer_1="squads"
-2d_physics/layer_2="obstacles"
-2d_physics/layer_3="bases"
-2d_physics/layer_4="mountains"
+2d_physics/layer_2="buildings"
+2d_physics/layer_5="obstacles"
+2d_physics/layer_6="mountains"
 2d_physics/layer_9="team_0_squads"
 2d_physics/layer_10="team_1_squads"
 2d_physics/layer_11="team_2_squads"

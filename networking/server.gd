@@ -88,6 +88,12 @@ func register_user_info(user_info: Dictionary) -> void:
 		printerr("Kicking peer %d because name is too long" % player_name)
 		multiplayer.multiplayer_peer.disconnect_peer(id)
 		return
+	for existing_name in lobby.player_names:
+		if player_name == existing_name:
+			printerr("Kicking peer %d because of duplicate name" % player_name)
+			multiplayer.multiplayer_peer.disconnect_peer(id)
+			return
+	
 	print("Peer %d successfully registered as '%s'" % [id, player_name])
 	
 	lobby.player_ids.append(id)

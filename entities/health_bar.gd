@@ -1,5 +1,6 @@
 extends Sprite2D
 
+@export_range(0, 500) var max_health: int = 100
 @export var full_health_color: Color
 @export var empty_health_color: Color
 
@@ -10,7 +11,6 @@ extends Sprite2D
 @onready var health_difference_timer: = $HealthDifferenceTimer
 @onready var fade_timer: = $FadeTimer
 
-var max_health: int = 100
 var prev_health: int = -1
 
 var _bar_tween: Tween

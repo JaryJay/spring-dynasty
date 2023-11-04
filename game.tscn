@@ -27,11 +27,9 @@ visible = false
 
 [node name="Camera" parent="." instance=ExtResource("5_npod3")]
 
-[node name="Squads" type="Node2D" parent="."]
+[node name="Entities" type="Node2D" parent="."]
 process_mode = 3
 y_sort_enabled = true
-
-[node name="Buildings" type="Node2D" parent="."]
 
 [node name="StartTimer" type="Timer" parent="."]
 process_callback = 0

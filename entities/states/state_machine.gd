@@ -24,6 +24,8 @@ func _set_state(value: State) -> void:
 		printerr("Hey! You're setting the state to null. That's not right")
 		printerr("Transitioning from %s to null" % state.name)
 		return
-	state = value
-	state._enter_state(squad)
+	
+	if not state == value:
+		state = value
+		state._enter_state(squad)
 	

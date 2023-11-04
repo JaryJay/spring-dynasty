@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://kd38esbaawca"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_32e7a"]
-[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/textures/misc/select_oval.png" id="3_4d1hh"]
+[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/textures/misc/select_oval.png" id="2_4ii36"]
 [ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squad_banner.tscn" id="4_0cm58"]
+[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/textures/particles/damage.png" id="4_436gx"]
 [ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="5_2d2gk"]
-[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/textures/particles/damage.png" id="5_qsf60"]
 [ext_resource type="Script" path="res://entities/states/state_machine.gd" id="6_4oc3l"]
 [ext_resource type="Script" path="res://entities/states/idle_state.gd" id="7_ms2vq"]
 [ext_resource type="Script" path="res://entities/states/navigating_state.gd" id="8_hud4u"]
@@ -47,15 +47,16 @@ radius = 121.017
 
 [node name="Squad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
-collision_mask = 7
+collision_mask = 19
 script = ExtResource("1_32e7a")
+attack_cooldown = 144
 
 [node name="SelectOval" type="Sprite2D" parent="."]
 editor_description = "This will be visible whenever the squad is selected"
 visible = false
 z_index = -1
 scale = Vector2(0.695, 0.695)
-texture = ExtResource("3_4d1hh")
+texture = ExtResource("2_4ii36")
 
 [node name="SquadBanner" parent="." instance=ExtResource("4_0cm58")]
 z_index = 1
@@ -67,7 +68,7 @@ material = SubResource("CanvasItemMaterial_icjdd")
 emitting = false
 amount = 2
 process_material = SubResource("ParticleProcessMaterial_e2di1")
-texture = ExtResource("5_qsf60")
+texture = ExtResource("4_436gx")
 lifetime = 0.2
 one_shot = true
 explosiveness = 0.5
@@ -91,7 +92,6 @@ label_settings = SubResource("LabelSettings_bc27l")
 
 [node name="HealthBar" parent="." instance=ExtResource("5_2d2gk")]
 position = Vector2(0, 40)
-scale = Vector2(0.4, 0.4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_806k5")

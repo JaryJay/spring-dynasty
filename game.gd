@@ -64,15 +64,15 @@ func _on_start_timer_timeout():
 		base.team = team
 		base.name = "B_%d" % team
 		buildings.append(base)
-		$Buildings.add_child(base)
+		$Entities.add_child(base)
 		
 		var farm_spawn: Marker2D = spawn_location.get_node("Farm")
 		var farm: = farm_scene.instantiate()
 		farm.position = farm_spawn.global_position
 		farm.team = team
-		farm.name = "F_%d" % team
+		farm.name = "F_%d_0" % team
 		buildings.append(farm)
-		$Buildings.add_child(farm)
+		$Entities.add_child(farm)
 		
 		var squad_types: Array[PackedScene] = [footman_squad_scene, footman_squad_scene, archer_squad_scene]
 		var offsets: Array[Vector2] = [Vector2(60, -45), Vector2(40, 50), Vector2(-50, 40)]
@@ -83,7 +83,7 @@ func _on_start_timer_timeout():
 			squad.position = spawn_location.position + offset
 			squad.team = team
 			squad.name = "S_%d_%d" % [team, i]
-			$Squads.add_child(squad)
+			$Entities.add_child(squad)
 	# Remake navigation region
 	var nav_polygon: = map.navigation_polygon
 	for building in buildings:
@@ -165,18 +165,19 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	var game_frame_state = GameFrameState.create_from(game_frame_state_bytes)
 	var state_frame: int = game_frame_state.frame
 	
-	#print("Received game frame state. frame=%d, state_frame=%d" % [frame, state_frame])
+	#print("%d: Received game frame state. frame=%d, state_frame=%d" % [multiplayer.get_unique_id(), frame, state_frame])
 	#print(str(game_frame_state))
 	
 	if frame < state_frame or frame > state_frame + 5:
 		# We are too far behind or ahead of the server
-		frame = state_frame
+		frame = state_frame + 1
 	
 	for i in game_frame_state.squad_names.size():
 		var squad_name: String = game_frame_state.squad_names[i]
 		var squad_frame_state: SquadFrameState = game_frame_state.squad_frame_states[i]
-		var squad: Squad = $Squads.get_node_or_null(squad_name)
+		var squad: Squad = $Entities.get_node_or_null(squad_name)
 		if not squad:
+			printerr("Could not find squad %s" % squad_name)
 			continue
 		
 		for j in range(squad.frame_states.size() - 1, -1, -1):
@@ -204,6 +205,7 @@ func _detect_input() -> ClientInput:
 	var selecting: = Input.is_action_pressed("select")
 	if Input.is_action_pressed("primary") and not selecting:
 		if selected_squads.size() == 0:
+			# Do nothing
 			return ClientInput.new(frame, -1, [], Vector2.ZERO)
 		
 		var squad_names: Array[StringName] = []
@@ -215,7 +217,7 @@ func _detect_input() -> ClientInput:
 		var space_state = get_world_2d().direct_space_state
 		var query: = PhysicsPointQueryParameters2D.new()
 		query.position = mouse_pos
-		query.collision_mask = 1 # Collide with squads
+		query.collision_mask = 0b11 # Collide with squads and buildings
 		
 		var collisions: = space_state.intersect_point(query)
 		
@@ -223,24 +225,26 @@ func _detect_input() -> ClientInput:
 			# Navigate to point (state_index of 1 refers to NavigatingState)
 			return ClientInput.new(frame, 1, squad_names, mouse_pos)
 		
-		# The enemy squad closest to the cursor
-		var closest_enemy_squad: Squad
+		# The target closest to the cursor
+		var closest_target: Node2D
 		var closest_dist_squared: = INF
 		for collision in collisions:
 			var collider: CollisionObject2D = collision.collider
-			if collider is Squad and not collider.team == controlled_team:
-				var enemy_squad: Squad = collider
-				var dist_squared: = mouse_pos.distance_squared_to(enemy_squad.position)
+			if not (collider is Squad or collider is Building):
+				continue
+			if not collider.team == controlled_team:
+				var target: Node2D = collider
+				var dist_squared: = mouse_pos.distance_squared_to(target.position)
 				if dist_squared < closest_dist_squared:
-					closest_enemy_squad = enemy_squad
+					closest_target = target
 					closest_dist_squared = dist_squared
 		
-		if closest_enemy_squad:
-			# Chase enemy squad (state_index of 2 refers to ChasingState)
-			var enemy_name: = closest_enemy_squad.name
-			return ClientInput.new(frame, 2, squad_names, Vector2.ZERO, enemy_name)
+		if closest_target:
+			# Chase target (state_index of 2 refers to ChasingState)
+			var closest_target_name: = closest_target.name
+			return ClientInput.new(frame, 2, squad_names, Vector2.ZERO, closest_target_name)
 		else:
-			# This will happen if all clicked squads are friendly
+			# This will happen if all clicked targets are friendly
 			# Navigate to point
 			return ClientInput.new(frame, 1, squad_names, mouse_pos)
 	
@@ -285,7 +289,7 @@ func _add_input(input: ClientInput) -> void:
 func _handle_input(input: ClientInput) -> void:
 	var squads: Array[Squad] = []
 	for squad_name in input.squads:
-		var squad: Squad = $Squads.get_node_or_null(squad_name)
+		var squad: Squad = $Entities.get_node_or_null(squad_name)
 		if squad == null:
 			print("Squad not found: %s" % squad_name)
 			continue
@@ -298,17 +302,17 @@ func _handle_input(input: ClientInput) -> void:
 		
 		for squad in squads:
 			if squads.size() == 1:
-				squad.set_target_position(input.target)
+				squad.set_target_position(input.target_position)
 			else:
-				var adjusted_target: = input.target + avg_squad_pos.direction_to(squad.position) * 28
+				var adjusted_target: = input.target_position + avg_squad_pos.direction_to(squad.position) * 28
 				squad.set_target_position(adjusted_target)
 			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
 	elif input.state_index == 2:
-		var target_squad: = $Squads.get_node_or_null(input.enemy_squad)
+		var target: Node2D = $Entities.get_node_or_null(input.target_name)
 		for squad in squads:
 			var current_state: = squad.state_machine.state
-			if current_state is AttackingState and current_state.target_squad == target_squad:
+			if current_state is AttackingState and current_state.target == target:
 				continue
 			var chasing_state: = squad.state_machine.get_node("ChasingState")
-			chasing_state.target_squad = target_squad
+			chasing_state.target = target
 			squad.state_machine.state = chasing_state

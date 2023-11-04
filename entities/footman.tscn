@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=3 uid="uid://bvepugi4pqh7g"]
 
 [ext_resource type="Script" path="res://entities/unit.gd" id="1_afkkk"]
-[ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/textures/units/unit_body.png" id="2_vxkvd"]
-[ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/textures/units/unit_left_arm.png" id="3_0cta0"]
-[ext_resource type="Texture2D" uid="uid://cr1iw4vflyeml" path="res://assets/textures/units/footman1_spear.png" id="3_75g2t"]
-[ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/textures/units/unit_right_arm.png" id="4_ctbg5"]
+[ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/textures/units/unit_body.png" id="2_vb3bx"]
+[ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/textures/units/unit_left_arm.png" id="3_784x3"]
+[ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/textures/units/unit_right_arm.png" id="4_xbxoo"]
+[ext_resource type="Texture2D" uid="uid://cr1iw4vflyeml" path="res://assets/textures/units/footman1_spear.png" id="5_cuj5l"]
 
 [sub_resource type="Animation" id="Animation_wdxcl"]
 length = 0.001
@@ -475,24 +475,27 @@ _data = {
 script = ExtResource("1_afkkk")
 
 [node name="Footman1Body" type="Sprite2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(4, -2)
+rotation = 0.0523599
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_vxkvd")
+texture = ExtResource("2_vb3bx")
 
 [node name="Footman1LeftArm" type="Sprite2D" parent="Footman1Body"]
 position = Vector2(-13.16, -4.065)
-rotation = -1.13446
-texture = ExtResource("3_0cta0")
+rotation = -2.87979
+texture = ExtResource("3_784x3")
 offset = Vector2(-12, 0)
 
 [node name="Footman1RightArm" type="Sprite2D" parent="Footman1Body"]
 position = Vector2(13.73, -2.605)
-texture = ExtResource("4_ctbg5")
+rotation = 0.261799
+texture = ExtResource("4_xbxoo")
 offset = Vector2(9, 0)
 
 [node name="Footman1Spear" type="Sprite2D" parent="Footman1Body/Footman1RightArm"]
 position = Vector2(17.665, 0)
-texture = ExtResource("3_75g2t")
+rotation = 1.309
+texture = ExtResource("5_cuj5l")
 offset = Vector2(0, -22.585)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

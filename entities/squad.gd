@@ -5,7 +5,7 @@ class_name Squad
 ## Emitted when the health changes
 signal health_changed(old, new)
 ## Emitted when health reaches 0
-signal health_depleted(health)
+signal health_depleted(health, source)
 
 @export_range(0, 5) var team: int = 0 : set = _set_team
 @export var unit_scene: PackedScene : set = _set_unit_scene
@@ -18,7 +18,7 @@ signal health_depleted(health)
 @export_range(0, 400) var engage_range: int = 60
 @export_range(0, 400) var range: int = 80
 @export_range(0, 500) var speed: int = 150
-@export_range(0, 288) var attack_cooldown: int = 144
+@export_range(0, 288) var attack_cooldown: int = 60
 
 @onready var debug_label: Label = $DebugLabel
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
@@ -71,9 +71,9 @@ func post_update(frame: int) -> void:
 		var s: = state_machine.state.get_index()
 		var rot: = rays.global_rotation
 		var frame_state: SquadFrameState
-		if state_machine.state._requires_target_squad():
-			var target_squad_name: String = state_machine.state.target_squad.name
-			frame_state = SquadFrameState.new(frame, health, position, rot, s, position, target_squad_name)
+		if state_machine.state._requires_target():
+			var target_name: String = state_machine.state.target.name
+			frame_state = SquadFrameState.new(frame, health, position, rot, s, position, target_name)
 		else:
 			frame_state = SquadFrameState.new(frame, health, position, rot, s, nav.target_position)
 		if state_machine.state is AttackingState:
@@ -105,9 +105,9 @@ func return_to_frame_state(frame: int) -> bool:
 			rays.rotation = fs.rotation
 			nav.target_position = fs.target_position
 			state_machine.state = state_machine.get_child(fs.state_index)
-			if state_machine.state._requires_target_squad():
-				var _targ: = get_node("/root/Game/Squads").get_node(fs.target_squad_name)
-				state_machine.state.target_squad = _targ
+			if state_machine.state._requires_target():
+				var targ: Node2D = get_node("/root/Game/Entities").get_node(fs.target_name)
+				state_machine.state.target = targ
 			if state_machine.state is AttackingState:
 				state_machine.state.cooldown = fs.attack_cooldown
 			
@@ -152,6 +152,11 @@ func _recreate_units() -> void:
 				current_ring_index += 1
 				ring_fill_count = 0
 
+func change_health(change: int, source: Node2D) -> void:
+	health += change
+	if health <= 0:
+		health_depleted.emit(health, source)
+
 # Private setters
 
 func _set_team(value: int) -> void:
@@ -177,8 +182,6 @@ func _set_health(value: int) -> void:
 	if not is_node_ready(): return
 	
 	health_changed.emit(old, health)
-	if not Engine.is_editor_hint() and health <= 0:
-		health_depleted.emit(health)
 
 func _set_selected(value: bool) -> void:
 	selected = value

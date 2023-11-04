@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cj6ji0rp28eiq"]
+[gd_scene load_steps=5 format=3 uid="uid://cj6ji0rp28eiq"]
 
 [ext_resource type="Script" path="res://entities/buildings/farm.gd" id="1_txruf"]
 [ext_resource type="Texture2D" uid="uid://hl5x7mkxfca7" path="res://assets/textures/buildings/farm_fill.png" id="2_a4h28"]
 [ext_resource type="Texture2D" uid="uid://c5dr6ext8v4gg" path="res://assets/textures/buildings/farm.png" id="3_arwy2"]
+[ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="4_6q0tk"]
 
-[node name="Farm" type="StaticBody2D"]
-collision_layer = 4
+[node name="Farm" type="StaticBody2D" groups=["buildings"]]
+collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_txruf")
+max_health = 150
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
@@ -32,3 +34,10 @@ texture = ExtResource("2_a4h28")
 
 [node name="Farm" type="Sprite2D" parent="Sprites"]
 texture = ExtResource("3_arwy2")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_6q0tk")]
+position = Vector2(0, 34)
+
+[connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]
+[connection signal="health_depleted" from="." to="." method="_on_health_depleted"]
+[connection signal="team_color_changed" from="." to="." method="_on_team_color_changed"]

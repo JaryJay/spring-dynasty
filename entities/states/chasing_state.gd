@@ -4,7 +4,7 @@ class_name ChasingState
 @export var idle_state: IdleState
 @export var attacking_state: AttackingState
 
-var target_squad: Squad
+var target: Node2D
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
@@ -15,14 +15,19 @@ func _enter_state(squad: Squad) -> void:
 	squad.banner.play_animation("moving")
 
 func process(squad: Squad) -> void:
-	if target_squad.state_machine.state is DyingState:
-		squad.state_machine.state = idle_state
-		return
+	if target is Squad:
+		if target.state_machine.state is DyingState:
+			squad.state_machine.state = idle_state
+			return
+	elif target is Building:
+		if target.team == squad.team:
+			squad.state_machine.state = idle_state
+			return
 	
-	squad.set_target_position(target_squad.position)
+	squad.set_target_position(target.position)
 	
-	if squad.position.distance_to(target_squad.position) < squad.engage_range:
-		attacking_state.target_squad = target_squad
+	if squad.position.distance_to(target.position) < squad.engage_range:
+		attacking_state.target = target
 		squad.state_machine.state = attacking_state
 		squad.velocity = Vector2.ZERO
 	else:
@@ -34,8 +39,8 @@ func process(squad: Squad) -> void:
 func _exit_state(_squad: Squad) -> void:
 #	squad.debug_label.hide()
 	pass
-#	target_squad = null
+#	target = null
 
 # Override
-func _requires_target_squad() -> bool:
+func _requires_target() -> bool:
 	return true
