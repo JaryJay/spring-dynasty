@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://kd38esbaawca"]
 
 [ext_resource type="Script" path="res://entities/squad.gd" id="1_32e7a"]
-[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/select_oval.png" id="3_4d1hh"]
+[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/textures/misc/select_oval.png" id="3_4d1hh"]
 [ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squad_banner.tscn" id="4_0cm58"]
 [ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="5_2d2gk"]
-[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/particles/damage.png" id="5_qsf60"]
+[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/textures/particles/damage.png" id="5_qsf60"]
 [ext_resource type="Script" path="res://entities/states/state_machine.gd" id="6_4oc3l"]
 [ext_resource type="Script" path="res://entities/states/idle_state.gd" id="7_ms2vq"]
 [ext_resource type="Script" path="res://entities/states/navigating_state.gd" id="8_hud4u"]

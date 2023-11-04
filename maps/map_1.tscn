@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://3r6q0oteiybd"]
 
-[ext_resource type="Texture2D" uid="uid://cgh6ld47nxrgj" path="res://assets/terrain/map_1.png" id="1_08n0g"]
+[ext_resource type="Texture2D" uid="uid://cgh6ld47nxrgj" path="res://assets/textures/terrain/map_1.png" id="1_08n0g"]
 [ext_resource type="Script" path="res://maps/map_1.gd" id="1_sokf3"]
-[ext_resource type="Texture2D" uid="uid://dtnf55hdw1a2s" path="res://assets/terrain/mountain1.png" id="2_0l6xr"]
-[ext_resource type="Texture2D" uid="uid://bbp83x204koyh" path="res://assets/terrain/mountain2.png" id="3_yqbdk"]
-[ext_resource type="Texture2D" uid="uid://kpcpoo8pdpy" path="res://assets/terrain/mountain3.png" id="4_op33w"]
+[ext_resource type="Texture2D" uid="uid://dtnf55hdw1a2s" path="res://assets/textures/terrain/mountain1.png" id="2_0l6xr"]
+[ext_resource type="Texture2D" uid="uid://bbp83x204koyh" path="res://assets/textures/terrain/mountain2.png" id="3_yqbdk"]
+[ext_resource type="Texture2D" uid="uid://kpcpoo8pdpy" path="res://assets/textures/terrain/mountain3.png" id="4_op33w"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_pjut6"]
 vertices = PackedVector2Array(-404, -331, -386, -338, -398, -311, 413, 322, 316, 227, 331, 195, 418, 160, 455, 227, 469, 274, 470, 317, 466, 331, 463, 339, -273, 468, -287, 454, -254, 448, -302, 308, -355, 317, -391, 319, -364, 273, -317, 205, 183, 558, 400, 555, 448, 570, 456, 583, 146, 581, 137, 567, -138, 135, -85, 151, -119, 181, -314, 106, -283, 579, -304, 569, -295, 563, -275, 561, -91, 579, 297, 119, 246, 74, 320, 50, -76, 546, -59, 557, -86, 571, -253, 511, 301, -12, 260, -30, 304, -63, 328, -24, 485, 251, 498, 273, 498, 287, -26, -118, -73, -93, -207, -319, -214, -346, -199, -344, -172, -337, 15, -165, 191, 546, 402, 446, 417, 407, 428, 444, 220, 419, 485, -222, 501, -226, 502, -197, 492, -181, 455, -170, -372, 44, -139, 29, -97, 61, -148, 108, -355, 101, -367, 96, 297, -464, 318, -458, 305, -430, -153, 309, -108, 204, -15, 238, -25, 260, -133, 360, -24, 438, -4, 458, -35, 485, -162, 392, 188, 524, 246, 500, 247, 476, 481, 121, 322, 179, 296, 159, 308, 144, 423, 69, 479, 69, -479, -65, -507, -85, -493, -106, -105, -423, -58, -464, -22, -491, 0, -500, 20, -492, 103, -156, 79, -127, -119, -397, -72, 525, -265, 486, -196, 424, -87, -35, -135, 1, -394, 11, -427, 10, -430, -12, -219, -301, 351, 33, 324, 20, 360, -7, 335, -123, 271, -116, 356, -178, 233, 248, 222, 271, 169, 376, 104, 317, 149, 374, 98, 333, 72, 329, 52, 336, -518, -170, -534, -187, -530, -222, -509, -226, -496, -148, 31, 377, -24, 417, 346, -407, 369, -397, 367, -369, 177, -191, -477, -311, -420, -332, -499, -292, -285, 312, -271, 303, 163, -508, 183, -526, 228, -505, 251, -486, 152, -194, 142, -488, 425, -247, 393, -180, -193, 293, -234, 305, 403, -280, -390, 35, 223, -135, 378, -356, 398, -349, 416, -331, 413, -307, 279, -474, 116, -485, 127, -162, -127, -383, -149, -367, -450, -37)

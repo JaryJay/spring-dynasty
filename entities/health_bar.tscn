@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxry4y10s3egj"]
 
-[ext_resource type="Texture2D" uid="uid://cgb5htfowr45j" path="res://assets/ui/health_bar.png" id="1_5ehe8"]
+[ext_resource type="Texture2D" uid="uid://cgb5htfowr45j" path="res://assets/textures/ui/health_bar.png" id="1_5ehe8"]
 [ext_resource type="Script" path="res://entities/health_bar.gd" id="2_vl84j"]
 
 [node name="HealthBar" type="Sprite2D"]

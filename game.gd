@@ -4,7 +4,7 @@ class_name Game
 const NUM_SAVED_INPUTS: = 30
 const footman_squad_scene: = preload("res://entities/footman_squad.tscn")
 const archer_squad_scene: = preload("res://entities/archer_squad.tscn")
-const base_scene: = preload("res://entities/base.tscn")
+const base_scene: = preload("res://entities/buildings/base.tscn")
 const farm_scene: = preload("res://entities/buildings/farm.tscn")
 
 @export var enable_debug_overlay: bool
@@ -198,7 +198,7 @@ func _update_squads_selection() -> void:
 					selected_squads.append(body)
 					body.selected = true
 			else:
-				print("Selected body is not a squad: %s" % body)
+				printerr("Selected body is not a squad: %s" % body)
 
 func _detect_input() -> ClientInput:
 	var selecting: = Input.is_action_pressed("select")

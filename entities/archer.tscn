@@ -1,12 +1,12 @@
 [gd_scene load_steps=14 format=3 uid="uid://doowijbnvegux"]
 
 [ext_resource type="Script" path="res://entities/unit.gd" id="1_8etrx"]
-[ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/units/footman1_body.png" id="2_gwcu7"]
-[ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/units/footman1_left_arm.png" id="3_tafkc"]
-[ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/units/footman1_right_arm.png" id="4_cwirb"]
-[ext_resource type="Texture2D" uid="uid://bl4kfvfgwlvbc" path="res://assets/units/arrow.png" id="4_iyqqv"]
-[ext_resource type="Texture2D" uid="uid://d4gtaeodmjjiq" path="res://assets/units/bow.png" id="5_o0dwd"]
-[ext_resource type="Texture2D" uid="uid://cr03lxequnffd" path="res://assets/units/bowstring.png" id="6_sthje"]
+[ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/textures/units/unit_body.png" id="2_gwcu7"]
+[ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/textures/units/unit_left_arm.png" id="3_tafkc"]
+[ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/textures/units/unit_right_arm.png" id="4_cwirb"]
+[ext_resource type="Texture2D" uid="uid://bl4kfvfgwlvbc" path="res://assets/textures/units/arrow.png" id="4_iyqqv"]
+[ext_resource type="Texture2D" uid="uid://d4gtaeodmjjiq" path="res://assets/textures/units/bow.png" id="5_o0dwd"]
+[ext_resource type="Texture2D" uid="uid://cr03lxequnffd" path="res://assets/textures/units/bowstring.png" id="6_sthje"]
 
 [sub_resource type="Animation" id="Animation_wdxcl"]
 length = 0.001

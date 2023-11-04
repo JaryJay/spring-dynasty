@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=3 uid="uid://bvepugi4pqh7g"]
 
 [ext_resource type="Script" path="res://entities/unit.gd" id="1_afkkk"]
-[ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/units/footman1_body.png" id="2_vxkvd"]
-[ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/units/footman1_left_arm.png" id="3_0cta0"]
-[ext_resource type="Texture2D" uid="uid://cr1iw4vflyeml" path="res://assets/units/footman1_spear.png" id="3_75g2t"]
-[ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/units/footman1_right_arm.png" id="4_ctbg5"]
+[ext_resource type="Texture2D" uid="uid://cj7ufb8202feg" path="res://assets/textures/units/unit_body.png" id="2_vxkvd"]
+[ext_resource type="Texture2D" uid="uid://biaidamvms7u0" path="res://assets/textures/units/unit_left_arm.png" id="3_0cta0"]
+[ext_resource type="Texture2D" uid="uid://cr1iw4vflyeml" path="res://assets/textures/units/footman1_spear.png" id="3_75g2t"]
+[ext_resource type="Texture2D" uid="uid://b8i1ucbjf41yr" path="res://assets/textures/units/unit_right_arm.png" id="4_ctbg5"]
 
 [sub_resource type="Animation" id="Animation_wdxcl"]
 length = 0.001
