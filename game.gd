@@ -168,9 +168,13 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	#print("%d: Received game frame state. frame=%d, state_frame=%d" % [multiplayer.get_unique_id(), frame, state_frame])
 	#print(str(game_frame_state))
 	
-	if frame < state_frame or frame > state_frame + 5:
-		# We are too far behind or ahead of the server
-		frame = state_frame + 1
+	if frame < state_frame:
+		# We are too far behind the server
+		frame = state_frame
+		_rollback_and_resimulate()
+	elif frame > state_frame + 3:
+		# We are too far ahead of the server
+		frame = state_frame
 	
 	for i in game_frame_state.squad_names.size():
 		var squad_name: String = game_frame_state.squad_names[i]
