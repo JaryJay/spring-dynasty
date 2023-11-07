@@ -34,7 +34,6 @@ func _ready():
 	Client.game = self
 	set_physics_process(false)
 	
-	
 	if multiplayer.is_server():
 		for player_id in Server.lobby.player_ids:
 			player_inputs[player_id] = []
@@ -176,6 +175,8 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 		# We are too far ahead of the server
 		frame = state_frame
 	
+	earliest_desynced_frame = mini(earliest_desynced_frame, state_frame + 1)
+	
 	for i in game_frame_state.squad_names.size():
 		var squad_name: String = game_frame_state.squad_names[i]
 		var squad_frame_state: SquadFrameState = game_frame_state.squad_frame_states[i]
@@ -187,8 +188,21 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 		for j in range(squad.frame_states.size() - 1, -1, -1):
 			if squad.frame_states[j].frame == state_frame:
 				squad.frame_states[j] = squad_frame_state
-				earliest_desynced_frame = mini(earliest_desynced_frame, state_frame + 1)
 				break
+	
+	for i in game_frame_state.building_names.size():
+		var building_name: String = game_frame_state.building_names[i]
+		var building_frame_state: BuildingFrameState = game_frame_state.building_frame_states[i]
+		var building: Building = $Entities.get_node_or_null(building_name)
+		if not building:
+			printerr("Could not find building %s" % building_name)
+			continue
+		
+		# TODO
+		#for j in range(building.frame_states.size() - 1, -1, -1):
+			#if building.frame_states[j].frame == state_frame:
+				#building.frame_states[j] = building_frame_state
+				#break
 
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:
