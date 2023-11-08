@@ -17,18 +17,20 @@ const farm_scene: = preload("res://entities/buildings/farm.tscn")
 
 ## The current frame number in the game
 var frame: int = 0
+## Equal to frame + 1 if no frames are desynced
+var earliest_desynced_frame: int = 1
 
-## The list of squads that are within the blue selection_rect. Updated every
-## frame in _physics_process()
-var selected_squads: Array[Squad] = []
 ## Integer between 0 and 5, inclusive, representing the team that the local
 ## player controls. This value is set once in _ready(), and doesn't change
 var controlled_team: int = 0
 
+## The list of squads that are within the blue selection_rect. Updated every
+## frame in _physics_process()
+var selected_squads: Array[Squad] = []
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
 var player_inputs: Dictionary = {}
-## Equal to frame + 1 if no frames are desynced
-var earliest_desynced_frame: int = 1
+## List of last 30 player states
+var player_frame_states: Array[PlayerFrameState] = []
 
 func _ready():
 	Client.game = self
@@ -43,6 +45,9 @@ func _ready():
 		player_inputs[player_id] = []
 	
 	controlled_team = Client.team_number
+	
+	# Start with 100 gold
+	player_frame_states.append(PlayerFrameState.new(0, 100))
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
@@ -174,6 +179,7 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	elif frame > state_frame + 3:
 		# We are too far ahead of the server
 		frame = state_frame
+		_rollback_and_resimulate()
 	
 	earliest_desynced_frame = mini(earliest_desynced_frame, state_frame + 1)
 	
@@ -185,9 +191,14 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 			printerr("Could not find squad %s" % squad_name)
 			continue
 		
+		if squad.frame_states[-1].frame < state_frame:
+			printerr("Oh no. %d, %d" % [squad.frame_states[-1].frame, state_frame])
+			continue
+		
 		for j in range(squad.frame_states.size() - 1, -1, -1):
 			if squad.frame_states[j].frame == state_frame:
 				squad.frame_states[j] = squad_frame_state
+				squad.return_to_frame_state(state_frame)
 				break
 	
 	for i in game_frame_state.building_names.size():
@@ -273,9 +284,9 @@ func _detect_input() -> ClientInput:
 ## those desynced frames.
 ## Sets the earliest desynced frame to frame + 1.
 func _rollback_and_resimulate(_as_server: bool = false) -> void:
-	# Rollback
+	# Rollback squads
 	if earliest_desynced_frame < frame:
-		for squad in get_tree().get_nodes_in_group("squads"):
+		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			squad.return_to_frame_state(earliest_desynced_frame - 1)
 	
 	# Handle inputs
@@ -334,3 +345,20 @@ func _handle_input(input: ClientInput) -> void:
 			var chasing_state: = squad.state_machine.get_node("ChasingState")
 			chasing_state.target = target
 			squad.state_machine.state = chasing_state
+
+#region Utility Functions
+func _return_to_frame_state(f: int) -> bool:
+	var index: = 0
+	
+	for i in player_frame_states.size():
+		var fs: PlayerFrameState = player_frame_states[i]
+		if fs.frame == f:
+			index = i
+			
+			# Delete every element in player_frame_states with a later frame
+			player_frame_states = player_frame_states.slice(0, index + 1)
+			return true
+	
+	printerr("%s: Squad trying to return to frame %d, but the latest frame is %d" % [name, f, player_frame_states[-1].frame])
+	return false
+#endregion
