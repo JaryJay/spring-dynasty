@@ -1,5 +1,24 @@
 extends Node2D
 class_name Game
+## A high-level node that parents all game-related objects: the map, entities,
+## buildings, and more.
+##
+## This node is responsible for updating all entities every frame. It also
+## owns several RPC functions that will be called by the server. [br]
+##
+## (Note: if you want to read the documentation, please open Search Help by
+## pressing F1 on your keyboard and search for the auto-generated documentation
+## for this type. It will render all the weird square bracket stuff correctly!)
+## [br][br]
+## Each client should only have one Game instance at any moment. [br]
+## [br]
+## The game server (see ["networking/game_server.gd"]) will also have one Game
+## instance, but it will not use any of the client-only capabilities.
+## Additionally, the server will not let this node run [method _physics_process]
+## naturally; instead, the server itself will call the game's important
+## functions.
+## This is because [method _physics_process] also performs client-specific
+## functionality that the server does not need to run.
 
 const NUM_SAVED_INPUTS: = 30
 const footman_squad_scene: = preload("res://entities/footman_squad.tscn")
@@ -15,22 +34,25 @@ const farm_scene: = preload("res://entities/buildings/farm.tscn")
 @onready var camera: Camera2D = $Camera
 @onready var map: NavigationRegion2D = $Map1
 
-## The current frame number in the game
+## The current frame number in the game.
 var frame: int = 0
-## Equal to frame + 1 if no frames are desynced
+## Equal to frame + 1 if no frames are desynced.
 var earliest_desynced_frame: int = 1
 
-## Integer between 0 and 5, inclusive, representing the team that the local
-## player controls. This value is set once in _ready(), and doesn't change
-var controlled_team: int = 0
+#region Player-only variables
 
+## Integer between 0 and 5, inclusive, representing the team that the local
+## player controls. This value is set once in _ready(), and doesn't change.
+var controlled_team: int = 0
 ## The list of squads that are within the blue selection_rect. Updated every
-## frame in _physics_process()
+## frame in [method _physics_process].
 var selected_squads: Array[Squad] = []
-## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput])
+## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput]).
 var player_inputs: Dictionary = {}
-## List of last 30 player states
+## List of last 30 player frame states.
 var player_frame_states: Array[PlayerFrameState] = []
+
+#endregion
 
 func _ready():
 	Client.game = self
@@ -52,7 +74,7 @@ func _ready():
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
 
-## Spawns a few squads for each player
+## Spawns a few squads and buildings for each player.
 func _on_start_timer_timeout():
 	var lobby: Lobby = Server.lobby
 	
@@ -107,13 +129,13 @@ func _on_start_timer_timeout():
 	if not multiplayer.is_server():
 		set_physics_process(true)
 
-## Processes non-gameplay-related things, such as toggling the pause menu
+## Processes non-gameplay-related things, such as toggling the pause menu.
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		pause_menu.visible = !pause_menu.visible
 	camera.disable_pan = pause_menu.visible
 
-## Updates the game state
+## Updates the game state.
 func _physics_process(_delta):
 	frame += 1
 	
@@ -124,8 +146,8 @@ func _physics_process(_delta):
 	var input: ClientInput = _detect_input()
 	_add_input(input)
 	
-	# Handles inputs from all players, including the local player
-	_rollback_and_resimulate()
+	# Handle inputs from all players, including the local player
+	rollback_and_resimulate()
 	
 	# Send last 30 inputs to the server
 	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
@@ -163,7 +185,7 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 						earliest_desynced_frame = mini(earliest_desynced_frame, input.frame)
 						break
 
-## Receive game frame state from the server for a given frame
+## Receive game frame state from the server for a given frame.
 @rpc("authority", "unreliable")
 func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	var game_frame_state = GameFrameState.create_from(game_frame_state_bytes)
@@ -175,11 +197,11 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	if frame < state_frame:
 		# We are too far behind the server
 		frame = state_frame
-		_rollback_and_resimulate()
+		rollback_and_resimulate()
 	elif frame > state_frame + 3:
 		# We are too far ahead of the server
 		frame = state_frame
-		_rollback_and_resimulate()
+		rollback_and_resimulate()
 	
 	earliest_desynced_frame = mini(earliest_desynced_frame, state_frame + 1)
 	
@@ -282,8 +304,8 @@ func _detect_input() -> ClientInput:
 
 ## Resets the game state back to the earliest desynced frame, then resimulates
 ## those desynced frames.
-## Sets the earliest desynced frame to frame + 1.
-func _rollback_and_resimulate(_as_server: bool = false) -> void:
+## Sets [member earliest_desynced_frame] to [code]frame + 1[/code].
+func rollback_and_resimulate(_as_server: bool = false) -> void:
 	# Rollback squads
 	if earliest_desynced_frame < frame:
 		for squad: Squad in get_tree().get_nodes_in_group("squads"):
@@ -347,6 +369,7 @@ func _handle_input(input: ClientInput) -> void:
 			squad.state_machine.state = chasing_state
 
 #region Utility Functions
+
 func _return_to_frame_state(f: int) -> bool:
 	var index: = 0
 	
@@ -361,4 +384,5 @@ func _return_to_frame_state(f: int) -> bool:
 	
 	printerr("%s: Squad trying to return to frame %d, but the latest frame is %d" % [name, f, player_frame_states[-1].frame])
 	return false
+
 #endregion

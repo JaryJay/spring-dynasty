@@ -18,7 +18,7 @@ func start() -> void:
 
 func _physics_process(_delta) -> void:	
 	game.frame += 1
-	game._rollback_and_resimulate()
+	game.rollback_and_resimulate()
 	_send_inputs()
 	_send_game_frame_state()
 

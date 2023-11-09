@@ -475,26 +475,23 @@ _data = {
 script = ExtResource("1_afkkk")
 
 [node name="Footman1Body" type="Sprite2D" parent="."]
-position = Vector2(4, -2)
-rotation = 0.0523599
+position = Vector2(0, -2)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_vb3bx")
 
 [node name="Footman1LeftArm" type="Sprite2D" parent="Footman1Body"]
 position = Vector2(-13.16, -4.065)
-rotation = -2.87979
+rotation = -1.13446
 texture = ExtResource("3_784x3")
 offset = Vector2(-12, 0)
 
 [node name="Footman1RightArm" type="Sprite2D" parent="Footman1Body"]
 position = Vector2(13.73, -2.605)
-rotation = 0.261799
 texture = ExtResource("4_xbxoo")
 offset = Vector2(9, 0)
 
 [node name="Footman1Spear" type="Sprite2D" parent="Footman1Body/Footman1RightArm"]
 position = Vector2(17.665, 0)
-rotation = 1.309
 texture = ExtResource("5_cuj5l")
 offset = Vector2(0, -22.585)
 
