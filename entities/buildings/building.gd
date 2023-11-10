@@ -13,6 +13,9 @@ signal health_depleted(health, source)
 
 @onready var health: int = max_health : set = _set_health
 
+func update(_frame: int) -> void:
+	pass
+
 func change_health(change: int, source: Node2D) -> void:
 	health += change
 	if health <= 0:

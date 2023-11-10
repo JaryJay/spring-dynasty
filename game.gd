@@ -306,8 +306,9 @@ func _detect_input() -> ClientInput:
 ## those desynced frames.
 ## Sets [member earliest_desynced_frame] to [code]frame + 1[/code].
 func rollback_and_resimulate(_as_server: bool = false) -> void:
-	# Rollback squads
+	# Rollback
 	if earliest_desynced_frame < frame:
+		_return_to_frame_state(earliest_desynced_frame - 1)
 		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			squad.return_to_frame_state(earliest_desynced_frame - 1)
 	
@@ -320,13 +321,22 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 				if input.frame == f:
 					_handle_input(input)
 					break
-		# Update squads.
-		for squad in get_tree().get_nodes_in_group("squads"):
+		# Update player frame state
+		var player_fs: = player_frame_states[-1]
+		var new_fs: = PlayerFrameState.new(f, player_fs.gold)
+		player_frame_states.append(new_fs)
+		if player_frame_states.size() > 30:
+			player_frame_states.remove_at(0)
+		# Update squads
+		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			squad.update(f, true)
-		for squad in get_tree().get_nodes_in_group("squads"):
+		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			# Post update checks if the squad is dead, and it also creates
 			# a frame_state for the squad at that frame
 			squad.post_update(f)
+		# Update buildings
+		for building: Building in get_tree().get_nodes_in_group("buildings"):
+			building.update(f)
 	
 	earliest_desynced_frame = frame + 1
 
