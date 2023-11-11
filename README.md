@@ -4,6 +4,10 @@ A real-time strategy game where you command an army of squads to battle against 
 ## Demo
 https://github.com/JaryJay/spring-dynasty/assets/47123100/ad933b52-f681-45ab-9a28-a41f96463828
 
+## Roadmap
+
+![rts_roadmap_colourful_nov_11](https://github.com/JaryJay/spring-dynasty/assets/47123100/a94400aa-1948-42e7-be5b-4039406e6f08)
+
 ## Features
 
 One of the main reasons I made this game was to explore multiplayer netcode.
@@ -16,5 +20,4 @@ Some cool features that I implemented include the following:
 - Rollback netcode
 
 https://github.com/JaryJay/spring-dynasty/assets/47123100/56b2cf7a-e534-4a2e-ac5d-b7a6fd957956
-
 
