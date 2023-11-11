@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs3qq3eildbk7"]
+
+[ext_resource type="Script" path="res://ui/console/console.gd" id="1_igwog"]
+
+[node name="Console" type="MarginContainer"]
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+script = ExtResource("1_igwog")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 43.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Output" type="TextEdit" parent="Control/VBoxContainer/PanelContainer"]
+layout_mode = 2
+placeholder_text = "Text will show up here!"
+
+[node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Press T to enter commands"
+
+[node name="VisibilityTimer" type="Timer" parent="."]
+
+[connection signal="text_submitted" from="Control/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
