@@ -1,13 +1,13 @@
 extends Node
 
-# Autoload named GameServer
+## Autoload named GameServer
 
-@onready var send_game_state_interval: int = Engine.physics_ticks_per_second * 1
+@onready var sync_interval: int = Engine.physics_ticks_per_second * 1
 
 var started: bool = false
 var game: Game
 
-@onready var send_game_state_timer: = send_game_state_interval
+@onready var sync_state_timer: = sync_interval
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -15,8 +15,19 @@ func _ready() -> void:
 func start() -> void:
 	started = true
 	set_physics_process(true)
+	
+	var set_sync_interval_command = \
+	ConsoleCommand.new("setsyncinterval", 1, func(args):
+		var val: = float(args[0])
+		if is_zero_approx(val) or val < 1.0 / Engine.physics_ticks_per_second:
+			Global.console.print("Invalid sync interval")
+			return
+		sync_interval = int(val * Engine.physics_ticks_per_second)
+		Global.console.print("Sync interval set to %d frames." % sync_interval)
+	)
+	Global.console.commands.append(set_sync_interval_command)
 
-func _physics_process(_delta) -> void:	
+func _physics_process(_delta) -> void:
 	game.frame += 1
 	game.rollback_and_resimulate()
 	_send_inputs()
@@ -74,7 +85,7 @@ func receive_inputs(serialized_input_list: Array) -> void:
 					break
 
 func _send_game_frame_state() -> void:
-	if send_game_state_timer == 0:
+	if sync_state_timer == 0:
 		var game_frame_state: = GameFrameState.new(game.frame)
 		for _squad in get_tree().get_nodes_in_group("squads"):
 			var squad: Squad = _squad
@@ -82,8 +93,8 @@ func _send_game_frame_state() -> void:
 			game_frame_state.squad_frame_states.append(squad.frame_states[-1])
 		#print(str(game_frame_state))
 		game.receive_game_frame_state.rpc(GameFrameState.to_bytes(game_frame_state))
-		send_game_state_timer = send_game_state_interval
-	send_game_state_timer -= 1
+		sync_state_timer = sync_interval
+	sync_state_timer -= 1
 
 func reset() -> void:
 	started = false
@@ -92,3 +103,4 @@ func reset() -> void:
 		game.frame = 0
 		game.queue_free()
 		game = null
+	sync_state_timer = sync_interval
