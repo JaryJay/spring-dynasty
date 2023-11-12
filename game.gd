@@ -49,8 +49,6 @@ var controlled_team: int = 0
 var selected_squads: Array[Squad] = []
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput]).
 var player_inputs: Dictionary = {}
-## List of last 30 player frame states.
-var player_frame_states: Array[PlayerFrameState] = []
 
 #endregion
 
@@ -58,23 +56,27 @@ func _ready():
 	Client.game = self
 	set_physics_process(false)
 	
+	var lobby: = Server.lobby
+	for i in lobby.player_ids.size():
+		var player_id: = lobby.player_ids[i]
+		var team: int = lobby.player_info_list[i].team
+		player_inputs[player_id] = []
+		var player_node: = Player.new()
+		# Starting gold
+		player_node.gold = 100
+		player_node.team = team
+		$Players.add_child(player_node)
+	
 	if multiplayer.is_server():
-		for player_id in Server.lobby.player_ids:
-			player_inputs[player_id] = []
 		return
 	
-	for player_id in Server.lobby.player_ids:
-		player_inputs[player_id] = []
-	
 	controlled_team = Client.team_number
-	
-	# Start with 100 gold
-	player_frame_states.append(PlayerFrameState.new(0, 100))
 	
 	var pause_menu_resume_button: Button = $PauseMenuLayer/PauseMenu/Panel/VBoxContainer/Resume
 	pause_menu_resume_button.pressed.connect(pause_menu.hide)
 
-## Spawns a few squads and buildings for each player.
+## Spawns a few squads and buildings for each player, then starts
+## physics processing.
 func _on_start_timer_timeout():
 	var lobby: Lobby = Server.lobby
 	
@@ -135,7 +137,8 @@ func _process(_delta):
 		pause_menu.visible = !pause_menu.visible
 	camera.disable_pan = pause_menu.visible
 
-## Updates the game state.
+## Updates the frame count, handles client input, and calls
+## [method rollback_and_resimulate].
 func _physics_process(_delta):
 	frame += 1
 	
@@ -225,7 +228,7 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	
 	for i in game_frame_state.building_names.size():
 		var building_name: String = game_frame_state.building_names[i]
-		var building_frame_state: BuildingFrameState = game_frame_state.building_frame_states[i]
+		#var building_frame_state: BuildingFrameState = game_frame_state.building_frame_states[i]
 		var building: Building = $Entities.get_node_or_null(building_name)
 		if not building:
 			printerr("Could not find building %s" % building_name)
@@ -308,7 +311,8 @@ func _detect_input() -> ClientInput:
 func rollback_and_resimulate(_as_server: bool = false) -> void:
 	# Rollback
 	if earliest_desynced_frame < frame:
-		_return_to_frame_state(earliest_desynced_frame - 1)
+		for player: Player in get_tree().get_nodes_in_group("players"):
+			player.return_to_frame_state(earliest_desynced_frame - 1)
 		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			squad.return_to_frame_state(earliest_desynced_frame - 1)
 	
@@ -321,22 +325,20 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 				if input.frame == f:
 					_handle_input(input)
 					break
-		# Update player frame state
-		var player_fs: = player_frame_states[-1]
-		var new_fs: = PlayerFrameState.new(f, player_fs.gold)
-		player_frame_states.append(new_fs)
-		if player_frame_states.size() > 30:
-			player_frame_states.remove_at(0)
+		
+		# Update buildings
+		for building: Building in get_tree().get_nodes_in_group("buildings"):
+			building.update(f)
 		# Update squads
 		for squad: Squad in get_tree().get_nodes_in_group("squads"):
-			squad.update(f, true)
+			squad.update()
 		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			# Post update checks if the squad is dead, and it also creates
 			# a frame_state for the squad at that frame
 			squad.post_update(f)
-		# Update buildings
-		for building: Building in get_tree().get_nodes_in_group("buildings"):
-			building.update(f)
+		# Update players
+		get_tree().call_group("players", "update")
+		get_tree().call_group("players", "post_update", f)
 	
 	earliest_desynced_frame = frame + 1
 
@@ -377,22 +379,3 @@ func _handle_input(input: ClientInput) -> void:
 			var chasing_state: = squad.state_machine.get_node("ChasingState")
 			chasing_state.target = target
 			squad.state_machine.state = chasing_state
-
-#region Utility Functions
-
-func _return_to_frame_state(f: int) -> bool:
-	var index: = 0
-	
-	for i in player_frame_states.size():
-		var fs: PlayerFrameState = player_frame_states[i]
-		if fs.frame == f:
-			index = i
-			
-			# Delete every element in player_frame_states with a later frame
-			player_frame_states = player_frame_states.slice(0, index + 1)
-			return true
-	
-	printerr("%s: Squad trying to return to frame %d, but the latest frame is %d" % [name, f, player_frame_states[-1].frame])
-	return false
-
-#endregion

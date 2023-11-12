@@ -9,12 +9,12 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
+enable_debug_overlay = true
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false
 
 [node name="DebugOverlay" parent="DebugLayer" instance=ExtResource("2_i5wue")]
-offset_bottom = 384.0
 
 [node name="PauseMenuLayer" type="CanvasLayer" parent="."]
 
@@ -30,6 +30,8 @@ visible = false
 [node name="Entities" type="Node2D" parent="."]
 process_mode = 3
 y_sort_enabled = true
+
+[node name="Players" type="Node" parent="."]
 
 [node name="StartTimer" type="Timer" parent="."]
 process_callback = 0

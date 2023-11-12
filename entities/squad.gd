@@ -55,10 +55,9 @@ func _ready():
 	$HealthBar.max_health = health
 
 ## Called in game.gd
-func update(_frame: int, manual: bool = false) -> void:
-	if manual:
-		for ray_cast in rays.get_children():
-			ray_cast.force_raycast_update()
+func update() -> void:
+	for ray_cast in rays.get_children():
+		ray_cast.force_raycast_update()
 	
 	state_machine.process_state()
 
