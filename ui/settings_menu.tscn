@@ -60,7 +60,7 @@ offset_right = 228.0
 offset_bottom = 450.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
-theme_override_constants/separation = 0
+theme_override_constants/separation = 30
 
 [node name="KeybindsButton" type="Button" parent="SettingsContainer/SettingsSideBarColor/SettingsTabs"]
 layout_mode = 2
