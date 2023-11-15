@@ -55,6 +55,7 @@ size_flags_stretch_ratio = 0.34
 color = Color(0.196078, 0.196078, 0.196078, 1)
 
 [node name="SettingsTabs" type="VBoxContainer" parent="SettingsContainer/SettingsSideBarColor"]
+texture_filter = 1
 layout_mode = 2
 offset_right = 228.0
 offset_bottom = 450.0
@@ -91,6 +92,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="BackButton" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 0
 offset_left = 125.0
 offset_top = 64.0
@@ -100,6 +102,7 @@ theme_override_font_sizes/font_size = 30
 text = "Back"
 
 [node name="QuitButton" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 0
 offset_left = 850.0
 offset_top = 64.0

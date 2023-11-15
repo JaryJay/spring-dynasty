@@ -3,10 +3,12 @@
 [ext_resource type="Script" path="res://ui/console/console.gd" id="1_igwog"]
 
 [node name="Console" type="MarginContainer"]
+modulate = Color(1, 1, 1, 0.705882)
 anchors_preset = -1
 anchor_top = 0.6
 anchor_right = 0.6
 anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_igwog")
 metadata/_edit_horizontal_guides_ = [5.0, -83.0]
@@ -29,6 +31,7 @@ size_flags_vertical = 3
 
 [node name="Output" type="TextEdit" parent="Control/VBoxContainer/PanelContainer"]
 layout_mode = 2
+mouse_filter = 2
 placeholder_text = "Text will show up here!"
 
 [node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer"]
@@ -38,3 +41,4 @@ placeholder_text = "Press T to enter commands"
 [node name="VisibilityTimer" type="Timer" parent="."]
 
 [connection signal="text_submitted" from="Control/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="timeout" from="VisibilityTimer" to="." method="_on_visibility_timer_timeout"]

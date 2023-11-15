@@ -130,6 +130,9 @@ func _on_start_timer_timeout():
 	
 	if not multiplayer.is_server():
 		set_physics_process(true)
+		
+		var base: Node2D = $Entities.get_node("B_%d" % controlled_team)
+		create_tween().tween_property(camera, "position", base.position, .5).set_trans(Tween.TRANS_CUBIC)
 
 ## Processes non-gameplay-related things, such as toggling the pause menu.
 func _process(_delta):

@@ -99,11 +99,13 @@ label_settings = SubResource("LabelSettings_6bp1w")
 horizontal_alignment = 1
 
 [node name="JoinButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 text = "Join"
 
 [node name="BackButton" type="Button" parent="."]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
