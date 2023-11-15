@@ -9,7 +9,6 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_8jko4")
-enable_debug_overlay = true
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false

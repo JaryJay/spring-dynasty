@@ -87,11 +87,13 @@ func receive_inputs(serialized_input_list: Array) -> void:
 func _send_game_frame_state() -> void:
 	if sync_state_timer == 0:
 		var game_frame_state: = GameFrameState.new(game.frame)
-		for _squad in get_tree().get_nodes_in_group("squads"):
-			var squad: Squad = _squad
-			game_frame_state.squad_names.append(squad.name)
-			game_frame_state.squad_frame_states.append(squad.frame_states[-1])
-		#print(str(game_frame_state))
+		for s: Squad in get_tree().get_nodes_in_group("squads"):
+			game_frame_state.squad_names.append(s.name)
+			game_frame_state.squad_frame_states.append(s.frame_states[-1])
+		for b: Building in get_tree().get_nodes_in_group("buildings"):
+			game_frame_state.building_names.append(b.name)
+			game_frame_state.building_frame_states.append(b.frame_states[-1])
+		#Global.console.print(game_frame_state.building_names.size())
 		game.receive_game_frame_state.rpc(GameFrameState.to_bytes(game_frame_state))
 		sync_state_timer = sync_interval
 	sync_state_timer -= 1

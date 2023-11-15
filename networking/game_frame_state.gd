@@ -32,6 +32,8 @@ static func create_from(bytes: PackedByteArray) -> GameFrameState:
 	var frame_state: = GameFrameState.new(_frame)
 	frame_state.squad_names = _squad_names
 	frame_state.squad_frame_states = _squad_frame_states
+	frame_state.building_names = _building_names
+	frame_state.building_frame_states = _building_frame_states
 	return frame_state
 
 static func to_bytes(state: GameFrameState) -> PackedByteArray:

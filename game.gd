@@ -65,6 +65,7 @@ func _ready():
 		# Starting gold
 		player_node.gold = 100
 		player_node.team = team
+		player_node.name = "P_%d" % team
 		$Players.add_child(player_node)
 	
 	if multiplayer.is_server():
@@ -231,17 +232,17 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	
 	for i in game_frame_state.building_names.size():
 		var building_name: String = game_frame_state.building_names[i]
-		#var building_frame_state: BuildingFrameState = game_frame_state.building_frame_states[i]
+		var building_frame_state: BuildingFrameState = game_frame_state.building_frame_states[i]
 		var building: Building = $Entities.get_node_or_null(building_name)
 		if not building:
 			printerr("Could not find building %s" % building_name)
 			continue
 		
-		# TODO
-		#for j in range(building.frame_states.size() - 1, -1, -1):
-			#if building.frame_states[j].frame == state_frame:
-				#building.frame_states[j] = building_frame_state
-				#break
+		for j in range(building.frame_states.size() - 1, -1, -1):
+			if building.frame_states[j].frame == state_frame:
+				building.frame_states[j] = building_frame_state
+				building.return_to_frame_state(state_frame)
+				break
 
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:
@@ -329,18 +330,14 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 					_handle_input(input)
 					break
 		
-		# Update buildings
-		for building: Building in get_tree().get_nodes_in_group("buildings"):
-			building.update(f)
-		# Update squads
-		for squad: Squad in get_tree().get_nodes_in_group("squads"):
-			squad.update()
-		for squad: Squad in get_tree().get_nodes_in_group("squads"):
-			# Post update checks if the squad is dead, and it also creates
-			# a frame_state for the squad at that frame
-			squad.post_update(f)
-		# Update players
+		# Update everything
+		get_tree().call_group("buildings", "update")
+		get_tree().call_group("squads", "update")
 		get_tree().call_group("players", "update")
+		
+		# Post update everything
+		get_tree().call_group("buildings", "post_update", f)
+		get_tree().call_group("squads", "post_update", f)
 		get_tree().call_group("players", "post_update", f)
 	
 	earliest_desynced_frame = frame + 1

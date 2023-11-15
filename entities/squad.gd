@@ -81,7 +81,7 @@ func post_update(frame: int) -> void:
 		if frame_states.size() > 30:
 			frame_states.remove_at(0)
 
-## Public function to begin navigation
+## Public function to begin navigation.
 func set_target_position(target_position: Vector2) -> void:
 	nav.target_position = target_position
 
@@ -92,10 +92,8 @@ func rotate_and_move(direction: Vector2, speed_multiplier: float = 1) -> void:
 
 ## Returns the squad's state to what it was at the specified frame. Also deletes
 ## every element in frame_states with a later frame.
-## Returns whether a frame_state at the specified frame exists
+## Returns whether the frame_state at the specified frame exists.
 func return_to_frame_state(frame: int) -> bool:
-	var index: = 0
-	
 	for i in frame_states.size():
 		var fs: = frame_states[i]
 		if fs.frame == frame:
@@ -110,10 +108,8 @@ func return_to_frame_state(frame: int) -> bool:
 			if state_machine.state is AttackingState:
 				state_machine.state.cooldown = fs.attack_cooldown
 			
-			index = i
-			
 			# Delete every element in frame_states with a later frame
-			frame_states = frame_states.slice(0, index + 1)
+			frame_states = frame_states.slice(0, i + 1)
 			return true
 	
 	printerr("%s: Squad trying to return to frame %d, but the latest frame is %d" % [name, frame, frame_states[-1].frame])

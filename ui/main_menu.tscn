@@ -54,10 +54,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="PlayButton" type="Button" parent="MainMenuButtons"]
+[node name="SingleplayerButton" type="Button" parent="MainMenuButtons"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Play"
+text = "Play Single Player"
+
+[node name="MultiplayerButton" type="Button" parent="MainMenuButtons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Play Multiplayer
+"
 
 [node name="SettingsButton" type="Button" parent="MainMenuButtons"]
 layout_mode = 2
@@ -69,6 +75,7 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Quit"
 
-[connection signal="pressed" from="MainMenuButtons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenuButtons/SingleplayerButton" to="." method="_on_singleplayer_button_pressed"]
+[connection signal="pressed" from="MainMenuButtons/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
 [connection signal="pressed" from="MainMenuButtons/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenuButtons/QuitButton" to="." method="_on_quit_button_pressed"]
