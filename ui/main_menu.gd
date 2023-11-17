@@ -9,7 +9,7 @@ func _ready() -> void:
 		return
 	
 	# Dev only
-	#_on_multiplayer_button_pressed.call_deferred()
+	_on_multiplayer_button_pressed.call_deferred()
 
 func _on_singleplayer_button_pressed():
 	#get_tree().change_scene_to_packed(singleplayer_menu_scene)

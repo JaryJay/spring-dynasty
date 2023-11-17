@@ -249,10 +249,10 @@ func end_game(winning_player_id: int, team: int) -> void:
 	# TODO make this more fancy
 	var n: = Server.lobby.get_player_name(winning_player_id)
 	Global.console.print("Player %s has won! They are team %d." % [n, team])
-	#set_physics_process(false)
+	set_physics_process(false)
 	
-	var base: Node2D = $Entities.get_node("B_%d" % controlled_team)
-	create_tween().tween_property(camera, "position", base.position, .5).set_trans(Tween.TRANS_CUBIC)
+	create_tween().tween_property(camera, "position", Vector2.ZERO, .5).set_trans(Tween.TRANS_CUBIC)
+	create_tween().tween_property(camera, "target_zoom", Vector2(.5, .5), .5).set_trans(Tween.TRANS_CUBIC)
 
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:

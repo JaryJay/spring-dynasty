@@ -2,7 +2,7 @@ extends Node
 
 ## Autoload named GameServer
 
-@onready var sync_interval: int = Engine.physics_ticks_per_second * 1
+@onready var sync_interval: int = Engine.physics_ticks_per_second * .5
 
 var started: bool = false
 var game: Game
@@ -107,19 +107,24 @@ func _check_game_end_condition() -> void:
 		if team != -1 and building.team != team:
 			return
 		elif team == -1:
-			team == building.team
+			team = building.team
 	if team == -1:
 		return
 	
 	# If we get here, then the player with that team has won.
-	#Global.console.print()
+	Global.console.print("Player %d has won!" % team)
 	
 	var winning_player_id: = -1
 	for player_id in Server.lobby.player_ids:
 		if Server.lobby.get_player_info(winning_player_id).team == team:
 			winning_player_id = player_id
 			break
+	
+	_send_game_frame_state()
 	game.end_game.rpc(winning_player_id, team)
+	
+	started = false
+	set_physics_process(false)
 
 func reset() -> void:
 	started = false
