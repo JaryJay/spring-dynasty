@@ -30,13 +30,13 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -221.5
+offset_left = -290.0
 offset_top = 70.0
-offset_right = 221.5
+offset_right = 290.0
 offset_bottom = 204.0
 grow_horizontal = 2
 theme_override_font_sizes/normal_font_size = 80
-text = "Game Logo"
+text = "Spring Dynasty"
 
 [node name="MainMenuButtons" type="VBoxContainer" parent="."]
 texture_filter = 1
@@ -73,7 +73,7 @@ text = "Settings"
 [node name="QuitButton" type="Button" parent="MainMenuButtons"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Quit"
+text = "Exit Game"
 
 [connection signal="pressed" from="MainMenuButtons/SingleplayerButton" to="." method="_on_singleplayer_button_pressed"]
 [connection signal="pressed" from="MainMenuButtons/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
