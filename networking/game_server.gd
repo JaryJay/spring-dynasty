@@ -31,6 +31,7 @@ func _physics_process(_delta) -> void:
 	game.frame += 1
 	game.rollback_and_resimulate()
 	_send_inputs()
+	_check_game_end_condition()
 	_send_game_frame_state()
 
 func _send_inputs() -> void:
@@ -97,6 +98,28 @@ func _send_game_frame_state() -> void:
 		game.receive_game_frame_state.rpc(GameFrameState.to_bytes(game_frame_state))
 		sync_state_timer = sync_interval
 	sync_state_timer -= 1
+
+func _check_game_end_condition() -> void:
+	var team: = -1
+	for building: Building in get_tree().get_nodes_in_group("buildings"):
+		if not building is Base:
+			continue
+		if team != -1 and building.team != team:
+			return
+		elif team == -1:
+			team == building.team
+	if team == -1:
+		return
+	
+	# If we get here, then the player with that team has won.
+	#Global.console.print()
+	
+	var winning_player_id: = -1
+	for player_id in Server.lobby.player_ids:
+		if Server.lobby.get_player_info(winning_player_id).team == team:
+			winning_player_id = player_id
+			break
+	game.end_game.rpc(winning_player_id, team)
 
 func reset() -> void:
 	started = false
