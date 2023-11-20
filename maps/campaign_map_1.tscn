@@ -9,10 +9,16 @@
 [ext_resource type="PackedScene" uid="uid://ctvbxeohsvkr8" path="res://maps/terrain/trees/tree_1.tscn" id="7_nunqv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jbjr1"]
-outlines = Array[PackedVector2Array]([PackedVector2Array(-303, -415, -330, -296, -206, -205, 14, -204, 109, -196, 177, -173, 207, -159, 336, -110, 357, -20, 294, 1, 242, 69, 158, 126, 47, 125, -98, 218, -146, 323, 5, 413, 85, 387, 121, 428, 197, 351, 297, 414, 362, 329, 455, 336, 461, 275, 376, 235, 441, 4, 355, -180, 190, -219, 223, -313, 262, -379, 158, -406, -105, -366)])
+vertices = PackedVector2Array(158, -406, 262, -379, 223, -313, 109, -196, 14, -204, -105, -366, 197, 351, 121, 428, 85, 387, 47, 125, 158, 126, -217, -201, -330, -296, -303, -415, 190, -219, 177, -173, 355, -180, 461, 275, 455, 336, 362, 329, 376, 235, 207, -159, 336, -110, 441, 4, 357, -20, 294, 1, 242, 69, 297, 414, 5, 413, -146, 323, -98, 218)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(6, 7, 8, 9, 10), PackedInt32Array(11, 12, 13, 5, 4), PackedInt32Array(3, 2, 14), PackedInt32Array(15, 3, 14, 16), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(21, 15, 16, 22), PackedInt32Array(22, 16, 23, 24), PackedInt32Array(25, 24, 23, 20, 26), PackedInt32Array(6, 10, 26, 20, 19, 27), PackedInt32Array(28, 29, 30, 9, 8)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-303, -415, -330, -296, -217, -201, 14, -204, 109, -196, 177, -173, 207, -159, 336, -110, 357, -20, 294, 1, 242, 69, 158, 126, 47, 125, -98, 218, -146, 323, 5, 413, 85, 387, 121, 428, 197, 351, 297, 414, 362, 329, 455, 336, 461, 275, 376, 235, 441, 4, 355, -180, 190, -219, 223, -313, 262, -379, 158, -406, -105, -366)])
+parsed_geometry_type = 1
+parsed_collision_mask = 50
 source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 0.0
 
 [node name="CampaignMap1" type="NavigationRegion2D"]
+self_modulate = Color(0, 0, 0, 0.254902)
 navigation_polygon = SubResource("NavigationPolygon_jbjr1")
 script = ExtResource("1_jmj3i")
 

@@ -1,2 +1,2 @@
-extends Node2D
+extends Game
 class_name Level

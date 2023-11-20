@@ -32,7 +32,8 @@ const farm_scene: = preload("res://entities/buildings/farm.tscn")
 @onready var selection_rect: SelectionRect = $SelectionRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var camera: Camera2D = $Camera
-@onready var map: NavigationRegion2D = $Map1
+
+@export var map: NavigationRegion2D
 
 ## The current frame number in the game.
 var frame: int = 0

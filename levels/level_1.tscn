@@ -4,8 +4,9 @@
 [ext_resource type="Script" path="res://levels/level_1.gd" id="2_yjba7"]
 [ext_resource type="PackedScene" uid="uid://s2hwxk8bbuob" path="res://maps/campaign_map_1.tscn" id="3_65yjq"]
 
-[node name="Level1" instance=ExtResource("1_kwl8q")]
+[node name="Level1" node_paths=PackedStringArray("map") instance=ExtResource("1_kwl8q")]
 script = ExtResource("2_yjba7")
+map = NodePath("CampaignMap1")
 
 [node name="CampaignMap1" parent="." index="2" instance=ExtResource("3_65yjq")]
 

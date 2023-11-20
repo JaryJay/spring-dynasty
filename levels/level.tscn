@@ -26,3 +26,5 @@ visible = false
 [node name="Entities" type="Node2D" parent="."]
 process_mode = 3
 y_sort_enabled = true
+
+[node name="Players" type="Node" parent="."]

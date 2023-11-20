@@ -9,6 +9,8 @@ signal game_started(team_number)
 signal player_connected(id)
 signal player_disconnected(id)
 
+var _is_multiplayer: = false
+
 var user_info: Dictionary = { "name": "Bob" }
 var team_number: int = -1
 
@@ -33,6 +35,7 @@ func init(server_ip: String, server_port: int) -> Error:
 	multiplayer.multiplayer_peer = peer
 	
 	print("%s: Client initialized" % multiplayer.get_unique_id())
+	_is_multiplayer = true
 	return OK
 
 @rpc("authority", "reliable")
@@ -69,6 +72,9 @@ func _on_server_disconnected() -> void:
 	printerr("%s: Disconnected from server" % multiplayer.get_unique_id())
 	multiplayer.multiplayer_peer = null
 	server_disconnected.emit()
+
+func is_multiplayer() -> bool:
+	return _is_multiplayer
 
 # Note: this function will not work until steam_appid.txt has a valid app id
 func init_steam() -> void:
