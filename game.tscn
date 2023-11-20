@@ -7,9 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://3r6q0oteiybd" path="res://maps/map_1.tscn" id="3_uwne5"]
 [ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="5_npod3"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("map")]
 script = ExtResource("1_8jko4")
 enable_debug_overlay = true
+map = NodePath("Map1")
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false

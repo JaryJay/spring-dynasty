@@ -1,6 +1,6 @@
 extends Camera2D
 
-@export_range(0, 500) var pan_speed: = 300.0
+@export_range(0, 500) var pan_speed: float
 
 var disable_pan: = false
 

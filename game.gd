@@ -116,15 +116,9 @@ func _on_start_timer_timeout():
 			$Entities.add_child(squad)
 	# Remake navigation region
 	var nav_polygon: = map.navigation_polygon
-	for building in buildings:
-		var obstacle: NavigationObstacle2D = building.get_node("NavigationObstacle2D")
-		var polygon_transform: Transform2D = obstacle.get_global_transform()
-		var polygon: PackedVector2Array = obstacle.vertices
-
-		var new_collision_outline: PackedVector2Array = polygon_transform * polygon
-
-		nav_polygon.add_outline(new_collision_outline)
-	nav_polygon.make_polygons_from_outlines()
+	var source_geometry_data: = NavigationMeshSourceGeometryData2D.new()
+	NavigationServer2D.parse_source_geometry_data(nav_polygon, source_geometry_data, self)
+	NavigationServer2D.bake_from_source_geometry_data(nav_polygon, source_geometry_data)
 	map.navigation_polygon = nav_polygon
 	
 	debug_overlay.initialize(self)
