@@ -100,6 +100,9 @@ func _send_game_frame_state() -> void:
 	sync_state_timer -= 1
 
 func _check_game_end_condition() -> void:
+	if Server.lobby.player_ids.size() == 1:
+		return
+	
 	var team: = -1
 	for building: Building in get_tree().get_nodes_in_group("buildings"):
 		if not building is Base:

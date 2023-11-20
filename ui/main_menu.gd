@@ -9,11 +9,10 @@ func _ready() -> void:
 		return
 	
 	# Dev only
-	_on_multiplayer_button_pressed.call_deferred()
+	#_on_multiplayer_button_pressed.call_deferred()
 
 func _on_singleplayer_button_pressed():
-	#get_tree().change_scene_to_packed(singleplayer_menu_scene)
-	pass
+	get_tree().change_scene_to_file("res://ui/level_selection_menu.tscn")
 
 func _on_multiplayer_button_pressed():
 	get_tree().change_scene_to_packed(join_lobby_menu_scene)

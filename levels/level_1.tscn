@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bogbidiako8h8"]
+
+[ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/level.tscn" id="1_kwl8q"]
+[ext_resource type="Script" path="res://levels/level_1.gd" id="2_yjba7"]
+[ext_resource type="PackedScene" uid="uid://s2hwxk8bbuob" path="res://maps/campaign_map_1.tscn" id="3_65yjq"]
+
+[node name="Level1" instance=ExtResource("1_kwl8q")]
+script = ExtResource("2_yjba7")
+
+[node name="CampaignMap1" parent="." index="2" instance=ExtResource("3_65yjq")]
+
+[node name="Camera" parent="." index="4"]
+position = Vector2(-205, -291)

@@ -12,6 +12,7 @@ script = ExtResource("1_8jko4")
 enable_debug_overlay = true
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="DebugOverlay" parent="DebugLayer" instance=ExtResource("2_i5wue")]
 

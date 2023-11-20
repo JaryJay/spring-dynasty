@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://do5o4umesxga3"]
+
+[ext_resource type="Texture2D" uid="uid://bbp83x204koyh" path="res://assets/textures/terrain/mountain2.png" id="1_nx604"]
+
+[node name="Mountain2" type="StaticBody2D"]
+collision_layer = 48
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nx604")
+offset = Vector2(0, -79)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-71, -23, 76, -23, 100, -1, 0, 30, -95, 1)

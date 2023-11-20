@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://7dj72txh2xyx"]
+
+[ext_resource type="Script" path="res://ui/level_selection_menu.gd" id="1_kjh12"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbhm4"]
+font_size = 48
+
+[node name="LevelSelectionMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kjh12")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.999162, 1)
+color = Color(0.121569, 0.121569, 0.121569, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -290.0
+offset_top = 70.0
+offset_right = 290.0
+offset_bottom = 204.0
+grow_horizontal = 2
+text = "Level Selection"
+label_settings = SubResource("LabelSettings_tbhm4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.5
+offset_top = -74.0
+offset_right = 239.5
+offset_bottom = 182.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Level1" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Level 1"
+
+[node name="Level2" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Level 2"
+
+[node name="Level3" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Level 3"
+
+[node name="Level4" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Level 4"
+
+[connection signal="pressed" from="Buttons/Level1" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="Buttons/Level2" to="." method="_on_level_2_pressed"]
+[connection signal="pressed" from="Buttons/Level3" to="." method="_on_level_3_pressed"]
+[connection signal="pressed" from="Buttons/Level4" to="." method="_on_level_4_pressed"]

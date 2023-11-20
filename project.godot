@@ -36,7 +36,8 @@ folder_colors={
 "res://addons/": "orange",
 "res://assets/": "yellow",
 "res://entities/": "teal",
-"res://ui/": "blue"
+"res://levels/": "purple",
+"res://ui/": "pink"
 }
 
 [gui]

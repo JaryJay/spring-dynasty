@@ -15,6 +15,7 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 [node name="Map1" type="NavigationRegion2D"]
 self_modulate = Color(0, 0, 0, 0.254902)
 navigation_polygon = SubResource("NavigationPolygon_pjut6")
+navigation_layers = 2049
 script = ExtResource("1_sokf3")
 
 [node name="Background" type="Sprite2D" parent="."]
