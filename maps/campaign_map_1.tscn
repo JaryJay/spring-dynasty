@@ -9,13 +9,13 @@
 [ext_resource type="PackedScene" uid="uid://ctvbxeohsvkr8" path="res://maps/terrain/trees/tree_1.tscn" id="7_nunqv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jbjr1"]
-vertices = PackedVector2Array(158, -406, 262, -379, 223, -313, 109, -196, 14, -204, -105, -366, 197, 351, 121, 428, 85, 387, 47, 125, 158, 126, -217, -201, -330, -296, -303, -415, 190, -219, 177, -173, 355, -180, 461, 275, 455, 336, 362, 329, 376, 235, 207, -159, 336, -110, 441, 4, 357, -20, 294, 1, 242, 69, 297, 414, 5, 413, -146, 323, -98, 218)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(6, 7, 8, 9, 10), PackedInt32Array(11, 12, 13, 5, 4), PackedInt32Array(3, 2, 14), PackedInt32Array(15, 3, 14, 16), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(21, 15, 16, 22), PackedInt32Array(22, 16, 23, 24), PackedInt32Array(25, 24, 23, 20, 26), PackedInt32Array(6, 10, 26, 20, 19, 27), PackedInt32Array(28, 29, 30, 9, 8)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-303, -415, -330, -296, -217, -201, 14, -204, 109, -196, 177, -173, 207, -159, 336, -110, 357, -20, 294, 1, 242, 69, 158, 126, 47, 125, -98, 218, -146, 323, 5, 413, 85, 387, 121, 428, 197, 351, 297, 414, 362, 329, 455, 336, 461, 275, 376, 235, 441, 4, 355, -180, 190, -219, 223, -313, 262, -379, 158, -406, -105, -366)])
+vertices = PackedVector2Array(124, -419, 254, -399, 224, -313, 123, -174, 58, -183, -14, -376, -239, -201, -346, -300, -339, -405, -173, -391, -99, -335, -37, -181, 366, 250, 458, 271, 447, 333, 341, 329, 225, -233, 188, -153, 305, -106, 190, -152, 348, -186, 402, -125, 354, -43, 431, 12, -22, 400, -153, 322, -101, 214, 40, 126, -19, 400, 64, 384, 7, 413, 154, 119, 132, 414, 125, 420, 177, 342, 307, 387, 304, 391, 300, 396, 233, 57, 290, -13)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(6, 7, 8, 9, 10, 11), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(11, 10, 5, 4), PackedInt32Array(3, 2, 16, 17), PackedInt32Array(18, 19, 17, 16, 20, 21), PackedInt32Array(22, 18, 21, 23), PackedInt32Array(24, 25, 26, 27, 28), PackedInt32Array(29, 30, 28, 27, 31), PackedInt32Array(32, 33, 29, 31, 34), PackedInt32Array(12, 15, 35, 36, 37, 34, 31, 38, 23), PackedInt32Array(23, 38, 39, 22)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-367, -437, -376, -289, -252, -173, -40, -152, 56, -154, 116, -146, 179, -125, 287, -82, 309, -54, 273, -37, 213, 36, 143, 91, 31, 98, -124, 194, -191, 334, 4, 449, 63, 417, 138, 462, 189, 379, 313, 434, 357, 359, 472, 363, 492, 250, 402, 229, 461, 15, 429, -140, 366, -211, 254, -253, 253, -308, 293, -423, 123, -449, -25, -404, -96, -369, -164, -420)])
 parsed_geometry_type = 1
 parsed_collision_mask = 50
 source_geometry_group_name = &"navigation_polygon_source_group"
-agent_radius = 0.0
+agent_radius = 29.0
 
 [node name="CampaignMap1" type="NavigationRegion2D"]
 self_modulate = Color(0, 0, 0, 0.254902)
@@ -26,15 +26,6 @@ script = ExtResource("1_jmj3i")
 z_index = -5
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_x0g6k")
-
-[node name="SpawnLocations" type="Node2D" parent="."]
-
-[node name="Team0" type="Marker2D" parent="SpawnLocations"]
-position = Vector2(-215, -313)
-gizmo_extents = 20.0
-
-[node name="Farm" type="Marker2D" parent="SpawnLocations/Team0"]
-position = Vector2(500, 550)
 
 [node name="Mountains" type="Node2D" parent="."]
 y_sort_enabled = true

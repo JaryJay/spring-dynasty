@@ -1,16 +1,26 @@
 extends Level
 
 func _ready() -> void:
-	var squad: = preload("res://entities/footman_squad.tscn").instantiate()
-	$Entities.add_child(squad)
-	squad.position = $CampaignMap1/SpawnLocations/Team0.position
-	
 	Server.lobby.player_ids.append(1)
 	Server.lobby.player_info_list.append({ "team": 0 })
 	Server.lobby.player_names.append("spongebob")
 	
 	super()
 	set_physics_process(true)
+	
+	# Remake navigation region
+	var nav_polygon: = map.navigation_polygon
+	var source_geometry_data: = NavigationMeshSourceGeometryData2D.new()
+	NavigationServer2D.parse_source_geometry_data(nav_polygon, source_geometry_data, self)
+	NavigationServer2D.bake_from_source_geometry_data(nav_polygon, source_geometry_data)
+	map.navigation_polygon = nav_polygon
+	
+	# Focus camera on squad
+	create_tween().tween_property(camera, "position", $Entities/F_0_0.position, 0.5).set_trans(Tween.TRANS_CUBIC)
+	
+	# Select squad
+	selected_squads = [$Entities/F_0_0]
+	$Entities/F_0_0.selected = true
 
 func _physics_process(_delta) -> void:
 	frame += 1
@@ -24,3 +34,16 @@ func _physics_process(_delta) -> void:
 	
 	# Handle inputs from all players, including the local player
 	rollback_and_resimulate()
+
+func _on_trigger_area_2_body_entered(_body) -> void:
+	Global.console.print("Entered Triggered area!")
+	$Special/TriggerArea2.queue_free()
+	
+	# Focus camera on farm
+	create_tween().tween_property(camera, "position", $Entities/B_1.position, 1.0).set_trans(Tween.TRANS_CUBIC)
+	
+	var enemies: = [$Entities/F_1_0, $Entities/F_1_1]
+	for enemy: Squad in enemies:
+		var chasing_state: ChasingState = enemy.state_machine.get_node("ChasingState")
+		chasing_state.target = $Entities/B_1
+		enemy.state_machine.state = chasing_state

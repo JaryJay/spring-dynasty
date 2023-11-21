@@ -24,7 +24,8 @@ func process(squad: Squad) -> void:
 			squad.state_machine.state = idle_state
 			return
 	
-	squad.set_target_position(target.position)
+	var targ_pos: = target.position + target.position.direction_to(squad.position) * 10
+	squad.set_target_position(targ_pos)
 	
 	if squad.position.distance_to(target.position) < squad.engage_range:
 		attacking_state.target = target
