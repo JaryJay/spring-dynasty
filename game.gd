@@ -128,13 +128,14 @@ func _on_start_timer_timeout():
 		set_physics_process(true)
 		
 		var base: Node2D = $Entities.get_node("B_%d" % controlled_team)
-		create_tween().tween_property(camera, "position", base.position, .5).set_trans(Tween.TRANS_CUBIC)
+		camera.position = base.position
 
 ## Processes non-gameplay-related things, such as toggling the pause menu.
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		pause_menu.visible = !pause_menu.visible
 	camera.disable_pan = pause_menu.visible
+	camera.follow_targets = selected_squads
 
 ## Updates the frame count, handles client input, and calls
 ## [method rollback_and_resimulate].

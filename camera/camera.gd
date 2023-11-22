@@ -1,21 +1,33 @@
 extends Camera2D
 
-@export_range(0, 500) var pan_speed: float
+@export_range(0, 800) var pan_speed: float
+@export var follow_mode_enabled: bool
 
 var disable_pan: = false
 
 var pan_velocity: Vector2 = Vector2.ZERO
 var target_zoom: Vector2 = Vector2.ONE
+var follow_targets: Array
 
-func _process(delta):
-	if not disable_pan:
-		var input_vector: = Input.get_vector("pan_left", "pan_right", "pan_up", "pan_down")
-		if not input_vector.is_zero_approx():
-			pan_velocity = input_vector.normalized() * pan_speed * delta
-	
-	position += pan_velocity
-	pan_velocity *= 0.9
+func _process(delta: float):
 	zoom = zoom.lerp(target_zoom, 0.3)
+	_update_position(delta)
+
+func _update_position(delta: float) -> void:
+	var input_vector: = Input.get_vector("pan_left", "pan_right", "pan_up", "pan_down")
+	if follow_mode_enabled and not follow_targets.is_empty():
+		var target_position_sum = Vector2.ZERO
+		for node: Node2D in follow_targets:
+			target_position_sum += node.position
+		position = target_position_sum / follow_targets.size()
+		if disable_pan:
+			return
+		position += input_vector * pan_speed * 0.5
+	else:
+		if disable_pan:
+			return
+		pan_velocity = input_vector * pan_speed * delta
+		position += pan_velocity
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("zoom_in"):

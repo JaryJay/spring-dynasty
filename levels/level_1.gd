@@ -16,7 +16,8 @@ func _ready() -> void:
 	map.navigation_polygon = nav_polygon
 	
 	# Focus camera on squad
-	create_tween().tween_property(camera, "position", $Entities/F_0_0.position, 0.5).set_trans(Tween.TRANS_CUBIC)
+	camera.position = $Entities/F_0_0.position
+	#create_tween().tween_property(camera, "position", $Entities/F_0_0.position, 0.5).set_trans(Tween.TRANS_CUBIC)
 	
 	# Select squad
 	selected_squads = [$Entities/F_0_0]
@@ -40,7 +41,11 @@ func _on_trigger_area_2_body_entered(_body) -> void:
 	$Special/TriggerArea2.queue_free()
 	
 	# Focus camera on farm
-	create_tween().tween_property(camera, "position", $Entities/B_1.position, 1.0).set_trans(Tween.TRANS_CUBIC)
+	camera.follow_mode_enabled = false
+	var tw: = create_tween()
+	tw.tween_property(camera, "position", $Entities/B_1.position, 0.5).set_trans(Tween.TRANS_CUBIC)
+	tw.tween_interval(1.6)
+	tw.tween_property(camera, "follow_mode_enabled", true, 0)
 	
 	var enemies: = [$Entities/F_1_0, $Entities/F_1_1]
 	for enemy: Squad in enemies:
