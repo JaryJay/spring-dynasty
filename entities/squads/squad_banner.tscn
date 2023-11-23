@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bior7vn41ep74"]
 
 [ext_resource type="Texture2D" uid="uid://dlrs68bkwrg4k" path="res://assets/textures/misc/banner_pole.png" id="1_go8rj"]
-[ext_resource type="Script" path="res://entities/squad_banner.gd" id="1_iwiwb"]
+[ext_resource type="Script" path="res://entities/squads/squad_banner.gd" id="1_iwiwb"]
 [ext_resource type="Texture2D" uid="uid://cfbjlhvemqu3s" path="res://assets/textures/misc/banner.png" id="2_o0pnc"]
 
 [sub_resource type="Animation" id="Animation_7fyvb"]
@@ -249,7 +249,7 @@ texture = ExtResource("2_o0pnc")
 offset = Vector2(0, 45)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_default_blend_time = 0.2
 libraries = {
 "": SubResource("AnimationLibrary_7y3ne")
 }
+playback_default_blend_time = 0.2

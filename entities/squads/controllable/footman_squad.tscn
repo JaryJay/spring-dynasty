@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://blhxyp0cnaeh7"]
+
+[ext_resource type="PackedScene" uid="uid://bwjvgafstfxdm" path="res://entities/squads/controllable_squad.tscn" id="1_6duc2"]
+[ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/units/footman.tscn" id="2_er34p"]
+
+[node name="FootmanSquad" instance=ExtResource("1_6duc2")]
+unit_scene = ExtResource("2_er34p")
+engage_range = 70
+range = 90
+attack_cooldown = 60

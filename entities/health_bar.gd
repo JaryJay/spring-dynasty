@@ -25,6 +25,8 @@ func on_health_changed(old: int, new: int) -> void:
 	if _transparency_tween and _transparency_tween.is_valid():
 		_transparency_tween.kill()
 	
+	new = maxi(new, 0)
+	
 	bar.scale.x = 1.0 * new / max_health
 	bar.color = empty_health_color.lerp(full_health_color, bar.scale.x)
 	

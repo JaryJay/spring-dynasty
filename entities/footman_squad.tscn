@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://blhxyp0cnaeh7"]
-
-[ext_resource type="PackedScene" uid="uid://kd38esbaawca" path="res://entities/squad.tscn" id="1_jp8ry"]
-[ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/footman.tscn" id="2_fsh2l"]
-
-[node name="FootmanSquad" instance=ExtResource("1_jp8ry")]
-unit_scene = ExtResource("2_fsh2l")
-attack_cooldown = 60

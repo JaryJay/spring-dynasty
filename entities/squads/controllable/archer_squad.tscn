@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgwwsvg6vubvt"]
+
+[ext_resource type="PackedScene" uid="uid://bwjvgafstfxdm" path="res://entities/squads/controllable_squad.tscn" id="1_072eg"]
+[ext_resource type="PackedScene" uid="uid://doowijbnvegux" path="res://entities/units/archer.tscn" id="2_amnhd"]
+
+[node name="ArcherSquad" instance=ExtResource("1_072eg")]
+unit_scene = ExtResource("2_amnhd")
+health = 80
+engage_range = 200
+range = 220
+attack_cooldown = 60

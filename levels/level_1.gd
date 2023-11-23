@@ -49,6 +49,6 @@ func _on_trigger_area_2_body_entered(_body) -> void:
 	
 	var enemies: = [$Entities/F_1_0, $Entities/F_1_1]
 	for enemy: Squad in enemies:
-		var chasing_state: ChasingState = enemy.state_machine.get_node("ChasingState")
+		var chasing_state: ChasingState = enemy.state_machine.get_node("AiChasingState")
 		chasing_state.target = $Entities/B_1
 		enemy.state_machine.state = chasing_state

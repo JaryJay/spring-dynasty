@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://bwjvgafstfxdm"]
+
+[ext_resource type="PackedScene" uid="uid://d87c67oc0unn" path="res://entities/squads/empty_squad.tscn" id="1_64ccu"]
+[ext_resource type="Script" path="res://entities/squads/states/idle_state.gd" id="2_ajwuc"]
+[ext_resource type="Script" path="res://entities/squads/states/navigating_state.gd" id="3_tcybc"]
+[ext_resource type="Script" path="res://entities/squads/states/chasing_state.gd" id="4_reni6"]
+[ext_resource type="Script" path="res://entities/squads/states/attacking_state.gd" id="5_pbrjt"]
+[ext_resource type="Script" path="res://entities/squads/states/dying_state.gd" id="6_v1w8p"]
+
+[node name="ControllableSquad" instance=ExtResource("1_64ccu")]
+
+[node name="StateMachine" parent="." index="11" node_paths=PackedStringArray("default_state")]
+default_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine" index="0"]
+script = ExtResource("2_ajwuc")
+
+[node name="NavigatingState" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("3_tcybc")
+idle_state = NodePath("../IdleState")
+
+[node name="ChasingState" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("idle_state", "attacking_state")]
+script = ExtResource("4_reni6")
+idle_state = NodePath("../IdleState")
+attacking_state = NodePath("../AttackingState")
+
+[node name="AttackingState" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("idle_state", "chasing_state")]
+script = ExtResource("5_pbrjt")
+idle_state = NodePath("../IdleState")
+chasing_state = NodePath("../ChasingState")
+
+[node name="DyingState" type="Node" parent="StateMachine" index="4"]
+script = ExtResource("6_v1w8p")

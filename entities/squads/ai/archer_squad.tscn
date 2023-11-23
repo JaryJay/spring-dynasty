@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://c10rkvbh4fkpg"]
+
+[ext_resource type="PackedScene" uid="uid://fw6h25dueof3" path="res://entities/squads/ai_squad.tscn" id="1_mmrhx"]
+[ext_resource type="PackedScene" uid="uid://doowijbnvegux" path="res://entities/units/archer.tscn" id="2_61t7r"]
+
+[node name="ArcherSquad" instance=ExtResource("1_mmrhx")]
+unit_scene = ExtResource("2_61t7r")

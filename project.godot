@@ -36,6 +36,7 @@ folder_colors={
 "res://addons/": "orange",
 "res://assets/": "yellow",
 "res://entities/": "teal",
+"res://entities/squads/": "blue",
 "res://levels/": "purple",
 "res://ui/": "pink"
 }

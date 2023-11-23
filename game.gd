@@ -21,8 +21,8 @@ class_name Game
 ## functionality that the server does not need to run.
 
 const NUM_SAVED_INPUTS: = 30
-const footman_squad_scene: = preload("res://entities/footman_squad.tscn")
-const archer_squad_scene: = preload("res://entities/archer_squad.tscn")
+const footman_squad_scene: = preload("res://entities/squads/controllable/footman_squad.tscn")
+const archer_squad_scene: = preload("res://entities/squads/controllable/archer_squad.tscn")
 const base_scene: = preload("res://entities/buildings/base.tscn")
 const farm_scene: = preload("res://entities/buildings/farm.tscn")
 
@@ -267,7 +267,7 @@ func _update_squads_selection() -> void:
 
 func _detect_input() -> ClientInput:
 	var selecting: = Input.is_action_pressed("select")
-	if Input.is_action_pressed("primary") and not selecting:
+	if Input.is_action_just_pressed("primary") and not selecting:
 		if selected_squads.size() == 0:
 			# Do nothing
 			return ClientInput.new(frame, -1, [], Vector2.ZERO)

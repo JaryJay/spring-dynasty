@@ -1,16 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://kd38esbaawca"]
+[gd_scene load_steps=14 format=3 uid="uid://d87c67oc0unn"]
 
-[ext_resource type="Script" path="res://entities/squad.gd" id="1_32e7a"]
-[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/textures/misc/select_oval.png" id="2_4ii36"]
-[ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squad_banner.tscn" id="4_0cm58"]
-[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/textures/particles/damage.png" id="4_436gx"]
-[ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="5_2d2gk"]
-[ext_resource type="Script" path="res://entities/states/state_machine.gd" id="6_4oc3l"]
-[ext_resource type="Script" path="res://entities/states/idle_state.gd" id="7_ms2vq"]
-[ext_resource type="Script" path="res://entities/states/navigating_state.gd" id="8_hud4u"]
-[ext_resource type="Script" path="res://entities/states/chasing_state.gd" id="9_ujcix"]
-[ext_resource type="Script" path="res://entities/states/attacking_state.gd" id="10_7sxe7"]
-[ext_resource type="Script" path="res://entities/states/dying_state.gd" id="11_lhs0i"]
+[ext_resource type="Script" path="res://entities/squads/squad.gd" id="1_u12qt"]
+[ext_resource type="Texture2D" uid="uid://bf844ywkl7h4m" path="res://assets/textures/misc/select_oval.png" id="2_5q8ut"]
+[ext_resource type="PackedScene" uid="uid://bior7vn41ep74" path="res://entities/squads/squad_banner.tscn" id="3_3u8ik"]
+[ext_resource type="Texture2D" uid="uid://b83kyc10o2n8c" path="res://assets/textures/particles/damage.png" id="4_ey47v"]
+[ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="5_m6g5u"]
+[ext_resource type="Script" path="res://entities/squads/states/state_machine.gd" id="6_ivgqb"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_icjdd"]
 particles_animation = true
@@ -45,10 +40,10 @@ radius = 31.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
 radius = 121.017
 
-[node name="Squad" type="CharacterBody2D" groups=["squads"]]
+[node name="EmptySquad" type="CharacterBody2D" groups=["squads"]]
 y_sort_enabled = true
 collision_mask = 19
-script = ExtResource("1_32e7a")
+script = ExtResource("1_u12qt")
 attack_cooldown = 144
 
 [node name="SelectOval" type="Sprite2D" parent="."]
@@ -56,9 +51,9 @@ editor_description = "This will be visible whenever the squad is selected"
 visible = false
 z_index = -1
 scale = Vector2(0.695, 0.695)
-texture = ExtResource("2_4ii36")
+texture = ExtResource("2_5q8ut")
 
-[node name="SquadBanner" parent="." instance=ExtResource("4_0cm58")]
+[node name="SquadBanner" parent="." instance=ExtResource("3_3u8ik")]
 z_index = 1
 position = Vector2(-3, -45)
 
@@ -68,7 +63,7 @@ material = SubResource("CanvasItemMaterial_icjdd")
 emitting = false
 amount = 2
 process_material = SubResource("ParticleProcessMaterial_e2di1")
-texture = ExtResource("4_436gx")
+texture = ExtResource("4_ey47v")
 lifetime = 0.2
 one_shot = true
 explosiveness = 0.5
@@ -90,7 +85,7 @@ grow_vertical = 2
 text = "Debug text"
 label_settings = SubResource("LabelSettings_bc27l")
 
-[node name="HealthBar" parent="." instance=ExtResource("5_2d2gk")]
+[node name="HealthBar" parent="." instance=ExtResource("5_m6g5u")]
 position = Vector2(0, 40)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -182,29 +177,8 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_8wtwe")
 debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("squad", "default_state")]
-script = ExtResource("6_4oc3l")
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("squad")]
+script = ExtResource("6_ivgqb")
 squad = NodePath("..")
-default_state = NodePath("IdleState")
-
-[node name="IdleState" type="Node" parent="StateMachine"]
-script = ExtResource("7_ms2vq")
-
-[node name="NavigatingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
-script = ExtResource("8_hud4u")
-idle_state = NodePath("../IdleState")
-
-[node name="ChasingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "attacking_state")]
-script = ExtResource("9_ujcix")
-idle_state = NodePath("../IdleState")
-attacking_state = NodePath("../AttackingState")
-
-[node name="AttackingState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "chasing_state")]
-script = ExtResource("10_7sxe7")
-idle_state = NodePath("../IdleState")
-chasing_state = NodePath("../ChasingState")
-
-[node name="DyingState" type="Node" parent="StateMachine"]
-script = ExtResource("11_lhs0i")
 
 [connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]

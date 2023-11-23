@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dme4xng5vwpj7"]
+
+[ext_resource type="PackedScene" uid="uid://bwjvgafstfxdm" path="res://entities/squads/controllable_squad.tscn" id="1_ibxky"]
+[ext_resource type="PackedScene" uid="uid://dmlj2ymshi2l" path="res://entities/units/swordsman.tscn" id="2_41wyb"]
+
+[node name="SwordsmanSquad" instance=ExtResource("1_ibxky")]
+unit_scene = ExtResource("2_41wyb")
+attack = 12
+attack_cooldown = 60

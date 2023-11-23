@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bogbidiako8h8"]
+[gd_scene load_steps=9 format=3 uid="uid://bogbidiako8h8"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/level.tscn" id="1_kwl8q"]
 [ext_resource type="Script" path="res://levels/level_1.gd" id="2_yjba7"]
 [ext_resource type="PackedScene" uid="uid://s2hwxk8bbuob" path="res://maps/campaign_map_1.tscn" id="3_65yjq"]
-[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/footman_squad.tscn" id="4_mvegc"]
+[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="4_mvegc"]
+[ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="5_4xpkg"]
 [ext_resource type="PackedScene" uid="uid://cj6ji0rp28eiq" path="res://entities/buildings/farm.tscn" id="5_p3eg5"]
+[ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="7_42t7j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jnioe"]
 size = Vector2(126, 30)
@@ -39,19 +41,21 @@ position = Vector2(-205, -291)
 [node name="F_0_0" parent="Entities" index="0" instance=ExtResource("4_mvegc")]
 position = Vector2(-208, -302)
 
-[node name="F_0_1" parent="Entities" index="1" instance=ExtResource("4_mvegc")]
-position = Vector2(181, -324)
+[node name="F_0_1" parent="Entities" index="1" instance=ExtResource("5_4xpkg")]
+position = Vector2(173, -330)
 
 [node name="B_1" parent="Entities" index="2" instance=ExtResource("5_p3eg5")]
 position = Vector2(267, 242)
 max_health = 350
 
-[node name="F_1_0" parent="Entities" index="3" instance=ExtResource("4_mvegc")]
-position = Vector2(46, 206)
+[node name="F_1_0" parent="Entities" index="3" instance=ExtResource("7_42t7j")]
+position = Vector2(37, 214)
+intelligence = 0
 team = 1
 
-[node name="F_1_1" parent="Entities" index="4" instance=ExtResource("4_mvegc")]
-position = Vector2(519, 311)
+[node name="F_1_1" parent="Entities" index="4" instance=ExtResource("7_42t7j")]
+position = Vector2(483, 323)
+intelligence = 0
 team = 1
 
 [node name="Special" type="Node2D" parent="." index="6"]

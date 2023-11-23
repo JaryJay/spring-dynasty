@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://fw6h25dueof3"]
+
+[ext_resource type="PackedScene" uid="uid://d87c67oc0unn" path="res://entities/squads/empty_squad.tscn" id="1_8lxsi"]
+[ext_resource type="Script" path="res://entities/squads/ai_squad.gd" id="2_m7pn3"]
+[ext_resource type="Script" path="res://entities/squads/states/ai/ai_idle_state.gd" id="3_22f0j"]
+[ext_resource type="Script" path="res://entities/squads/states/ai/ai_navigating_state.gd" id="4_2pcqv"]
+[ext_resource type="Script" path="res://entities/squads/states/ai/ai_chasing_state.gd" id="5_bcerg"]
+[ext_resource type="Script" path="res://entities/squads/states/ai/ai_attacking_state.gd" id="6_eyiew"]
+[ext_resource type="Script" path="res://entities/squads/states/dying_state.gd" id="7_8ssyb"]
+
+[node name="AiSquad" instance=ExtResource("1_8lxsi")]
+script = ExtResource("2_m7pn3")
+intelligence = 1
+attack_cooldown = 60
+
+[node name="StateMachine" parent="." index="11" node_paths=PackedStringArray("default_state")]
+default_state = NodePath("AiIdleState")
+
+[node name="AiIdleState" type="Node" parent="StateMachine" index="0"]
+script = ExtResource("3_22f0j")
+
+[node name="AiNavigatingState" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("4_2pcqv")
+idle_state = NodePath("../AiIdleState")
+
+[node name="AiChasingState" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("idle_state", "attacking_state")]
+script = ExtResource("5_bcerg")
+idle_state = NodePath("../AiIdleState")
+attacking_state = NodePath("../AiAttackingState")
+
+[node name="AiAttackingState" type="Node" parent="StateMachine" index="3" node_paths=PackedStringArray("idle_state", "chasing_state")]
+script = ExtResource("6_eyiew")
+idle_state = NodePath("../AiIdleState")
+chasing_state = NodePath("../AiChasingState")
+
+[node name="DyingState" type="Node" parent="StateMachine" index="4"]
+script = ExtResource("7_8ssyb")
