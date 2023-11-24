@@ -153,6 +153,9 @@ func change_health(change: int, source: Node2D) -> void:
 	if health <= 0:
 		health_depleted.emit(health, source)
 
+func is_alive() -> bool:
+	return not state_machine.state is DyingState
+
 # Private setters
 
 func _set_team(value: int) -> void:

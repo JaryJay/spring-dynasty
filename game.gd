@@ -258,8 +258,7 @@ func _update_squads_selection() -> void:
 		selected_squads.clear()
 		for body in selection_rect.get_overlapping_bodies():
 			if body is Squad:
-				if body.team == controlled_team and \
-				not body.state_machine.state is DyingState:
+				if body.team == controlled_team and body.is_alive():
 					selected_squads.append(body)
 					body.selected = true
 			else:
@@ -274,7 +273,7 @@ func _detect_input() -> ClientInput:
 		
 		var squad_names: Array[StringName] = []
 		for squad in selected_squads:
-			if is_instance_valid(squad) and not squad.state_machine.state is DyingState:
+			if is_instance_valid(squad) and squad.is_alive():
 				squad_names.append(squad.name)
 		
 		var mouse_pos: = get_global_mouse_position().round()

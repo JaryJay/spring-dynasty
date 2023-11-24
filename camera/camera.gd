@@ -18,6 +18,8 @@ func _update_position(delta: float) -> void:
 	if follow_mode_enabled and not follow_targets.is_empty():
 		var target_position_sum = Vector2.ZERO
 		for node: Node2D in follow_targets:
+			if not is_instance_valid(node):
+				continue
 			target_position_sum += node.position
 		position = target_position_sum / follow_targets.size()
 		if disable_pan:

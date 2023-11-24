@@ -35,6 +35,26 @@ func _physics_process(_delta) -> void:
 	
 	# Handle inputs from all players, including the local player
 	rollback_and_resimulate()
+	
+	check_win_loss_condition()
+
+func check_win_loss_condition() -> void:
+	var has_living_friendly_squads: = false
+	var has_living_enemy_squads: = false
+	for squad: Squad in get_tree().get_nodes_in_group("squads"):
+		if not squad.is_alive():
+			continue
+		if squad.team == 0:
+			has_living_friendly_squads = true
+		else:
+			has_living_enemy_squads = true
+	
+	if not has_living_friendly_squads:
+		Global.console.print("You lose!")
+		set_physics_process(false)
+	elif not has_living_enemy_squads:
+		Global.console.print("You win!")
+		set_physics_process(false)
 
 func _on_trigger_area_2_body_entered(_body) -> void:
 	Global.console.print("Entered Triggered area!")

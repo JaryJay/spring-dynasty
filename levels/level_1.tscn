@@ -52,11 +52,13 @@ max_health = 350
 position = Vector2(37, 214)
 intelligence = 0
 team = 1
+attack = 8
 
 [node name="F_1_1" parent="Entities" index="4" instance=ExtResource("7_42t7j")]
 position = Vector2(483, 323)
 intelligence = 0
 team = 1
+attack = 8
 
 [node name="Special" type="Node2D" parent="." index="6"]
 

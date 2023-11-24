@@ -16,7 +16,7 @@ func _enter_state(squad: Squad) -> void:
 
 func process(squad: Squad) -> void:
 	if target is Squad:
-		if target.state_machine.state is DyingState:
+		if not target.is_alive():
 			squad.state_machine.state = idle_state
 			return
 	elif target is Building:
