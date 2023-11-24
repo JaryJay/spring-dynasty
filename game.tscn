@@ -28,7 +28,7 @@ visible = false
 
 [node name="Camera" parent="." instance=ExtResource("5_npod3")]
 
-[node name="Entities" type="Node2D" parent="."]
+[node name="Entities" type="Node2D" parent="." groups=["entities_parent"]]
 process_mode = 3
 y_sort_enabled = true
 

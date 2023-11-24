@@ -17,10 +17,10 @@ func _ready() -> void:
 	
 	# Focus camera on squad
 	camera.position = $Entities/F_0_0.position
-	#create_tween().tween_property(camera, "position", $Entities/F_0_0.position, 0.5).set_trans(Tween.TRANS_CUBIC)
 	
 	# Select squad
 	selected_squads = [$Entities/F_0_0]
+	camera.target_zoom = Vector2(1.4, 1.4)
 	$Entities/F_0_0.selected = true
 
 func _physics_process(_delta) -> void:
@@ -44,12 +44,13 @@ func check_win_loss_condition() -> void:
 	for squad: Squad in get_tree().get_nodes_in_group("squads"):
 		if not squad.is_alive():
 			continue
-		if squad.team == 0:
+		if squad.team == controlled_team:
 			has_living_friendly_squads = true
 		else:
 			has_living_enemy_squads = true
 	
-	if not has_living_friendly_squads:
+	# If all friendly squads are dead or the farm was destroyed
+	if not has_living_friendly_squads or $Entities/B_0.team != controlled_team:
 		Global.console.print("You lose!")
 		set_physics_process(false)
 	elif not has_living_enemy_squads:
@@ -63,12 +64,12 @@ func _on_trigger_area_2_body_entered(_body) -> void:
 	# Focus camera on farm
 	camera.follow_mode_enabled = false
 	var tw: = create_tween()
-	tw.tween_property(camera, "position", $Entities/B_1.position, 0.5).set_trans(Tween.TRANS_CUBIC)
+	tw.tween_property(camera, "position", $Entities/B_0.position, 0.5).set_trans(Tween.TRANS_CUBIC)
 	tw.tween_interval(1.6)
 	tw.tween_property(camera, "follow_mode_enabled", true, 0)
 	
 	var enemies: = [$Entities/F_1_0, $Entities/F_1_1]
 	for enemy: Squad in enemies:
 		var chasing_state: ChasingState = enemy.state_machine.get_node("AiChasingState")
-		chasing_state.target = $Entities/B_1
+		chasing_state.target = $Entities/B_0
 		enemy.state_machine.state = chasing_state

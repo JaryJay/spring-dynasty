@@ -17,9 +17,8 @@ func _update_position(delta: float) -> void:
 	var input_vector: = Input.get_vector("pan_left", "pan_right", "pan_up", "pan_down")
 	if follow_mode_enabled and not follow_targets.is_empty():
 		var target_position_sum = Vector2.ZERO
+		_remove_invalid_follow_targets()
 		for node: Node2D in follow_targets:
-			if not is_instance_valid(node):
-				continue
 			target_position_sum += node.position
 		position = target_position_sum / follow_targets.size()
 		if disable_pan:
@@ -42,4 +41,8 @@ func _unhandled_input(_event):
 		target_zoom = Vector2(0.4, 0.4)
 	elif target_zoom.length_squared() / 2 > 2.0 * 2.0:
 		target_zoom = Vector2(2.0, 2.0)
-	
+
+func _remove_invalid_follow_targets() -> void:
+	for i in range(follow_targets.size() - 1, -1, -1):
+		if not is_instance_valid(follow_targets[i]):
+			follow_targets.remove_at(i)

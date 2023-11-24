@@ -23,7 +23,6 @@ signal health_depleted(health, source)
 @onready var debug_label: Label = $DebugLabel
 @onready var nav: NavigationAgent2D = $NavigationAgent2D
 @onready var rays: Node2D = $Rays
-@onready var personal_space_area: Area2D = $PersonalSpaceArea
 @onready var push_area: Area2D = $PushArea
 @onready var awareness_area: Area2D = $AwarenessArea
 @onready var state_machine: StateMachine = $StateMachine

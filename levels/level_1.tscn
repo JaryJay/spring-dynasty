@@ -44,7 +44,7 @@ position = Vector2(-208, -302)
 [node name="F_0_1" parent="Entities" index="1" instance=ExtResource("5_4xpkg")]
 position = Vector2(173, -330)
 
-[node name="B_1" parent="Entities" index="2" instance=ExtResource("5_p3eg5")]
+[node name="B_0" parent="Entities" index="2" instance=ExtResource("5_p3eg5")]
 position = Vector2(267, 242)
 max_health = 350
 

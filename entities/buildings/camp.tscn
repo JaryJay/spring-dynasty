@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://cpimgswcgil06"]
+
+[ext_resource type="Script" path="res://entities/buildings/camp.gd" id="1_y6532"]
+[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="2_l7fdh"]
+[ext_resource type="Texture2D" uid="uid://cu48i72uao2u" path="res://assets/textures/placeholder/tent.png" id="2_lrkqk"]
+[ext_resource type="PackedScene" uid="uid://bgwwsvg6vubvt" path="res://entities/squads/controllable/archer_squad.tscn" id="3_mdcmk"]
+[ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="4_4r3jy"]
+[ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="4_sv38c"]
+[ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="5_cp1y6"]
+[ext_resource type="PackedScene" uid="uid://c10rkvbh4fkpg" path="res://entities/squads/ai/archer_squad.tscn" id="6_jav8f"]
+
+[node name="Camp" type="StaticBody2D" groups=["buildings"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_y6532")
+controllable_squad_scenes = Array[PackedScene]([ExtResource("2_l7fdh"), ExtResource("3_mdcmk"), ExtResource("4_4r3jy")])
+ai_squad_scenes = Array[PackedScene]([ExtResource("5_cp1y6"), ExtResource("6_jav8f")])
+has_ability = true
+ability_cooldown_time = 1000
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.0588235)
+avoidance_enabled = false
+vertices = PackedVector2Array(0, -55, 67, -20, 67, 20, 0, 55, -67, 20, -67, -20)
+avoidance_layers = 2
+
+[node name="Sprites" type="Node2D" parent="."]
+scale = Vector2(0.3, 0.3)
+
+[node name="Shadow" type="Sprite2D" parent="Sprites"]
+z_index = -1
+
+[node name="Fill" type="Sprite2D" parent="Sprites"]
+modulate = Color(0.0235294, 0.705882, 0.847059, 1)
+position = Vector2(-35.64, 1.405)
+
+[node name="Camp" type="Sprite2D" parent="Sprites"]
+scale = Vector2(3.56, 3.56)
+texture = ExtResource("2_lrkqk")
+offset = Vector2(0, -28)
+
+[node name="Rays" type="Node2D" parent="."]
+
+[node name="Up" type="RayCast2D" parent="Rays"]
+rotation = -3.14159
+collision_mask = 17
+
+[node name="Right1" type="RayCast2D" parent="Rays"]
+rotation = -2.0944
+collision_mask = 17
+
+[node name="Right2" type="RayCast2D" parent="Rays"]
+rotation = -1.0472
+collision_mask = 17
+
+[node name="Down" type="RayCast2D" parent="Rays"]
+collision_mask = 17
+
+[node name="Left1" type="RayCast2D" parent="Rays"]
+rotation = 1.0472
+collision_mask = 17
+
+[node name="Left2" type="RayCast2D" parent="Rays"]
+rotation = 2.0944
+collision_mask = 17
+
+[node name="HealthBar" parent="." instance=ExtResource("4_sv38c")]
+position = Vector2(0, 34)
+
+[connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]
+[connection signal="health_depleted" from="." to="." method="_on_health_depleted"]
+[connection signal="team_color_changed" from="." to="." method="_on_team_color_changed"]

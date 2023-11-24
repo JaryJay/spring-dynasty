@@ -13,7 +13,7 @@ signal health_depleted(health, source)
 
 @export_group("Ability")
 @export var has_ability: bool = false
-@export_range(0, 500) var ability_cooldown_time: int = 0
+@export_range(1, 1000) var ability_cooldown_time: int = 0
 
 @onready var health: int = max_health : set = _set_health
 @onready var ability_cooldown: int = ability_cooldown_time
