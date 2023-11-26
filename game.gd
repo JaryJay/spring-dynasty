@@ -25,6 +25,7 @@ const footman_squad_scene: = preload("res://entities/squads/controllable/footman
 const archer_squad_scene: = preload("res://entities/squads/controllable/archer_squad.tscn")
 const base_scene: = preload("res://entities/buildings/base.tscn")
 const farm_scene: = preload("res://entities/buildings/farm.tscn")
+var navigate_command_vfx_scene: = load("res://vfx/navigate_command_vfx.tscn")
 
 @export var enable_debug_overlay: bool
 
@@ -147,6 +148,7 @@ func _physics_process(_delta):
 	
 	# Note that detecting inputs is not the same as handling them
 	var input: ClientInput = _detect_input()
+	_create_input_vfx(input)
 	_add_input(input)
 	
 	# Handle inputs from all players, including the local player
@@ -313,6 +315,12 @@ func _detect_input() -> ClientInput:
 	
 	# State index of -1 means that the input does nothing
 	return ClientInput.new(frame, -1, [], Vector2.ZERO)
+
+func _create_input_vfx(input: ClientInput) -> void:
+	if input.state_index == 1 or input.state_index == 2:
+		var vfx: Node2D = navigate_command_vfx_scene.instantiate()
+		vfx.global_position = get_global_mouse_position()
+		get_tree().root.add_child(vfx)
 
 ## Resets the game state back to the earliest desynced frame, then resimulates
 ## those desynced frames.

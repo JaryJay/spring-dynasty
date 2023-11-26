@@ -18,7 +18,7 @@ map = NodePath("CampaignMap1")
 [node name="CampaignMap1" parent="." index="2" instance=ExtResource("3_65yjq")]
 
 [node name="Label" type="Label" parent="CampaignMap1" index="3"]
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0.45098)
+self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
 offset_left = -271.0
 offset_top = -233.0
 offset_right = -82.0
@@ -26,13 +26,32 @@ offset_bottom = -210.0
 text = "Click to move the squad."
 
 [node name="Label2" type="Label" parent="CampaignMap1" index="4"]
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0.45098)
+self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
 offset_left = 29.0
 offset_top = -291.0
 offset_right = 245.0
 offset_bottom = -242.0
 text = "Press Ctrl and drag to select
 multiple squads."
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="CampaignMap1" index="5"]
+self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+offset_left = 161.0
+offset_top = 121.0
+offset_right = 377.0
+offset_bottom = 170.0
+text = "Click an enemy squad
+to attack!"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="CampaignMap1" index="6"]
+self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+offset_left = 156.0
+offset_top = 340.0
+offset_right = 372.0
+offset_bottom = 389.0
+text = "Defend the farm."
 horizontal_alignment = 1
 
 [node name="Camera" parent="." index="4"]
@@ -49,13 +68,13 @@ position = Vector2(267, 242)
 max_health = 350
 
 [node name="F_1_0" parent="Entities" index="3" instance=ExtResource("7_42t7j")]
-position = Vector2(37, 214)
+position = Vector2(-20, 203)
 intelligence = 0
 team = 1
 attack = 8
 
 [node name="F_1_1" parent="Entities" index="4" instance=ExtResource("7_42t7j")]
-position = Vector2(483, 323)
+position = Vector2(536, 336)
 intelligence = 0
 team = 1
 attack = 8

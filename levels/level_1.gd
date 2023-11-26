@@ -31,6 +31,7 @@ func _physics_process(_delta) -> void:
 	
 	# Note that detecting inputs is not the same as handling them
 	var input: ClientInput = _detect_input()
+	_create_input_vfx(input)
 	_add_input(input)
 	
 	# Handle inputs from all players, including the local player
@@ -58,13 +59,12 @@ func check_win_loss_condition() -> void:
 		set_physics_process(false)
 
 func _on_trigger_area_2_body_entered(_body) -> void:
-	Global.console.print("Entered Triggered area!")
 	$Special/TriggerArea2.queue_free()
 	
 	# Focus camera on farm
 	camera.follow_mode_enabled = false
 	var tw: = create_tween()
-	tw.tween_property(camera, "position", $Entities/B_0.position, 0.5).set_trans(Tween.TRANS_CUBIC)
+	tw.tween_property(camera, "position", $Entities/B_0.position, 0.4).set_trans(Tween.TRANS_CUBIC)
 	tw.tween_interval(1.6)
 	tw.tween_property(camera, "follow_mode_enabled", true, 0)
 	

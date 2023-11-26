@@ -38,7 +38,8 @@ folder_colors={
 "res://entities/": "teal",
 "res://entities/squads/": "blue",
 "res://levels/": "purple",
-"res://ui/": "pink"
+"res://ui/": "pink",
+"res://vfx/": "gray"
 }
 
 [gui]
