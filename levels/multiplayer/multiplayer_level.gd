@@ -139,6 +139,7 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 		var squad_frame_state: SquadFrameState = game_frame_state.squad_frame_states[i]
 		var squad: Squad = $Entities.get_node_or_null(squad_name)
 		if not squad:
+			# TODO: Instantiate new squad based on squad type
 			printerr("Could not find squad %s" % squad_name)
 			continue
 		

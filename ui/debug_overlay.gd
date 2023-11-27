@@ -55,7 +55,9 @@ func _process(_delta) -> void:
 		label.text = _generate_client_input_text(p_name, p_team, p_inputs)
 	
 	for squad in get_tree().get_nodes_in_group("squads"):
-		var label: Label = get_node("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
+		var label: Label = get_node_or_null("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
+		if not label:
+			continue
 		label.text = _generate_squad_info_text(squad)
 	
 	frame_label.text = "Frame: %s" % Strings.pad(str(Client.level.frame), 6)

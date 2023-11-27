@@ -82,6 +82,8 @@ grow_vertical = 2
 text = "Debug text"
 label_settings = SubResource("LabelSettings_bc27l")
 
+[node name="NavigationTrail" type="Line2D" parent="."]
+
 [node name="HealthBar" parent="." instance=ExtResource("5_m6g5u")]
 position = Vector2(0, 40)
 
@@ -94,6 +96,7 @@ path_max_distance = 60.0
 radius = 28.0
 avoidance_layers = 0
 avoidance_mask = 2
+debug_enabled = true
 
 [node name="Rays" type="Node2D" parent="."]
 rotation = -1.5708

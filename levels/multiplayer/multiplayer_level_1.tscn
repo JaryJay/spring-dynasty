@@ -1,9 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5islfxq0dypl"]
+[gd_scene load_steps=4 format=3 uid="uid://b5islfxq0dypl"]
 
 [ext_resource type="PackedScene" uid="uid://dkjf1oqnh3u10" path="res://levels/multiplayer/multiplayer_level.tscn" id="1_mmnhp"]
 [ext_resource type="PackedScene" uid="uid://3r6q0oteiybd" path="res://maps/map_1.tscn" id="2_45isp"]
+[ext_resource type="PackedScene" uid="uid://cpimgswcgil06" path="res://entities/buildings/camp.tscn" id="3_m68oy"]
 
 [node name="MultiplayerLevel1" node_paths=PackedStringArray("map") instance=ExtResource("1_mmnhp")]
 map = NodePath("Map1")
 
 [node name="Map1" parent="." index="2" instance=ExtResource("2_45isp")]
+
+[node name="Camp1" parent="Entities" index="0" instance=ExtResource("3_m68oy")]
+position = Vector2(-324, -25)
+
+[node name="Camp2" parent="Entities" index="1" instance=ExtResource("3_m68oy")]
+position = Vector2(395, 358)
+
+[node name="Camp3" parent="Entities" index="2" instance=ExtResource("3_m68oy")]
+position = Vector2(301, -165)
+
+[node name="Camp4" parent="Entities" index="3" instance=ExtResource("3_m68oy")]
+position = Vector2(-122, 292)

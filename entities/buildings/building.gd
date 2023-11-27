@@ -8,8 +8,8 @@ signal health_changed(old, new)
 ## Emitted when health reaches 0
 signal health_depleted(health, source)
 
-@export_range(0, 5) var team: int = 0 : set = _set_team_index
-@export_range(0, 500) var max_health: int
+@export_range(0, 7) var team: int = 0 : set = _set_team_index
+@export_range(1, 500) var max_health: int
 
 @export_group("Ability")
 @export var has_ability: bool = false

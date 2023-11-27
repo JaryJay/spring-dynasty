@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://entities/health_bar.gd" id="2_vl84j"]
 
 [node name="HealthBar" type="Sprite2D"]
-z_index = 1
+z_index = 2
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_b0qbj")
 script = ExtResource("2_vl84j")

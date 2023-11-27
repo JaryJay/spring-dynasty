@@ -69,11 +69,11 @@ gizmo_extents = 20.0
 position = Vector2(-22, -116)
 
 [node name="Team3" type="Marker2D" parent="SpawnLocations"]
-position = Vector2(-181, 524)
+position = Vector2(-179, 534)
 gizmo_extents = 20.0
 
 [node name="Farm" type="Marker2D" parent="SpawnLocations/Team3"]
-position = Vector2(79, -72)
+position = Vector2(61, -108)
 
 [node name="Team4" type="Marker2D" parent="SpawnLocations"]
 position = Vector2(-241, 179)

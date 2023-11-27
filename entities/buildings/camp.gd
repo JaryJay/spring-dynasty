@@ -16,10 +16,20 @@ func _ready() -> void:
 	$HealthBar.max_health = max_health
 
 func update() -> void:
+	# Team == 7 means that it is uncontrolled.
+	if team == 7:
+		return
+	
 	if ability_cooldown >= 0:
 		ability_cooldown -= 1
 		return
+	
 	ability_cooldown = ability_cooldown_time
+	
+	# If in a multiplayer game, then spawning is done server-side only, and then
+	# synced over to the clients.
+	if not multiplayer.is_server():
+		return
 	
 	var squad_scene: PackedScene
 	if is_ai:
@@ -28,6 +38,7 @@ func update() -> void:
 		squad_scene = controllable_squad_scenes[squad_type]
 	var squad: = squad_scene.instantiate()
 	squad.team = team
+	squad.name = "S_%d_" % team
 	
 	var ray: RayCast2D = $Rays/Up
 	for ray_cast: RayCast2D in $Rays.get_children():
