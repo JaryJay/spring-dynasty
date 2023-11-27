@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkjf1oqnh3u10"]
+
+[ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_6vr0y"]
+[ext_resource type="Script" path="res://levels/multiplayer/multiplayer_level.gd" id="2_hhwbe"]
+
+[node name="MultiplayerLevel" instance=ExtResource("1_6vr0y")]
+script = ExtResource("2_hhwbe")
+
+[node name="StartTimer" type="Timer" parent="." index="6"]
+process_callback = 0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

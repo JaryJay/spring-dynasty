@@ -49,19 +49,19 @@ func _ready():
 		ray.add_exception(self)
 	
 	if Client.is_multiplayer():
-		frame_states.append(SquadFrameState.new(Client.game.frame, health, position, rotation, 0, global_position))
+		frame_states.append(SquadFrameState.new(Client.level.frame, health, position, rotation, 0, global_position))
 	state_machine.initialize()
 	
 	$HealthBar.max_health = health
 
-## Called in game.gd
+## Called in level.gd
 func update() -> void:
 	for ray_cast in rays.get_children():
 		ray_cast.force_raycast_update()
 	
 	state_machine.process_state()
 
-## Called in game.gd after update() is called on all squads
+## Called in level.gd after update() is called on all squads
 func post_update(frame: int) -> void:
 	if health <= 0:
 		state_machine.state = $StateMachine/DyingState
@@ -94,23 +94,28 @@ func rotate_and_move(direction: Vector2, speed_multiplier: float = 1) -> void:
 ## every element in frame_states with a later frame.
 ## Returns whether the frame_state at the specified frame exists.
 func return_to_frame_state(frame: int) -> bool:
+	
 	for i in frame_states.size():
 		var fs: = frame_states[i]
-		if fs.frame == frame:
-			health = fs.health
-			position = fs.position
-			rays.rotation = fs.rotation
-			nav.target_position = fs.target_position
-			state_machine.state = state_machine.get_child(fs.state_index)
-			if state_machine.state._requires_target():
-				var targ: Node2D = get_node("/root/Game/Entities").get_node(fs.target_name)
-				state_machine.state.target = targ
-			if state_machine.state is AttackingState:
-				state_machine.state.cooldown = fs.attack_cooldown
-			
-			# Delete every element in frame_states with a later frame
-			frame_states = frame_states.slice(0, i + 1)
-			return true
+		if not fs.frame == frame:
+			continue
+		
+		health = fs.health
+		position = fs.position
+		rays.rotation = fs.rotation
+		nav.target_position = fs.target_position
+		state_machine.state = state_machine.get_child(fs.state_index)
+		
+		var entities_parent: = get_tree().get_first_node_in_group("entities_parent")
+		if state_machine.state._requires_target():
+			var targ: Node2D = entities_parent.get_node(fs.target_name)
+			state_machine.state.target = targ
+		if state_machine.state is AttackingState:
+			state_machine.state.cooldown = fs.attack_cooldown
+		
+		# Delete every element in frame_states with a later frame
+		frame_states = frame_states.slice(0, i + 1)
+		return true
 	
 	printerr("%s: Squad trying to return to frame %d, but the latest frame is %d" % [name, frame, frame_states[-1].frame])
 	return false

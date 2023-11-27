@@ -14,7 +14,7 @@ var _is_multiplayer: = false
 var user_info: Dictionary = { "name": "Bob" }
 var team_number: int = -1
 
-var game: Game = null
+var level: Level = null
 
 func init(server_ip: String, server_port: int) -> Error:
 	print("Initializing client...")

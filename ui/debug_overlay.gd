@@ -3,7 +3,7 @@ extends Control
 @export_range(0, 30) var num_inputs_to_show: int
 @export_range(0, 30) var num_states_to_show: int
 
-var game: Game
+var level: Level
 var actually_ready: = false
 
 @onready var frame_label: = $SquadInfoContainer/FrameLabel
@@ -34,10 +34,10 @@ func _create_squad_info_labels() -> void:
 	# Move FrameLabel to the bottom
 	$SquadInfoContainer.move_child(frame_label, -1)
 
-func initialize(_game: Game) -> void:
+func initialize(_level: Level) -> void:
 	_create_client_input_labels()
 	_create_squad_info_labels()
-	self.game = _game
+	self.level = _level
 	actually_ready = true
 
 func _process(_delta) -> void:
@@ -49,7 +49,7 @@ func _process(_delta) -> void:
 		var p_id: = lobby.player_ids[i]
 		var p_name: = lobby.player_names[i]
 		var p_team: int = lobby.player_info_list[i].team
-		var p_inputs: Array = game.player_inputs[p_id]
+		var p_inputs: Array = level.player_inputs[p_id]
 		
 		var label: Label = get_node("ClientInputsContainer/ClientInputsLabel%d" % p_team)
 		label.text = _generate_client_input_text(p_name, p_team, p_inputs)
@@ -58,7 +58,7 @@ func _process(_delta) -> void:
 		var label: Label = get_node("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
 		label.text = _generate_squad_info_text(squad)
 	
-	frame_label.text = "Frame: %s" % Strings.pad(str(Client.game.frame), 6)
+	frame_label.text = "Frame: %s" % Strings.pad(str(Client.level.frame), 6)
 
 func _generate_client_input_text(p_name: String, p_team: int, p_inputs: Array) -> String:
 	var text: = "Client %s | Team %d\nLast %d inputs:" % [p_name, p_team, num_inputs_to_show]

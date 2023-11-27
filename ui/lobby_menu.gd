@@ -1,7 +1,5 @@
 extends Control
 
-const game_scene: = preload("res://game.tscn")
-
 @onready var player_list: = %PlayerList
 @onready var status_label: = %StatusLabel
 
@@ -36,4 +34,4 @@ func _on_start_button_pressed() -> void:
 
 func _on_game_started() -> void:
 	print("%s: Game started" % multiplayer.get_unique_id())
-	get_tree().change_scene_to_packed(game_scene)
+	get_tree().change_scene_to_file("res://levels/multiplayer/multiplayer_level_1.tscn")

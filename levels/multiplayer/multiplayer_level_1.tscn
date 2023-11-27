@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5islfxq0dypl"]
+
+[ext_resource type="PackedScene" uid="uid://dkjf1oqnh3u10" path="res://levels/multiplayer/multiplayer_level.tscn" id="1_mmnhp"]
+[ext_resource type="PackedScene" uid="uid://3r6q0oteiybd" path="res://maps/map_1.tscn" id="2_45isp"]
+
+[node name="MultiplayerLevel1" node_paths=PackedStringArray("map") instance=ExtResource("1_mmnhp")]
+map = NodePath("Map1")
+
+[node name="Map1" parent="." index="2" instance=ExtResource("2_45isp")]

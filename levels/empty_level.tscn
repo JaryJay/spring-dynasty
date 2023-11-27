@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dypyeymk8mxp2"]
+
+[ext_resource type="Script" path="res://levels/level.gd" id="1_n8lov"]
+[ext_resource type="PackedScene" uid="uid://dl75aog1s15k1" path="res://ui/debug_overlay.tscn" id="2_7dyk7"]
+[ext_resource type="PackedScene" uid="uid://yg75476prlvp" path="res://ui/pause_menu.tscn" id="3_2rad7"]
+[ext_resource type="PackedScene" uid="uid://diqb4edupeah0" path="res://ui/selection_rect.tscn" id="4_16tm5"]
+[ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="5_ndpta"]
+
+[node name="EmptyLevel" type="Node2D"]
+script = ExtResource("1_n8lov")
+
+[node name="DebugLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="DebugOverlay" parent="DebugLayer" instance=ExtResource("2_7dyk7")]
+
+[node name="PauseMenuLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseMenuLayer" instance=ExtResource("3_2rad7")]
+visible = false
+
+[node name="SelectionRect" parent="." instance=ExtResource("4_16tm5")]
+
+[node name="Camera" parent="." instance=ExtResource("5_ndpta")]
+
+[node name="Entities" type="Node2D" parent="." groups=["entities_parent"]]
+process_mode = 3
+y_sort_enabled = true
+
+[node name="Players" type="Node" parent="."]

@@ -8,7 +8,7 @@ extends Node
 const PORT = 45000
 const MAX_CONNECTIONS = 32
 
-const game_scene: = preload("res://game.tscn")
+const level_scene: = preload("res://levels/multiplayer/multiplayer_level_1.tscn")
 
 var lobby: Lobby = Lobby.new()
 
@@ -50,7 +50,6 @@ func _on_player_disconnected(id: int) -> void:
 	# Calculate new host
 	var i: = lobby.player_ids.find(id)
 	lobby.player_ids.remove_at(i)
-	lobby.player_info_list.remove_at(i)
 	lobby.player_names.remove_at(i)
 	if lobby.host_id == id:
 		if lobby.player_ids.size() > 0:
@@ -125,10 +124,10 @@ func start_game() -> void:
 		Client.start_game.rpc_id(lobby.player_ids[i], lobby.player_info_list)
 	teams_in_use = team_numbers.slice(0, lobby.player_ids.size())
 	
-	# Create game
-	var game: = game_scene.instantiate()
-	GameServer.game = game
-	get_tree().root.add_child(game)
+	# Create level
+	var level: = level_scene.instantiate()
+	GameServer.level = level
+	get_tree().root.add_child(level)
 	
 	# Start GameServer after 1 second
 	get_tree().create_timer(1, true, true).timeout.connect(GameServer.start)
