@@ -9,7 +9,7 @@ func _ready() -> void:
 	add_to_group("players")
 	frame_states.append(PlayerFrameState.new(0, gold))
 
-func update() -> void:
+func update(_frame: int) -> void:
 	pass
 
 func post_update(frame: int) -> void:

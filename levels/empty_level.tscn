@@ -6,8 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://diqb4edupeah0" path="res://ui/selection_rect.tscn" id="4_16tm5"]
 [ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="5_ndpta"]
 
-[node name="EmptyLevel" type="Node2D"]
+[node name="EmptyLevel" type="Node2D" groups=["level"]]
 script = ExtResource("1_n8lov")
+enable_debug_overlay = true
 
 [node name="DebugLayer" type="CanvasLayer" parent="."]
 visible = false

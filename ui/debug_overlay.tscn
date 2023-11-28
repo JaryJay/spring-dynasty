@@ -17,6 +17,7 @@ num_inputs_to_show = 10
 num_states_to_show = 4
 
 [node name="ClientInputsContainer" type="VBoxContainer" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.705882)
 layout_mode = 2
 offset_right = 327.0
@@ -34,7 +35,7 @@ Last %d inputs:
 %d: target=%v, squads=%v, state=%d"
 label_settings = ExtResource("2_v7guk")
 
-[node name="SquadInfoContainer" type="VBoxContainer" parent="."]
+[node name="RightContainer" type="VBoxContainer" parent="."]
 modulate = Color(1, 1, 1, 0.705882)
 layout_mode = 1
 anchors_preset = 1
@@ -45,7 +46,8 @@ offset_bottom = 648.0
 grow_horizontal = 0
 theme_override_constants/separation = 20
 
-[node name="Template" type="Label" parent="SquadInfoContainer"]
+[node name="Template" type="Label" parent="RightContainer"]
+visible = false
 layout_mode = 2
 text = "Squad %s | Team %d
 Last %d states:
@@ -57,7 +59,7 @@ Last %d states:
 "
 label_settings = ExtResource("2_v7guk")
 
-[node name="FrameLabel" type="Label" parent="SquadInfoContainer"]
+[node name="FrameLabel" type="Label" parent="RightContainer"]
 layout_mode = 2
 text = "Frame: ...100"
 label_settings = ExtResource("2_v7guk")

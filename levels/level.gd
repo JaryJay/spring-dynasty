@@ -162,9 +162,9 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 					break
 		
 		# Update everything
-		get_tree().call_group("buildings", "update")
-		get_tree().call_group("squads", "update")
-		get_tree().call_group("players", "update")
+		get_tree().call_group("buildings", "update", f)
+		get_tree().call_group("squads", "update", f)
+		get_tree().call_group("players", "update", f)
 		
 		# Post update everything
 		get_tree().call_group("buildings", "post_update", f)

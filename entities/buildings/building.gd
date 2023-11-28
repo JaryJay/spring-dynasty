@@ -23,7 +23,7 @@ var frame_states: Array[BuildingFrameState] = []
 func _ready() -> void:
 	post_update(0)
 
-func update() -> void:
+func update(_frame: int) -> void:
 	pass
 
 func post_update(frame: int) -> void:

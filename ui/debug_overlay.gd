@@ -6,7 +6,7 @@ extends Control
 var level: Level
 var actually_ready: = false
 
-@onready var frame_label: = $SquadInfoContainer/FrameLabel
+@onready var frame_label: = $RightContainer/FrameLabel
 
 func _create_client_input_labels() -> void:
 	var client_input_label_template: = $ClientInputsContainer/Template
@@ -22,21 +22,21 @@ func _create_client_input_labels() -> void:
 	client_input_label_template.queue_free()
 
 func _create_squad_info_labels() -> void:
-	var squad_info_label_template: = $SquadInfoContainer/Template
+	var squad_info_label_template: = $RightContainer/Template
 	
 	for squad in get_tree().get_nodes_in_group("squads"):
 		var data_label: = squad_info_label_template.duplicate()
 		data_label.name = "SquadInfoLabel%s" % squad.name
-		$SquadInfoContainer.add_child(data_label)
+		$RightContainer.add_child(data_label)
 	
 	squad_info_label_template.queue_free()
 	
 	# Move FrameLabel to the bottom
-	$SquadInfoContainer.move_child(frame_label, -1)
+	$RightContainer.move_child(frame_label, -1)
 
 func initialize(_level: Level) -> void:
-	_create_client_input_labels()
-	_create_squad_info_labels()
+	#_create_client_input_labels()
+	#_create_squad_info_labels()
 	self.level = _level
 	actually_ready = true
 
@@ -44,21 +44,21 @@ func _process(_delta) -> void:
 	if not actually_ready:
 		return
 	
-	var lobby: = Server.lobby
-	for i in lobby.player_ids.size():
-		var p_id: = lobby.player_ids[i]
-		var p_name: = lobby.player_names[i]
-		var p_team: int = lobby.player_info_list[i].team
-		var p_inputs: Array = level.player_inputs[p_id]
-		
-		var label: Label = get_node("ClientInputsContainer/ClientInputsLabel%d" % p_team)
-		label.text = _generate_client_input_text(p_name, p_team, p_inputs)
-	
-	for squad in get_tree().get_nodes_in_group("squads"):
-		var label: Label = get_node_or_null("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
-		if not label:
-			continue
-		label.text = _generate_squad_info_text(squad)
+	#var lobby: = Server.lobby
+	#for i in lobby.player_ids.size():
+		#var p_id: = lobby.player_ids[i]
+		#var p_name: = lobby.player_names[i]
+		#var p_team: int = lobby.player_info_list[i].team
+		#var p_inputs: Array = level.player_inputs[p_id]
+		#
+		#var label: Label = get_node("ClientInputsContainer/ClientInputsLabel%d" % p_team)
+		#label.text = _generate_client_input_text(p_name, p_team, p_inputs)
+	#
+	#for squad in get_tree().get_nodes_in_group("squads"):
+		#var label: Label = get_node_or_null("SquadInfoContainer/SquadInfoLabel%s" % squad.name)
+		#if not label:
+			#continue
+		#label.text = _generate_squad_info_text(squad)
 	
 	frame_label.text = "Frame: %s" % Strings.pad(str(Client.level.frame), 6)
 

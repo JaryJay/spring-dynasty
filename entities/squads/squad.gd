@@ -55,7 +55,7 @@ func _ready():
 	$HealthBar.max_health = health
 
 ## Called in level.gd
-func update() -> void:
+func update(_frame: int) -> void:
 	for ray_cast in rays.get_children():
 		ray_cast.force_raycast_update()
 	

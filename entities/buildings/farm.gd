@@ -6,7 +6,7 @@ func _ready() -> void:
 	super()
 	$HealthBar.max_health = max_health
 
-func update() -> void:
+func update(_frame: int) -> void:
 	if ability_cooldown == 0:
 		var players: = get_tree().get_nodes_in_group("players")
 		var filtered_players: = players.filter(func(p): return p.team == team)

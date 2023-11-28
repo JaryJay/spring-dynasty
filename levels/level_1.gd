@@ -22,6 +22,8 @@ func _ready() -> void:
 	selected_squads = [$Entities/F_0_0]
 	camera.target_zoom = Vector2(1.4, 1.4)
 	$Entities/F_0_0.selected = true
+	
+	$DebugLayer.visible = enable_debug_overlay
 
 func _physics_process(_delta) -> void:
 	frame += 1
