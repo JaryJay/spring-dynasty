@@ -1,9 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://cj6ji0rp28eiq"]
+[gd_scene load_steps=12 format=3 uid="uid://cj6ji0rp28eiq"]
 
 [ext_resource type="Script" path="res://entities/buildings/farm.gd" id="1_txruf"]
 [ext_resource type="Texture2D" uid="uid://hl5x7mkxfca7" path="res://assets/textures/buildings/farm_fill.png" id="2_a4h28"]
 [ext_resource type="Texture2D" uid="uid://c5dr6ext8v4gg" path="res://assets/textures/buildings/farm.png" id="3_arwy2"]
 [ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="4_6q0tk"]
+[ext_resource type="PackedScene" uid="uid://bb3o2e1kfhiav" path="res://entities/progress_bar.tscn" id="5_5i6h0"]
+[ext_resource type="Texture2D" uid="uid://cymjttjrf636i" path="res://assets/textures/placeholder/elementCircle.png" id="5_wo8cv"]
+
+[sub_resource type="Curve" id="Curve_3t7cu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.344671, 1), 0.0, 0.0, 0, 0, Vector2(0.85034, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -15.7001, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_jpnsc"]
+curve = SubResource("Curve_3t7cu")
+
+[sub_resource type="Curve" id="Curve_noe1n"]
+_data = [Vector2(0, 0.677502), 0.0, 0.0, 0, 0, Vector2(0.199546, 0.966638), 0.0, 0.0, 0, 0, Vector2(0.863946, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.683062), -5.51722, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_fd6ae"]
+curve = SubResource("Curve_noe1n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m2rox"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_fd6ae")
+alpha_curve = SubResource("CurveTexture_jpnsc")
 
 [node name="Farm" type="StaticBody2D" groups=["buildings"]]
 collision_layer = 2
@@ -12,7 +40,7 @@ script = ExtResource("1_txruf")
 gold_generation = 20
 max_health = 150
 has_ability = true
-ability_cooldown_time = 60
+ability_cooldown_time = 120
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
@@ -32,8 +60,18 @@ texture = ExtResource("2_a4h28")
 [node name="Farm" type="Sprite2D" parent="Sprites"]
 texture = ExtResource("3_arwy2")
 
+[node name="Particles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_m2rox")
+texture = ExtResource("5_wo8cv")
+one_shot = true
+
+[node name="ProgressBar" parent="." instance=ExtResource("5_5i6h0")]
+position = Vector2(0, 29)
+
 [node name="HealthBar" parent="." instance=ExtResource("4_6q0tk")]
-position = Vector2(0, 34)
+position = Vector2(0, 36)
 
 [connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]
 [connection signal="health_depleted" from="." to="." method="_on_health_depleted"]

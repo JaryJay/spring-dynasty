@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bb3o2e1kfhiav"]
+
+[ext_resource type="Texture2D" uid="uid://s76giw1cdnpc" path="res://assets/textures/ui/progress_bar.png" id="1_5f4sd"]
+[ext_resource type="Script" path="res://entities/progress_bar.gd" id="2_5wk55"]
+
+[node name="ProgressBar" type="Sprite2D"]
+z_index = 2
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_5f4sd")
+script = ExtResource("2_5wk55")
+full_color = Color(0.12549, 0.627451, 0.847059, 1)
+empty_color = Color(0.0862745, 0.556863, 0.756863, 1)
+
+[node name="Bar" type="Polygon2D" parent="."]
+z_index = -1
+position = Vector2(-58, 0)
+color = Color(0.12549, 0.627451, 0.847059, 1)
+polygon = PackedVector2Array(0, -4, 0, 5, 116, 5, 116, -4)
+
+[node name="StartMarker" type="Marker2D" parent="."]
+position = Vector2(-58, 0)
+
+[node name="EndMarker" type="Marker2D" parent="."]
+position = Vector2(58, 0)
+
+[node name="FadeTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="FadeTimer" to="." method="_on_fade_timer_timeout"]

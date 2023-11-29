@@ -13,6 +13,7 @@ enum SquadType {
 
 func _ready() -> void:
 	super()
+	$ProgressBar.max_value = ability_cooldown_time
 	$HealthBar.max_health = max_health
 
 func update(frame: int) -> void:
@@ -22,13 +23,21 @@ func update(frame: int) -> void:
 	
 	if ability_cooldown > 1:
 		ability_cooldown -= 1
+		$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))
 		return
-	ability_cooldown = ability_cooldown_time
 	
-	# If in a multiplayer game, then spawning is done server-side only, and then
-	# synced over to the clients.
-	#if not multiplayer.is_server():
-		#return
+	var ray: RayCast2D
+	for ray_cast: RayCast2D in $Rays.get_children():
+		if not ray_cast.is_colliding():
+			ray = ray_cast
+			break
+	if not ray:
+		# Not enough space to spawn a squad
+		return
+	
+	# Use ability and spawn a squad
+	ability_cooldown = ability_cooldown_time
+	$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))
 	
 	var squad_scene: PackedScene
 	if is_ai:
@@ -38,12 +47,6 @@ func update(frame: int) -> void:
 	var squad: = squad_scene.instantiate()
 	squad.team = team
 	squad.name = "S_%d_%d" % [team, frame]
-	
-	var ray: RayCast2D = $Rays/Up
-	for ray_cast: RayCast2D in $Rays.get_children():
-		if not ray_cast.is_colliding():
-			ray = ray_cast
-			break
 	
 	squad.position = global_position + ray.target_position.rotated(ray.global_rotation)
 	get_tree().get_first_node_in_group("entities_parent").add_child(squad, true)

@@ -15,9 +15,9 @@ func _process(delta: float):
 
 func _update_position(delta: float) -> void:
 	var input_vector: = Input.get_vector("pan_left", "pan_right", "pan_up", "pan_down")
+	_remove_invalid_follow_targets()
 	if follow_mode_enabled and not follow_targets.is_empty():
 		var target_position_sum = Vector2.ZERO
-		_remove_invalid_follow_targets()
 		for node: Node2D in follow_targets:
 			target_position_sum += node.position
 		position = target_position_sum / follow_targets.size()

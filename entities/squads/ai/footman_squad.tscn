@@ -7,7 +7,6 @@
 unit_scene = ExtResource("2_w0u6s")
 engage_range = 70
 range = 90
-attack_cooldown = 100
 
 [node name="AiIdleState" parent="StateMachine" index="0" node_paths=PackedStringArray("chasing_state")]
 chasing_state = NodePath("../AiChasingState")

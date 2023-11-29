@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cpimgswcgil06"]
+[gd_scene load_steps=12 format=3 uid="uid://cpimgswcgil06"]
 
 [ext_resource type="Script" path="res://entities/buildings/camp.gd" id="1_y6532"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="2_l7fdh"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cgtyt0dxf8cu4" path="res://assets/textures/buildings/camp_fill.png" id="7_7dq21"]
 [ext_resource type="Texture2D" uid="uid://byqxvi18sphvf" path="res://assets/textures/buildings/camp_shadow.png" id="7_x8lvh"]
 [ext_resource type="Texture2D" uid="uid://brh51brvbroi5" path="res://assets/textures/buildings/camp.png" id="8_2avts"]
+[ext_resource type="PackedScene" uid="uid://bb3o2e1kfhiav" path="res://entities/progress_bar.tscn" id="10_sqsba"]
 
 [node name="Camp" type="StaticBody2D" groups=["buildings"]]
 collision_layer = 2
@@ -74,8 +75,11 @@ rotation = 2.0944
 target_position = Vector2(0, 55)
 collision_mask = 17
 
+[node name="ProgressBar" parent="." instance=ExtResource("10_sqsba")]
+position = Vector2(0, 29)
+
 [node name="HealthBar" parent="." instance=ExtResource("4_sv38c")]
-position = Vector2(0, 34)
+position = Vector2(0, 37)
 
 [connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]
 [connection signal="health_depleted" from="." to="." method="_on_health_depleted"]
