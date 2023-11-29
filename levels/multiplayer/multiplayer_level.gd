@@ -125,10 +125,12 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 	
 	if frame < state_frame:
 		# We are too far behind the server
+		earliest_desynced_frame = frame + 1
 		frame = state_frame
 		rollback_and_resimulate()
 	elif frame > state_frame + 3:
 		# We are too far ahead of the server
+		earliest_desynced_frame = state_frame + 1
 		frame = state_frame
 		rollback_and_resimulate()
 	
@@ -163,6 +165,10 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 		
 		for j in range(building.frame_states.size() - 1, -1, -1):
 			if building.frame_states[j].frame == state_frame:
+				if building.frame_states[j].ability_cooldown != building_frame_state.ability_cooldown:
+					Global.console.print("Ability cooldown desynced for %s" % building.name)
+					Global.console.print("Frame = %d" % state_frame)
+					Global.console.print("Local = %d, auth = %d" % [building.frame_states[j].ability_cooldown, building_frame_state.ability_cooldown])
 				building.frame_states[j] = building_frame_state
 				building.return_to_frame_state(state_frame)
 				break

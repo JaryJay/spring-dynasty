@@ -3,10 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://fw6h25dueof3" path="res://entities/squads/ai_squad.tscn" id="1_g6c2e"]
 [ext_resource type="PackedScene" uid="uid://bvepugi4pqh7g" path="res://entities/units/footman.tscn" id="2_w0u6s"]
 
-[node name="FootmanSquad" instance=ExtResource("1_g6c2e")]
+[node name="FootmanSquad2" instance=ExtResource("1_g6c2e")]
 unit_scene = ExtResource("2_w0u6s")
 engage_range = 70
 range = 90
+attack_cooldown = 100
 
 [node name="AiIdleState" parent="StateMachine" index="0" node_paths=PackedStringArray("chasing_state")]
 chasing_state = NodePath("../AiChasingState")

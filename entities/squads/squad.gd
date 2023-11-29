@@ -117,7 +117,7 @@ func return_to_frame_state(frame: int) -> bool:
 		frame_states = frame_states.slice(0, i + 1)
 		return true
 	
-	printerr("%s: Squad trying to return to frame %d, but the latest frame is %d" % [name, frame, frame_states[-1].frame])
+	printerr("%s: Squad trying to return to frame %d, but the oldest frame is %d" % [name, frame, frame_states[-1].frame])
 	return false
 
 func _is_obstacle_in_front() -> bool:

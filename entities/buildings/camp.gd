@@ -20,13 +20,10 @@ func update(frame: int) -> void:
 	if team == 7:
 		return
 	
-	if ability_cooldown >= 0:
+	if ability_cooldown > 1:
 		ability_cooldown -= 1
 		return
-	
 	ability_cooldown = ability_cooldown_time
-	
-	Global.console.print("Spawning!")
 	
 	# If in a multiplayer game, then spawning is done server-side only, and then
 	# synced over to the clients.

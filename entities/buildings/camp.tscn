@@ -47,25 +47,31 @@ offset = Vector2(0, -53)
 
 [node name="Up" type="RayCast2D" parent="Rays"]
 rotation = -3.14159
+target_position = Vector2(0, 55)
 collision_mask = 17
 
 [node name="Right1" type="RayCast2D" parent="Rays"]
 rotation = -2.0944
+target_position = Vector2(0, 55)
 collision_mask = 17
 
 [node name="Right2" type="RayCast2D" parent="Rays"]
 rotation = -1.0472
+target_position = Vector2(0, 55)
 collision_mask = 17
 
 [node name="Down" type="RayCast2D" parent="Rays"]
+target_position = Vector2(0, 55)
 collision_mask = 17
 
 [node name="Left1" type="RayCast2D" parent="Rays"]
 rotation = 1.0472
+target_position = Vector2(0, 55)
 collision_mask = 17
 
 [node name="Left2" type="RayCast2D" parent="Rays"]
 rotation = 2.0944
+target_position = Vector2(0, 55)
 collision_mask = 17
 
 [node name="HealthBar" parent="." instance=ExtResource("4_sv38c")]

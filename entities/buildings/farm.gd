@@ -7,15 +7,18 @@ func _ready() -> void:
 	$HealthBar.max_health = max_health
 
 func update(_frame: int) -> void:
-	if ability_cooldown == 0:
-		var players: = get_tree().get_nodes_in_group("players")
-		var filtered_players: = players.filter(func(p): return p.team == team)
-		if not filtered_players.is_empty():
-			var owner_player: Player = filtered_players[0]
-			
-			owner_player.gold += gold_generation
-			ability_cooldown = ability_cooldown_time
-	ability_cooldown -= 1
+	if ability_cooldown > 1:
+		ability_cooldown -= 1
+		return
+	ability_cooldown = ability_cooldown_time
+	
+	var players: = get_tree().get_nodes_in_group("players")
+	var filtered_players: = players.filter(func(p): return p.team == team)
+	if not filtered_players.is_empty():
+		var owner_player: Player = filtered_players[0]
+		
+		owner_player.gold += gold_generation
+		ability_cooldown = ability_cooldown_time
 
 func _on_team_color_changed(color: Color):
 	$Sprites/Fill.modulate = color
