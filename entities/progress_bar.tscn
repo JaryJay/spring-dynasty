@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://entities/progress_bar.gd" id="2_5wk55"]
 
 [node name="ProgressBar" type="Sprite2D"]
-z_index = 2
+z_index = 5
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_5f4sd")
 script = ExtResource("2_5wk55")

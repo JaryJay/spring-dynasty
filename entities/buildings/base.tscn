@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dsmhm75q0u3cp" path="res://assets/textures/buildings/base.png" id="4_ak57u"]
 [ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="5_fkp8w"]
 
-[node name="Base" type="StaticBody2D" groups=["buildings"]]
+[node name="Base" type="StaticBody2D" groups=["bases", "buildings"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_r3k65")

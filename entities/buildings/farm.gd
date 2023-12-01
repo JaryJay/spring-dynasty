@@ -7,6 +7,7 @@ extends Building
 func _ready() -> void:
 	super()
 	$HealthBar.max_health = max_health
+	$ProgressBar.max_value = ability_cooldown_time
 
 func update(_frame: int) -> void:
 	if ability_cooldown > 1:

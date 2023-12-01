@@ -5,3 +5,7 @@
 
 [node name="ArcherSquad" instance=ExtResource("1_mmrhx")]
 unit_scene = ExtResource("2_61t7r")
+health = 80
+attack = 8
+engage_range = 160
+range = 180

@@ -23,6 +23,7 @@ texture = ExtResource("4_gvnv3")
 region_rect = Rect2(0, 237, 190, 45)
 
 [resource]
+default_font_size = 20
 Button/styles/disabled = SubResource("StyleBoxTexture_da6qr")
 Button/styles/focus = SubResource("StyleBoxTexture_0jhwn")
 Button/styles/hover = SubResource("StyleBoxTexture_1snjh")

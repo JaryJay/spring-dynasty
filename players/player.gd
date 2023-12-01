@@ -1,6 +1,7 @@
 extends Node
 class_name Player
 
+var id: int
 var team: int
 var frame_states: Array[PlayerFrameState] = []
 var gold: int

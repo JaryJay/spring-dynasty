@@ -11,10 +11,10 @@ func _ready():
 		var team: int = lobby.player_info_list[i].team
 		player_inputs[player_id] = []
 		var player_node: = Player.new()
-		# Starting gold
-		player_node.gold = 100
+		player_node.id = player_id
 		player_node.team = team
-		player_node.name = "P_%d" % team
+		player_node.gold = 100
+		player_node.name = str(player_id)
 		$Players.add_child(player_node)
 	
 	if multiplayer.is_server():
@@ -24,6 +24,9 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
+	
+	if is_spectator:
+		return
 	
 	# Send last 30 inputs to the server
 	var inputs: Array = player_inputs[multiplayer.get_unique_id()]
@@ -172,6 +175,25 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 				building.frame_states[j] = building_frame_state
 				building.return_to_frame_state(state_frame)
 				break
+
+## Lose the game, and enables spectator mode.
+## Called by the server when the player controls 0 bases, or when another
+## loss condition is satisfied
+@rpc("authority", "reliable")
+func lose_game(stats_bytes: PackedByteArray, killer_bytes: PackedByteArray) -> void:
+	$Players.get_node(str(multiplayer.get_unique_id())).queue_free()
+	Global.console.print("You lost the game!")
+	is_spectator = true
+	
+	var game_over_scene: PackedScene = load("res://ui/game_over_overlay.tscn")
+	var canvas_layer: = CanvasLayer.new()
+	var game_over_overlay: GameOverOverlay = game_over_scene.instantiate()
+	# TODO: set game over overlay stats
+	game_over_overlay.time_survived = frame
+	game_over_overlay.total_score = frame / Engine.physics_ticks_per_second
+	
+	canvas_layer.add_child(game_over_overlay)
+	add_child(canvas_layer)
 
 @rpc("authority", "reliable")
 func end_game(winning_player_id: int, team: int) -> void:

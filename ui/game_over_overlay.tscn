@@ -1,0 +1,173 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy584wk4hrbbn"]
+
+[ext_resource type="Script" path="res://ui/game_over_overlay.gd" id="1_204uu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_m0a0f"]
+font_size = 28
+
+[node name="GameOverOverlay" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.117647, 0.117647, 0.117647, 0.639216)
+script = ExtResource("1_204uu")
+
+[node name="V" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="V"]
+layout_mode = 2
+text = "You Were Slain"
+label_settings = SubResource("LabelSettings_m0a0f")
+horizontal_alignment = 1
+
+[node name="H" type="HBoxContainer" parent="V"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 40
+
+[node name="VLeft" type="VBoxContainer" parent="V/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 50
+
+[node name="Grid" type="GridContainer" parent="V/H/VLeft"]
+layout_mode = 2
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="SquadsSlainLabel" type="Label" parent="V/H/VLeft/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Squads Slain"
+
+[node name="SquadsSlain" type="Label" parent="V/H/VLeft/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="SquadsTrainedLabel" type="Label" parent="V/H/VLeft/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Squads Trained"
+
+[node name="SquadsTrained" type="Label" parent="V/H/VLeft/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="StructuresCapturedLabel" type="Label" parent="V/H/VLeft/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Structures Captured"
+
+[node name="StructuresCaptured" type="Label" parent="V/H/VLeft/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="PlayersEliminatedLabel" type="Label" parent="V/H/VLeft/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Players Eliminated"
+
+[node name="PlayersEliminated" type="Label" parent="V/H/VLeft/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="TimeSurvivedLabel" type="Label" parent="V/H/VLeft/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Time Survived"
+
+[node name="TimeSurvived" type="Label" parent="V/H/VLeft/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0:00"
+horizontal_alignment = 2
+
+[node name="Grid2" type="GridContainer" parent="V/H/VLeft"]
+layout_mode = 2
+columns = 2
+
+[node name="TotalScoreLabel" type="Label" parent="V/H/VLeft/Grid2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Total Score"
+
+[node name="TotalScore" type="Label" parent="V/H/VLeft/Grid2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="VRight" type="VBoxContainer" parent="V/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="V/H/VRight"]
+layout_mode = 2
+text = "Good try, general. They have bested us."
+
+[node name="RatingLabel" type="Label" parent="V/H/VRight"]
+layout_mode = 2
+text = "
+Did you enjoy this match?"
+
+[node name="RatingsContainer" type="HBoxContainer" parent="V/H/VRight"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="1" type="Button" parent="V/H/VRight/RatingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+
+[node name="2" type="Button" parent="V/H/VRight/RatingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2
+"
+
+[node name="3" type="Button" parent="V/H/VRight/RatingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+
+[node name="4" type="Button" parent="V/H/VRight/RatingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+
+[node name="5" type="Button" parent="V/H/VRight/RatingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "5"
+
+[node name="ThanksLabel" type="Label" parent="V/H/VRight"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Thank you for your feedback!"

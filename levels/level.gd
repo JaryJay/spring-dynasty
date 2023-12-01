@@ -33,6 +33,7 @@ var selected_squads: Array[Squad] = []
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput]).
 var player_inputs: Dictionary = {}
 
+var is_spectator: = false
 #endregion
 
 func _ready():
@@ -59,13 +60,14 @@ func _process(_delta):
 func _physics_process(_delta):
 	frame += 1
 	
-	# Update selected_squads to be the squads overlapped by selection_rect
-	_update_squads_selection()
-	
-	# Note that detecting inputs is not the same as handling them
-	var input: ClientInput = _detect_input()
-	_create_input_vfx(input)
-	_add_input(input)
+	if not is_spectator:
+		# Update selected_squads to be the squads overlapped by selection_rect
+		_update_squads_selection()
+		
+		# Note that detecting inputs is not the same as handling them
+		var input: ClientInput = _detect_input()
+		_create_input_vfx(input)
+		_add_input(input)
 	
 	# Handle inputs from all players, including the local player
 	rollback_and_resimulate()

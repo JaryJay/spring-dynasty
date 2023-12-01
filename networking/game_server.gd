@@ -5,7 +5,7 @@ extends Node
 @onready var sync_interval: int = Engine.physics_ticks_per_second * .5
 
 var started: bool = false
-var level: Level
+var level: MultiplayerLevel
 
 @onready var sync_state_timer: = sync_interval
 
@@ -31,6 +31,7 @@ func _physics_process(_delta) -> void:
 	level.frame += 1
 	level.rollback_and_resimulate()
 	_send_inputs()
+	_check_eliminations()
 	_check_game_end_condition()
 	_send_game_frame_state()
 
@@ -98,6 +99,13 @@ func _send_game_frame_state() -> void:
 		level.receive_game_frame_state.rpc(GameFrameState.to_bytes(game_frame_state))
 		sync_state_timer = sync_interval
 	sync_state_timer -= 1
+
+func _check_eliminations() -> void:
+	for player: Player in get_tree().get_nodes_in_group("players"):
+		var bases: = get_tree().get_nodes_in_group("bases")
+		if bases.filter(func(b): return b.team == player.team).is_empty():
+			level.lose_game.rpc_id(player.id, [], [])
+			player.queue_free()
 
 func _check_game_end_condition() -> void:
 	if Server.lobby.player_ids.size() == 1:

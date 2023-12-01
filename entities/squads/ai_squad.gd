@@ -12,7 +12,7 @@ enum Intelligence {
 @export var intelligence: Intelligence = Intelligence.NORMAL
 
 func get_closest_enemy_squad() -> Squad:
-	var enemy_squads: Array[Squad]
+	var enemy_squads: Array[Squad] = []
 	for body: PhysicsBody2D in awareness_area.get_overlapping_bodies():
 		if body is Squad and not body.team == team and body.is_alive():
 			enemy_squads.append(body)
