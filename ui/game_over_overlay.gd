@@ -1,6 +1,8 @@
 extends ColorRect
 class_name GameOverOverlay
 
+var victory: bool = false
+
 var squads_slain: int
 var squads_trained: int
 var structures_captured: int
@@ -9,6 +11,16 @@ var time_survived: int
 var total_score: int
 
 func _ready() -> void:
+	if victory:
+		$V/Label.text = "Victory"
+		var comments: = [
+			"Your enemies tremble beneath your feet.",
+			"Good work, general.",
+			"You are the victor.",
+			"GG EZ",
+		]
+		%CommentLabel.text = comments.pick_random()
+	
 	%SquadsSlain.text = str(squads_slain)
 	%SquadsTrained.text = str(squads_trained)
 	%StructuresCaptured.text = str(structures_captured)

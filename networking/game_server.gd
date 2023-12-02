@@ -126,9 +126,9 @@ func _check_game_end_condition() -> void:
 	Global.console.print("Player %d has won!" % team)
 	
 	var winning_player_id: = -1
-	for player_id in Server.lobby.player_ids:
-		if Server.lobby.get_player_info(winning_player_id).team == team:
-			winning_player_id = player_id
+	for player: Player in get_tree().get_nodes_in_group("players"):
+		if player.team == team:
+			winning_player_id = player.id
 			break
 	
 	_send_game_frame_state()

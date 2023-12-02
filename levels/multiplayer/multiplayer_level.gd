@@ -199,8 +199,22 @@ func lose_game(stats_bytes: PackedByteArray, killer_bytes: PackedByteArray) -> v
 func end_game(winning_player_id: int, team: int) -> void:
 	# TODO make this more fancy
 	var n: = Server.lobby.get_player_name(winning_player_id)
-	Global.console.print("Player %s has won! They are team %d." % [n, team])
-	set_physics_process(false)
+	Global.console.print("%s has won." % winning_player_id)
+	Global.console.print("You are %s." % multiplayer.get_unique_id())
+	#set_physics_process(false)
+	
+	if winning_player_id == multiplayer.get_unique_id():
+		Global.console.print("You won!")
+		var game_over_scene: PackedScene = load("res://ui/game_over_overlay.tscn")
+		var canvas_layer: = CanvasLayer.new()
+		var game_over_overlay: GameOverOverlay = game_over_scene.instantiate()
+		# TODO: set game over overlay stats
+		game_over_overlay.victory = true
+		game_over_overlay.time_survived = frame
+		game_over_overlay.total_score = frame / Engine.physics_ticks_per_second
+		
+		canvas_layer.add_child(game_over_overlay)
+		add_child(canvas_layer)
 	
 	create_tween().tween_property(camera, "position", Vector2.ZERO, .5).set_trans(Tween.TRANS_CUBIC)
 	create_tween().tween_property(camera, "target_zoom", Vector2(.5, .5), .5).set_trans(Tween.TRANS_CUBIC)
