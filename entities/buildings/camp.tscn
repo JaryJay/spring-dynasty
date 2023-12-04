@@ -13,8 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://bb3o2e1kfhiav" path="res://entities/progress_bar.tscn" id="10_sqsba"]
 
 [node name="Camp" type="StaticBody2D" groups=["buildings"]]
-collision_layer = 2
+collision_layer = 130
 collision_mask = 0
+input_pickable = true
 script = ExtResource("1_y6532")
 controllable_squad_scenes = Array[PackedScene]([ExtResource("2_l7fdh"), ExtResource("3_mdcmk"), ExtResource("4_4r3jy")])
 ai_squad_scenes = Array[PackedScene]([ExtResource("5_cp1y6"), ExtResource("6_jav8f")])
