@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cpimgswcgil06"]
+[gd_scene load_steps=14 format=3 uid="uid://cpimgswcgil06"]
 
 [ext_resource type="Script" path="res://entities/buildings/camp.gd" id="1_y6532"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="2_l7fdh"]
@@ -11,11 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://byqxvi18sphvf" path="res://assets/textures/buildings/camp_shadow.png" id="7_x8lvh"]
 [ext_resource type="Texture2D" uid="uid://brh51brvbroi5" path="res://assets/textures/buildings/camp.png" id="8_2avts"]
 [ext_resource type="PackedScene" uid="uid://bb3o2e1kfhiav" path="res://entities/progress_bar.tscn" id="10_sqsba"]
+[ext_resource type="PackedScene" uid="uid://bacc25t3po4fw" path="res://ui/ui_wheel.tscn" id="12_xa2vp"]
+[ext_resource type="PackedScene" uid="uid://b8si1i1llmp5q" path="res://ui/ui_wheel_element.tscn" id="13_vdt8s"]
 
 [node name="Camp" type="StaticBody2D" groups=["buildings"]]
 collision_layer = 130
 collision_mask = 0
-input_pickable = true
 script = ExtResource("1_y6532")
 controllable_squad_scenes = Array[PackedScene]([ExtResource("2_l7fdh"), ExtResource("3_mdcmk"), ExtResource("4_4r3jy")])
 ai_squad_scenes = Array[PackedScene]([ExtResource("5_cp1y6"), ExtResource("6_jav8f")])
@@ -81,6 +82,17 @@ position = Vector2(0, 29)
 
 [node name="HealthBar" parent="." instance=ExtResource("4_sv38c")]
 position = Vector2(0, 37)
+
+[node name="UIWheel" parent="." instance=ExtResource("12_xa2vp")]
+
+[node name="UIWheelElement" parent="UIWheel" instance=ExtResource("13_vdt8s")]
+position = Vector2(0, -56)
+
+[node name="UIWheelElement2" parent="UIWheel" instance=ExtResource("13_vdt8s")]
+position = Vector2(48.4974, 28)
+
+[node name="UIWheelElement3" parent="UIWheel" instance=ExtResource("13_vdt8s")]
+position = Vector2(-48.4974, 28)
 
 [connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]
 [connection signal="health_depleted" from="." to="." method="_on_health_depleted"]

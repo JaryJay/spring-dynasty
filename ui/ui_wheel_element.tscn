@@ -9,12 +9,15 @@ radius = 16.0
 [node name="UIWheelElement" type="Node2D"]
 script = ExtResource("1_f6rde")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Circle" type="Sprite2D" parent="."]
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_p8ube")
 
+[node name="Icon" type="Sprite2D" parent="."]
+modulate = Color(0.901961, 0.901961, 0.901961, 1)
+
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 128
+collision_layer = 64
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

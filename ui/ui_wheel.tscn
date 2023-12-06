@@ -4,10 +4,26 @@
 [ext_resource type="Texture2D" uid="uid://cymjttjrf636i" path="res://assets/textures/placeholder/elementCircle.png" id="1_mhfv0"]
 
 [node name="UIWheel" type="Node2D"]
+z_index = 8
 script = ExtResource("1_5vv6q")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+scale = Vector2(2, 2)
 texture = ExtResource("1_mhfv0")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -22.0
+offset_right = 26.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]

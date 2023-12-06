@@ -30,6 +30,8 @@ var controlled_team: int = 0
 ## The list of squads that are within the blue selection_rect. Updated every
 ## frame in [method _physics_process].
 var selected_squads: Array[Squad] = []
+
+var current_ui_wheel: UIWheel
 ## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput]).
 var player_inputs: Dictionary = {}
 
@@ -64,6 +66,7 @@ func _physics_process(_delta):
 		# Update selected_squads to be the squads overlapped by selection_rect
 		_update_squads_selection()
 		
+		#_handle_impactless_inputs()
 		# Note that detecting inputs is not the same as handling them
 		var input: ClientInput = _detect_input()
 		_create_input_vfx(input)
@@ -86,55 +89,102 @@ func _update_squads_selection() -> void:
 			else:
 				printerr("Selected body is not a squad: %s" % body)
 
+func _handle_impactless_inputs() -> void:
+	var mouse_pos: = get_global_mouse_position()
+	var params: = PhysicsPointQueryParameters2D.new()
+	params.collide_with_areas = true
+	params.collide_with_bodies = false
+	params.position = mouse_pos
+	if Input.is_action_just_pressed("interact"):
+		params.collision_mask = 0b10000000 # interactable
+		var colls: = get_world_2d().direct_space_state.intersect_point(params)
+		if colls.is_empty():
+			if current_ui_wheel:
+				current_ui_wheel.hide()
+			current_ui_wheel = null
+			return
+		get_viewport().set_input_as_handled()
+		# Find closest ui wheel
+		var closest_dist: = INF
+		var closest_node: Node2D = null
+		for collision: Dictionary in colls:
+			var collider: Node2D = collision.collider
+			if mouse_pos.distance_squared_to(collider.position) < closest_dist:
+				closest_dist = mouse_pos.distance_squared_to(collider.position)
+				closest_node = collider
+		if current_ui_wheel == closest_node:
+			return
+		if current_ui_wheel:
+			current_ui_wheel.hide()
+		closest_node.show()
+		current_ui_wheel = closest_node
+	elif Input.is_action_just_pressed("primary"):
+		params.collision_mask = 0b1000000 # primary_interactable
+		
+		var colls: = get_world_2d().direct_space_state.intersect_point(params)
+		if colls.is_empty():
+			if current_ui_wheel:
+				current_ui_wheel.visible = false
+			current_ui_wheel = null
+			return
+		get_viewport().set_input_as_handled()
+		# Find closest primary_interactable area
+		var closest_dist: = INF
+		var closest_node: Node2D = null
+		for collision: Dictionary in colls:
+			var collider: Node2D = collision.collider
+			if not collider.is_visible_in_tree(): continue
+			if mouse_pos.distance_squared_to(collider.position) < closest_dist:
+				closest_dist = mouse_pos.distance_squared_to(collider.position)
+				closest_node = collider
+		
+		#closest_node.visible = true
+
 func _detect_input() -> ClientInput:
 	var selecting: = Input.is_action_pressed("select")
-	if Input.is_action_just_pressed("primary") and not selecting:
-		if selected_squads.size() == 0:
-			# Do nothing
-			return ClientInput.new(frame, -1, [], Vector2.ZERO)
-		
-		var squad_names: Array[StringName] = []
-		for squad in selected_squads:
-			if is_instance_valid(squad) and squad.is_alive():
-				squad_names.append(squad.name)
-		
-		var mouse_pos: = get_global_mouse_position().round()
-		var space_state = get_world_2d().direct_space_state
-		var query: = PhysicsPointQueryParameters2D.new()
-		query.position = mouse_pos
-		query.collision_mask = 0b11 # Collide with squads and buildings
-		
-		var collisions: = space_state.intersect_point(query)
-		
-		if collisions.size() == 0:
-			# Navigate to point (state_index of 1 refers to NavigatingState)
-			return ClientInput.new(frame, 1, squad_names, mouse_pos)
-		
-		# The target closest to the cursor
-		var closest_target: Node2D
-		var closest_dist_squared: = INF
-		for collision in collisions:
-			var collider: CollisionObject2D = collision.collider
-			if not (collider is Squad or collider is Building):
-				continue
-			if not collider.team == controlled_team:
-				var target: Node2D = collider
-				var dist_squared: = mouse_pos.distance_squared_to(target.position)
-				if dist_squared < closest_dist_squared:
-					closest_target = target
-					closest_dist_squared = dist_squared
-		
-		if closest_target:
-			# Chase target (state_index of 2 refers to ChasingState)
-			var closest_target_name: = closest_target.name
-			return ClientInput.new(frame, 2, squad_names, Vector2.ZERO, closest_target_name)
-		else:
-			# This will happen if all clicked targets are friendly
-			# Navigate to point
-			return ClientInput.new(frame, 1, squad_names, mouse_pos)
+	if selecting or not Input.is_action_just_pressed("primary"):
+		return ClientInput.new(frame, -1, [], Vector2.ZERO)
 	
-	# State index of -1 means that the input does nothing
-	return ClientInput.new(frame, -1, [], Vector2.ZERO)
+	# Now check for navigation/attacking
+	var squad_names: Array[StringName] = []
+	for squad in selected_squads:
+		if is_instance_valid(squad) and squad.is_alive():
+			squad_names.append(squad.name)
+	
+	var space_state = get_world_2d().direct_space_state
+	var mouse_pos: = get_global_mouse_position().round()
+	var query: = PhysicsPointQueryParameters2D.new()
+	query.position = mouse_pos
+	query.collision_mask = 0b11 # Collide with squads and buildings
+	
+	var collisions: = space_state.intersect_point(query)
+	
+	if collisions.size() == 0:
+		# Navigate to point (state_index of 1 refers to NavigatingState)
+		return ClientInput.new(frame, 1, squad_names, mouse_pos)
+	
+	# The target closest to the cursor
+	var closest_target: Node2D
+	var closest_dist_squared: = INF
+	for collision in collisions:
+		var collider: CollisionObject2D = collision.collider
+		if not (collider is Squad or collider is Building):
+			continue
+		if not collider.team == controlled_team:
+			var target: Node2D = collider
+			var dist_squared: = mouse_pos.distance_squared_to(target.position)
+			if dist_squared < closest_dist_squared:
+				closest_target = target
+				closest_dist_squared = dist_squared
+	
+	if closest_target:
+		# Chase target (state_index of 2 refers to ChasingState)
+		var closest_target_name: = closest_target.name
+		return ClientInput.new(frame, 2, squad_names, Vector2.ZERO, closest_target_name)
+	else:
+		# This will happen if all clicked targets are friendly
+		# Navigate to point
+		return ClientInput.new(frame, 1, squad_names, mouse_pos)
 
 func _create_input_vfx(input: ClientInput) -> void:
 	if input.state_index == 1 or input.state_index == 2:
