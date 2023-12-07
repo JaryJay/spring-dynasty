@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b8si1i1llmp5q"]
+[gd_scene load_steps=3 format=3 uid="uid://b8si1i1llmp5q"]
 
 [ext_resource type="Script" path="res://ui/ui_wheel_element.gd" id="1_f6rde"]
 [ext_resource type="Texture2D" uid="uid://cymjttjrf636i" path="res://assets/textures/placeholder/elementCircle.png" id="2_p8ube"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_whx3t"]
-radius = 16.0
 
 [node name="UIWheelElement" type="Node2D"]
 script = ExtResource("1_f6rde")
@@ -16,12 +13,15 @@ texture = ExtResource("2_p8ube")
 [node name="Icon" type="Sprite2D" parent="."]
 modulate = Color(0.901961, 0.901961, 0.901961, 1)
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 64
-collision_mask = 0
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+mouse_filter = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_whx3t")
-
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="gui_input" from="Control" to="." method="_on_control_gui_input"]
+[connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]

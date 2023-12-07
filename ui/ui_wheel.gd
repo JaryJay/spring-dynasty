@@ -12,33 +12,57 @@ static var current_ui_wheel: UIWheel
 		set_element_positions()
 @onready var display: = false : set = _set_display
 
+func _ready() -> void:
+	if Engine.is_editor_hint(): return
+	$Sprite2D.modulate = Color.TRANSPARENT
+	$Sprite2D.scale = Vector2.ZERO
+	for node: Node in get_children():
+		if node is UIWheelElement:
+			node.modulate = Color.TRANSPARENT
+			node.position = Vector2.ZERO
+
 func _on_child_entered_tree(node: Node) -> void:
+	if Engine.is_editor_hint(): return
 	if node is UIWheelElement:
 		set_element_positions()
-
 func _on_child_exiting_tree(node: Node) -> void:
+	if Engine.is_editor_hint(): return
 	if node is UIWheelElement:
 		set_element_positions()
 
 func _set_display(val: bool) -> void:
 	display = val
 	
-	if not display:
-		$Sprite2D.hide()
-		for child: Node in get_children():
-			if child is UIWheelElement:
-				child.hide()
-		return
-	$Sprite2D.show()
-	
-	set_element_positions()
-	
-	var tw: = create_tween().set_parallel(true)
+	var elements: Array[UIWheelElement] = []
 	for node: Node in get_children():
 		if node is UIWheelElement:
-			node.show()
-			tw.tween_property(node, "position", node.position, 0.2).from(Vector2.ZERO).set_trans(Tween.TRANS_CUBIC)
-	tw.tween_property($Sprite2D, "scale", Vector2(2, 2), 0.2).from(Vector2.ZERO).set_trans(Tween.TRANS_CUBIC)
+			elements.append(node)
+	var num: = elements.size()
+	
+	if not display:
+		var tw: = create_tween().set_parallel(true)
+		for e: UIWheelElement in elements:
+			tw.tween_property(e, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_CUBIC)
+			tw.tween_property(e, "modulate", Color.TRANSPARENT, 0.2).set_trans(Tween.TRANS_CUBIC)
+		tw.tween_property($Sprite2D, "scale", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_CUBIC)
+		tw.tween_property($Sprite2D, "modulate", Color.TRANSPARENT, 0.2).set_trans(Tween.TRANS_CUBIC)
+		
+		tw = tw.chain()
+		for e: UIWheelElement in elements:
+			tw.tween_callback(e.hide)
+		tw.tween_callback($Sprite2D.hide)
+	else:
+		$Sprite2D.show()
+		
+		var tw: = create_tween().set_parallel(true)
+		for i: int in num:
+			var e: UIWheelElement = elements[i]
+			e.show()
+			var target_pos: = (Vector2.UP.rotated(i * TAU / num)) * radius
+			tw.tween_property(e, "position", target_pos, 0.2).set_trans(Tween.TRANS_CUBIC)
+			tw.tween_property(e, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_CUBIC)
+		tw.tween_property($Sprite2D, "scale", Vector2(2, 2), 0.2).set_trans(Tween.TRANS_CUBIC)
+		tw.tween_property($Sprite2D, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_CUBIC)
 
 func set_element_positions() -> void:
 	var elements: Array[UIWheelElement] = []
@@ -52,9 +76,13 @@ func set_element_positions() -> void:
 
 func _on_control_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("secondary_interact"):
-		Global.console.print("Hi!")
 		control.accept_event()
-		if current_ui_wheel and current_ui_wheel != self:
-			display = false
-		current_ui_wheel = self
+		if current_ui_wheel:
+			if current_ui_wheel == self:
+				display = false
+				current_ui_wheel = null
+				return
+			else:
+				current_ui_wheel.display = false
 		display = true
+		current_ui_wheel = self

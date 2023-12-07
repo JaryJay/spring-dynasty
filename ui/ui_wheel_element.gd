@@ -19,11 +19,17 @@ var is_hovered: = false :
 		is_hovered = val
 		hover_changed.emit(is_hovered)
 
-func _on_area_2d_mouse_entered():
+func _on_control_gui_input(event: InputEvent):
+	if event.is_action_pressed("primary_interact"):
+		$Control.accept_event()
+		pressed.emit()
+		Global.console.print("pressed!")
+
+func _on_control_mouse_entered():
 	is_hovered = true
 	icon.modulate = hovered_color
-	print_debug("hi")
-func _on_area_2d_mouse_exited():
+func _on_control_mouse_exited():
 	is_hovered = false
 	icon.modulate = unhovered_color
+
 

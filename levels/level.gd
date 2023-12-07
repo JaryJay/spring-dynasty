@@ -75,6 +75,12 @@ func _physics_process(_delta):
 	# Handle inputs from all players, including the local player
 	rollback_and_resimulate()
 
+func _unhandled_input(event: InputEvent):
+	if event.is_action_pressed("primary_interact") or event.is_action_pressed("secondary_interact"):
+		if UIWheel.current_ui_wheel:
+			UIWheel.current_ui_wheel.display = false
+			UIWheel.current_ui_wheel = null
+
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:
 		for selected_squad in selected_squads:
