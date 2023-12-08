@@ -17,6 +17,8 @@ signal health_depleted(health, source)
 
 @onready var health: int = max_health : set = _set_health
 @onready var ability_cooldown: int = ability_cooldown_time
+var misc_property_0: int
+var misc_property_1: int
 
 var frame_states: Array[BuildingFrameState] = []
 
@@ -27,7 +29,7 @@ func update(_frame: int) -> void:
 	pass
 
 func post_update(frame: int) -> void:
-	var fs: = BuildingFrameState.new(frame, health, team, ability_cooldown)
+	var fs: = BuildingFrameState.new(frame, health, team, ability_cooldown, misc_property_0, misc_property_1)
 	frame_states.append(fs)
 	if frame_states.size() > 30:
 		frame_states.remove_at(0)
@@ -42,6 +44,8 @@ func return_to_frame_state(frame: int) -> bool:
 			health = fs.health
 			team = fs.team
 			ability_cooldown = fs.ability_cooldown
+			misc_property_0 = fs.misc_property_0
+			misc_property_1 = fs.misc_property_1
 			
 			# Delete every element in frame_states with a later frame
 			frame_states = frame_states.slice(0, i + 1)

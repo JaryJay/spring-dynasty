@@ -29,10 +29,10 @@ turbulence_influence_max = 1.0
 [sub_resource type="LabelSettings" id="LabelSettings_bc27l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
-radius = 28.0
+radius = 26.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fp8y0"]
-radius = 31.0
+radius = 29.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
 radius = 121.017

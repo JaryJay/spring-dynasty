@@ -2,35 +2,44 @@
 extends Node2D
 class_name UIWheel
 
+signal element_pressed(element)
+
 static var current_ui_wheel: UIWheel
 
 @onready var control: = $Control
+@onready var display: = false : set = _set_display
 
 @export_range(1, 100) var radius: float = 56 :
 	set(val):
 		radius = val
 		set_element_positions()
-@onready var display: = false : set = _set_display
+@export var disabled: = false :
+	set(val):
+		disabled = val
+		if disabled: display = false
 
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
 	$Sprite2D.modulate = Color.TRANSPARENT
 	$Sprite2D.scale = Vector2.ZERO
+	$Sprite2D.hide()
 	for node: Node in get_children():
 		if node is UIWheelElement:
 			node.modulate = Color.TRANSPARENT
 			node.position = Vector2.ZERO
+			node.hide()
 
 func _on_child_entered_tree(node: Node) -> void:
-	if Engine.is_editor_hint(): return
 	if node is UIWheelElement:
 		set_element_positions()
+		if Engine.is_editor_hint(): return
+		node.pressed.connect(_on_element_pressed.bind(node))
 func _on_child_exiting_tree(node: Node) -> void:
-	if Engine.is_editor_hint(): return
 	if node is UIWheelElement:
 		set_element_positions()
 
 func _set_display(val: bool) -> void:
+	if display == val: return
 	display = val
 	
 	var elements: Array[UIWheelElement] = []
@@ -75,6 +84,7 @@ func set_element_positions() -> void:
 		elements[i].position = (Vector2.UP.rotated(i * TAU / num)) * radius
 
 func _on_control_gui_input(event: InputEvent) -> void:
+	if disabled: return
 	if event.is_action_pressed("secondary_interact"):
 		control.accept_event()
 		if current_ui_wheel:
@@ -86,3 +96,9 @@ func _on_control_gui_input(event: InputEvent) -> void:
 				current_ui_wheel.display = false
 		display = true
 		current_ui_wheel = self
+
+func _on_element_pressed(element: UIWheelElement) -> void:
+	if disabled: return
+	element_pressed.emit(element)
+	display = false
+	current_ui_wheel = null

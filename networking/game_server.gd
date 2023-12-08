@@ -74,7 +74,7 @@ func receive_inputs(serialized_input_list: Array) -> void:
 	if previous_inputs.size() == 0:
 		level.player_inputs[player_id] = inputs
 		for input in inputs:
-			if input.state_index >= 0:
+			if input.input_type != 0:
 				level.earliest_desynced_frame = mini(level.earliest_desynced_frame, input.frame)
 				break
 	else:
@@ -82,7 +82,7 @@ func receive_inputs(serialized_input_list: Array) -> void:
 		if latest_new_input.frame > latest_previous_input.frame:
 			level.player_inputs[player_id] = inputs
 			for input in inputs:
-				if input.frame > latest_previous_input.frame and input.state_index >= 0:
+				if input.frame > latest_previous_input.frame and input.input_type != 0:
 					level.earliest_desynced_frame = mini(level.earliest_desynced_frame, input.frame)
 					break
 

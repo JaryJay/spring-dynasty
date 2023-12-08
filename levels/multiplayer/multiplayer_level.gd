@@ -105,15 +105,16 @@ func receive_other_player_inputs(serialized_inputs: Dictionary) -> void:
 		if previous_inputs.size() == 0:
 			player_inputs[player_id] = inputs[player_id]
 			for input in inputs[player_id]:
-				if input.state_index >= 0:
-					earliest_desynced_frame = mini(earliest_desynced_frame, input.frame)
-					break
+				if input.input_type == 0:
+					continue
+				earliest_desynced_frame = mini(earliest_desynced_frame, input.frame)
+				break
 		else:
 			var latest_previous_input: ClientInput = previous_inputs[-1]
 			if latest_new_input.frame > latest_previous_input.frame:
 				player_inputs[player_id] = inputs[player_id]
 				for input in inputs[player_id]:
-					if input.frame > latest_previous_input.frame and input.state_index >= 0:
+					if input.frame > latest_previous_input.frame and input.input_type != 0:
 						earliest_desynced_frame = mini(earliest_desynced_frame, input.frame)
 						break
 

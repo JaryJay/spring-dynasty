@@ -21,6 +21,8 @@ var navigate_command_vfx_scene: = load("res://vfx/navigate_command_vfx.tscn")
 var frame: int = 0
 ## Equal to frame + 1 if no frames are desynced.
 var earliest_desynced_frame: int = 1
+## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput]).
+var player_inputs: Dictionary = {}
 
 #region Player-only variables
 
@@ -30,10 +32,11 @@ var controlled_team: int = 0
 ## The list of squads that are within the blue selection_rect. Updated every
 ## frame in [method _physics_process].
 var selected_squads: Array[Squad] = []
-
-var current_ui_wheel: UIWheel
-## Maps from player_id (int) to list of last 30 inputs (Array[ClientInput]).
-var player_inputs: Dictionary = {}
+## Filled by [method _unhandled_input()] as well as entities with UIWheels and
+## emptied by [method _physics_process()]. Inputs are sent to the server at a
+## rate of one per frame.
+## Additionally, inputs in this queue do not have their [code]frame[/code] set.
+var local_input_queue: Array[ClientInput] = []
 
 var is_spectator: = false
 #endregion
@@ -66,20 +69,30 @@ func _physics_process(_delta):
 		# Update selected_squads to be the squads overlapped by selection_rect
 		_update_squads_selection()
 		
-		#_handle_impactless_inputs()
 		# Note that detecting inputs is not the same as handling them
-		var input: ClientInput = _detect_input()
-		_create_input_vfx(input)
+		var input: ClientInput
+		if local_input_queue.is_empty():
+			input = ClientInput.new(frame, ClientInput.InputType.EMPTY)
+		else:
+			input = local_input_queue[0]
+			input.frame = frame
+			local_input_queue.remove_at(0)
+			_create_input_vfx(input)
 		_add_input(input)
 	
 	# Handle inputs from all players, including the local player
 	rollback_and_resimulate()
 
 func _unhandled_input(event: InputEvent):
+	if is_spectator:
+		return
 	if event.is_action_pressed("primary_interact") or event.is_action_pressed("secondary_interact"):
 		if UIWheel.current_ui_wheel:
 			UIWheel.current_ui_wheel.display = false
 			UIWheel.current_ui_wheel = null
+	var client_input: = _detect_input(event)
+	if client_input:
+		local_input_queue.append(client_input)
 
 func _update_squads_selection() -> void:
 	if selection_rect.is_selecting:
@@ -95,61 +108,10 @@ func _update_squads_selection() -> void:
 			else:
 				printerr("Selected body is not a squad: %s" % body)
 
-func _handle_impactless_inputs() -> void:
-	var mouse_pos: = get_global_mouse_position()
-	var params: = PhysicsPointQueryParameters2D.new()
-	params.collide_with_areas = true
-	params.collide_with_bodies = false
-	params.position = mouse_pos
-	if Input.is_action_just_pressed("interact"):
-		params.collision_mask = 0b10000000 # interactable
-		var colls: = get_world_2d().direct_space_state.intersect_point(params)
-		if colls.is_empty():
-			if current_ui_wheel:
-				current_ui_wheel.hide()
-			current_ui_wheel = null
-			return
-		get_viewport().set_input_as_handled()
-		# Find closest ui wheel
-		var closest_dist: = INF
-		var closest_node: Node2D = null
-		for collision: Dictionary in colls:
-			var collider: Node2D = collision.collider
-			if mouse_pos.distance_squared_to(collider.position) < closest_dist:
-				closest_dist = mouse_pos.distance_squared_to(collider.position)
-				closest_node = collider
-		if current_ui_wheel == closest_node:
-			return
-		if current_ui_wheel:
-			current_ui_wheel.hide()
-		closest_node.show()
-		current_ui_wheel = closest_node
-	elif Input.is_action_just_pressed("primary"):
-		params.collision_mask = 0b1000000 # primary_interactable
-		
-		var colls: = get_world_2d().direct_space_state.intersect_point(params)
-		if colls.is_empty():
-			if current_ui_wheel:
-				current_ui_wheel.visible = false
-			current_ui_wheel = null
-			return
-		get_viewport().set_input_as_handled()
-		# Find closest primary_interactable area
-		var closest_dist: = INF
-		var closest_node: Node2D = null
-		for collision: Dictionary in colls:
-			var collider: Node2D = collision.collider
-			if not collider.is_visible_in_tree(): continue
-			if mouse_pos.distance_squared_to(collider.position) < closest_dist:
-				closest_dist = mouse_pos.distance_squared_to(collider.position)
-				closest_node = collider
-		
-		#closest_node.visible = true
-
-func _detect_input() -> ClientInput:
+func _detect_input(event: InputEvent) -> ClientInput:
 	var selecting: = Input.is_action_pressed("select")
-	if selecting or not Input.is_action_just_pressed("primary"):
-		return ClientInput.new(frame, -1, [], Vector2.ZERO)
+	if selecting or not event.is_action_pressed("primary"):
+		return null
 	
 	# Now check for navigation/attacking
 	var squad_names: Array[StringName] = []
@@ -166,8 +128,11 @@ func _detect_input() -> ClientInput:
 	var collisions: = space_state.intersect_point(query)
 	
 	if collisions.size() == 0:
-		# Navigate to point (state_index of 1 refers to NavigatingState)
-		return ClientInput.new(frame, 1, squad_names, mouse_pos)
+		# Navigate to point
+		var input: = ClientInput.new(frame, ClientInput.InputType.SQUADS_NAVIGATE)
+		input.entities = squad_names
+		input.target_position = mouse_pos
+		return input
 	
 	# The target closest to the cursor
 	var closest_target: Node2D
@@ -184,16 +149,21 @@ func _detect_input() -> ClientInput:
 				closest_dist_squared = dist_squared
 	
 	if closest_target:
-		# Chase target (state_index of 2 refers to ChasingState)
+		# Chase target
 		var closest_target_name: = closest_target.name
-		return ClientInput.new(frame, 2, squad_names, Vector2.ZERO, closest_target_name)
+		var input: = ClientInput.new(frame, ClientInput.InputType.SQUADS_CHASE)
+		input.entities = squad_names
+		input.target_name = closest_target_name
+		return input
 	else:
-		# This will happen if all clicked targets are friendly
-		# Navigate to point
-		return ClientInput.new(frame, 1, squad_names, mouse_pos)
+		# Navigate to point. This will happen if all clicked targets are friendly
+		var input: = ClientInput.new(frame, ClientInput.InputType.SQUADS_NAVIGATE)
+		input.entities = squad_names
+		input.target_position = mouse_pos
+		return input
 
 func _create_input_vfx(input: ClientInput) -> void:
-	if input.state_index == 1 or input.state_index == 2:
+	if input.input_type == ClientInput.InputType.SQUADS_NAVIGATE or input.input_type == ClientInput.InputType.SQUADS_CHASE:
 		var vfx: Node2D = navigate_command_vfx_scene.instantiate()
 		vfx.global_position = get_global_mouse_position()
 		get_tree().root.add_child(vfx)
@@ -223,14 +193,20 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 					break
 		
 		# Update everything
-		get_tree().call_group("buildings", "update", f)
-		get_tree().call_group("squads", "update", f)
-		get_tree().call_group("players", "update", f)
+		for e: Building in get_tree().get_nodes_in_group("buildings"):
+			e.update(f)
+		for e: Squad in get_tree().get_nodes_in_group("squads"):
+			e.update(f)
+		for e: Player in get_tree().get_nodes_in_group("players"):
+			e.update(f)
 		
 		# Post update everything
-		get_tree().call_group("buildings", "post_update", f)
-		get_tree().call_group("squads", "post_update", f)
-		get_tree().call_group("players", "post_update", f)
+		for e: Building in get_tree().get_nodes_in_group("buildings"):
+			e.post_update(f)
+		for e: Squad in get_tree().get_nodes_in_group("squads"):
+			e.post_update(f)
+		for e: Player in get_tree().get_nodes_in_group("players"):
+			e.post_update(f)
 	
 	earliest_desynced_frame = frame + 1
 
@@ -242,14 +218,14 @@ func _add_input(input: ClientInput) -> void:
 		player_input_list.remove_at(0)
 
 func _handle_input(input: ClientInput) -> void:
-	var squads: Array[Squad] = []
-	for squad_name in input.squads:
-		var squad: Squad = $Entities.get_node_or_null(squad_name)
-		if squad == null:
-			print("Squad not found: %s" % squad_name)
-			continue
-		squads.append(squad)
-	if input.state_index == 1:
+	if input.input_type == ClientInput.InputType.SQUADS_NAVIGATE:
+		var squads: Array[Squad] = []
+		for squad_name in input.entities:
+			var squad: Squad = $Entities.get_node_or_null(squad_name)
+			if squad == null:
+				print("Squad not found: %s" % squad_name)
+				continue
+			squads.append(squad)
 		var avg_squad_pos: = Vector2.ZERO
 		for squad in squads:
 			avg_squad_pos += squad.position
@@ -262,8 +238,15 @@ func _handle_input(input: ClientInput) -> void:
 				var adjusted_target: = input.target_position + avg_squad_pos.direction_to(squad.position) * 28
 				squad.set_target_position(adjusted_target)
 			squad.state_machine.state = squad.state_machine.get_node("NavigatingState")
-	elif input.state_index == 2:
+	elif input.input_type == ClientInput.InputType.SQUADS_CHASE:
 		var target: Node2D = $Entities.get_node_or_null(input.target_name)
+		var squads: Array[Squad] = []
+		for squad_name in input.entities:
+			var squad: Squad = $Entities.get_node_or_null(squad_name)
+			if squad == null:
+				print("Squad not found: %s" % squad_name)
+				continue
+			squads.append(squad)
 		for squad in squads:
 			var current_state: = squad.state_machine.state
 			if current_state is AttackingState and current_state.target == target:
@@ -271,3 +254,15 @@ func _handle_input(input: ClientInput) -> void:
 			var chasing_state: = squad.state_machine.get_node("ChasingState")
 			chasing_state.target = target
 			squad.state_machine.state = chasing_state
+	elif input.input_type == ClientInput.InputType.ENTITIES_CHANGE:
+		var entities: = input.entities
+		var property: = input.property
+		for entity_name: String in entities:
+			var entity: Node2D = $Entities.get_node_or_null(entity_name)
+			if not entity:
+				printerr("Entity not found: %s" % entity_name)
+				continue
+			if not entity is Camp:
+				printerr("Entity not supported: %s %s" % [entity, typeof(entity)])
+				continue
+			entity.change_type_to(property)

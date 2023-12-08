@@ -7,11 +7,14 @@
 script = ExtResource("1_f6rde")
 
 [node name="Circle" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.8)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_p8ube")
 
 [node name="Icon" type="Sprite2D" parent="."]
 modulate = Color(0.901961, 0.901961, 0.901961, 1)
+rotation = 0.785397
+scale = Vector2(0.4, 0.4)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

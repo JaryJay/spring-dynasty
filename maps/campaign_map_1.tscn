@@ -15,7 +15,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-367, -437, -376, -289,
 parsed_geometry_type = 1
 parsed_collision_mask = 50
 source_geometry_group_name = &"navigation_polygon_source_group"
-agent_radius = 29.0
+agent_radius = 27.0
 
 [node name="CampaignMap1" type="NavigationRegion2D"]
 self_modulate = Color(0, 0, 0, 0.254902)

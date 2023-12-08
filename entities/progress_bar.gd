@@ -1,7 +1,11 @@
+@tool
 extends Sprite2D
 
 @export_range(0, 500) var max_value: int = 100
-@export var full_color: Color
+@export var full_color: Color :
+	set(val):
+		full_color = val
+		if Engine.is_editor_hint(): bar.color = full_color
 @export var empty_color: Color
 
 @onready var bar: = $Bar
@@ -12,6 +16,9 @@ extends Sprite2D
 var _transparency_tween: Tween
 
 func _ready():
+	if Engine.is_editor_hint():
+		bar.color = full_color
+		return
 	modulate = Color.TRANSPARENT
 
 func on_value_changed(_old: int, new: int) -> void:

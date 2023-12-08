@@ -25,20 +25,8 @@ func _ready() -> void:
 	
 	$DebugLayer.visible = enable_debug_overlay
 
-func _physics_process(_delta) -> void:
-	frame += 1
-	
-	# Update selected_squads to be the squads overlapped by selection_rect
-	_update_squads_selection()
-	
-	# Note that detecting inputs is not the same as handling them
-	var input: ClientInput = _detect_input()
-	_create_input_vfx(input)
-	_add_input(input)
-	
-	# Handle inputs from all players, including the local player
-	rollback_and_resimulate()
-	
+func _physics_process(delta) -> void:
+	super._physics_process(delta)
 	check_win_loss_condition()
 
 func check_win_loss_condition() -> void:
