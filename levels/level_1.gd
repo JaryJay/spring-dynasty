@@ -1,5 +1,7 @@
 extends Level
 
+var game_ended: = false
+
 func _ready() -> void:
 	Server.lobby.player_ids.append(1)
 	Server.lobby.player_info_list.append({ "team": 0 })
@@ -27,7 +29,8 @@ func _ready() -> void:
 
 func _physics_process(delta) -> void:
 	super._physics_process(delta)
-	check_win_loss_condition()
+	if not game_ended:
+		check_win_loss_condition()
 
 func check_win_loss_condition() -> void:
 	var has_living_friendly_squads: = false
@@ -42,14 +45,24 @@ func check_win_loss_condition() -> void:
 	
 	# If all friendly squads are dead or the farm was destroyed
 	if not has_living_friendly_squads or $Entities/B_0.team != controlled_team:
-		Global.console.print("You lose!")
-		set_physics_process(false)
+		Global.console.print("Game Over!")
+		var tween: = create_tween()
+		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(0.75).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_callback(get_tree().change_scene_to_file.bind("res://levels/level_1.tscn")).set_delay(1)
+		game_ended = true
 	elif not has_living_enemy_squads:
-		Global.console.print("You win!")
-		set_physics_process(false)
+		Global.console.print("Victory!")
+		var tween: = create_tween()
+		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(0.75).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_callback(get_tree().change_scene_to_file.bind("res://ui/level_selection_menu.tscn")).set_delay(1)
+		game_ended = true
 
 func _on_trigger_area_2_body_entered(_body) -> void:
 	$Special/TriggerArea2.queue_free()
+	$Entities/B_0.sight_range = 180
+	$Entities/B_0/PointLight2D.texture_scale = 1.0 * 180 / 32
+	$CampaignMap1/Label3.show()
+	$CampaignMap1/Label4.show()
 	
 	# Focus camera on farm
 	camera.follow_mode_enabled = false

@@ -1,12 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://bogbidiako8h8"]
+[gd_scene load_steps=11 format=3 uid="uid://bogbidiako8h8"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_kwl8q"]
 [ext_resource type="Script" path="res://levels/level_1.gd" id="2_yjba7"]
+[ext_resource type="Script" path="res://levels/level_settings.gd" id="3_0t0y4"]
 [ext_resource type="PackedScene" uid="uid://s2hwxk8bbuob" path="res://maps/campaign_map_1.tscn" id="3_65yjq"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="4_mvegc"]
 [ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="5_4xpkg"]
 [ext_resource type="PackedScene" uid="uid://cj6ji0rp28eiq" path="res://entities/buildings/farm.tscn" id="5_p3eg5"]
 [ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="7_42t7j"]
+
+[sub_resource type="Resource" id="Resource_260s3"]
+script = ExtResource("3_0t0y4")
+fog_of_war = true
+fog_of_war_scale = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jnioe"]
 size = Vector2(126, 30)
@@ -14,6 +20,7 @@ size = Vector2(126, 30)
 [node name="Level1" node_paths=PackedStringArray("map") instance=ExtResource("1_kwl8q")]
 script = ExtResource("2_yjba7")
 map = NodePath("CampaignMap1")
+level_settings = SubResource("Resource_260s3")
 
 [node name="CampaignMap1" parent="." index="2" instance=ExtResource("3_65yjq")]
 
@@ -37,6 +44,7 @@ squads."
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="CampaignMap1" index="5"]
+visible = false
 self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
 offset_left = 161.0
 offset_top = 121.0
@@ -47,12 +55,13 @@ to attack!"
 horizontal_alignment = 1
 
 [node name="Label4" type="Label" parent="CampaignMap1" index="6"]
+visible = false
 self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
 offset_left = 156.0
-offset_top = 340.0
+offset_top = 300.0
 offset_right = 372.0
-offset_bottom = 389.0
-text = "Defend the farm."
+offset_bottom = 349.0
+text = "Defend the farm!"
 horizontal_alignment = 1
 
 [node name="Camera" parent="." index="5"]
@@ -75,7 +84,7 @@ position = Vector2(173, -330)
 
 [node name="B_0" parent="Entities" index="2" instance=ExtResource("5_p3eg5")]
 position = Vector2(267, 242)
-max_health = 350
+sight_range = 0
 
 [node name="F_1_0" parent="Entities" index="3" instance=ExtResource("7_42t7j")]
 position = Vector2(-20, 203)
