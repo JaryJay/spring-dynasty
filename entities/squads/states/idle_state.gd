@@ -43,7 +43,7 @@ func detect_enemies(squad: Squad) -> void:
 	var closest_dist: float = INF
 	
 	for body in squad.awareness_area.get_overlapping_bodies():
-		if not body is Squad or body.team == squad.team or not body.is_alive():
+		if not body is Squad or body.is_friendly_to(squad.team) or not body.is_alive():
 			continue
 		if squad.position.distance_squared_to(body.position) < closest_dist:
 			closest_dist = squad.position.distance_squared_to(body.position)

@@ -17,6 +17,8 @@ var navigate_command_vfx_scene: = load("res://vfx/navigate_command_vfx.tscn")
 
 @export var map: NavigationRegion2D
 
+@export var level_settings: LevelSettings
+
 ## The current frame number in the game.
 var frame: int = 0
 ## Equal to frame + 1 if no frames are desynced.
@@ -52,6 +54,9 @@ func _ready():
 	player_node.team = controlled_team
 	player_node.name = "P_%d" % controlled_team
 	$Players.add_child(player_node)
+	
+	if not level_settings.fog_of_war:
+		$CanvasModulate.queue_free()
 
 ## Processes non-gameplay-related things, such as toggling the pause menu.
 func _process(_delta):
@@ -74,6 +79,7 @@ func _physics_process(_delta):
 		if local_input_queue.is_empty():
 			input = ClientInput.new(frame, ClientInput.InputType.EMPTY)
 		else:
+			# Poll input from local_input_queue
 			input = local_input_queue[0]
 			input.frame = frame
 			local_input_queue.remove_at(0)

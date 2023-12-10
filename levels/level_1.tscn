@@ -27,12 +27,13 @@ text = "Click to move the squad."
 
 [node name="Label2" type="Label" parent="CampaignMap1" index="4"]
 self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
-offset_left = 29.0
-offset_top = -291.0
-offset_right = 245.0
-offset_bottom = -242.0
-text = "Press Ctrl and drag to select
-multiple squads."
+offset_left = -3.0
+offset_top = -287.0
+offset_right = 267.0
+offset_bottom = -197.0
+text = "Press Ctrl and drag
+to select multiple
+squads."
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="CampaignMap1" index="5"]
@@ -54,8 +55,17 @@ offset_bottom = 389.0
 text = "Defend the farm."
 horizontal_alignment = 1
 
-[node name="Camera" parent="." index="4"]
+[node name="Camera" parent="." index="5"]
 position = Vector2(-205, -291)
+
+[node name="Special" type="Node2D" parent="." index="6"]
+
+[node name="TriggerArea2" type="Area2D" parent="Special" index="0"]
+position = Vector2(382, -63)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Special/TriggerArea2" index="0"]
+shape = SubResource("RectangleShape2D_jnioe")
 
 [node name="F_0_0" parent="Entities" index="0" instance=ExtResource("4_mvegc")]
 position = Vector2(-208, -302)
@@ -71,21 +81,10 @@ max_health = 350
 position = Vector2(-20, 203)
 intelligence = 0
 team = 1
-attack = 8
 
 [node name="F_1_1" parent="Entities" index="4" instance=ExtResource("7_42t7j")]
 position = Vector2(536, 336)
 intelligence = 0
 team = 1
-attack = 8
-
-[node name="Special" type="Node2D" parent="." index="6"]
-
-[node name="TriggerArea2" type="Area2D" parent="Special" index="0"]
-position = Vector2(382, -63)
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Special/TriggerArea2" index="0"]
-shape = SubResource("RectangleShape2D_jnioe")
 
 [connection signal="body_entered" from="Special/TriggerArea2" to="." method="_on_trigger_area_2_body_entered"]

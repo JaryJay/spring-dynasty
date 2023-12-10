@@ -60,6 +60,8 @@ func update(_frame: int) -> void:
 		ray_cast.force_raycast_update()
 	
 	state_machine.process_state()
+	
+	$PointLight2D.visible = is_friendly()
 
 ## Called in level.gd after update() is called on all squads
 func post_update(frame: int) -> void:
@@ -94,7 +96,6 @@ func rotate_and_move(direction: Vector2, speed_multiplier: float = 1) -> void:
 ## every element in frame_states with a later frame.
 ## Returns whether the frame_state at the specified frame exists.
 func return_to_frame_state(frame: int) -> bool:
-	
 	for i in frame_states.size():
 		var fs: = frame_states[i]
 		if not fs.frame == frame:
@@ -159,6 +160,15 @@ func change_health(change: int, source: Node2D) -> void:
 
 func is_alive() -> bool:
 	return not state_machine.state is DyingState
+
+func is_friendly() -> bool:
+	if not get_tree().has_group("level"):
+		printerr("You cannot call is_friendly outside of a level.")
+		return false
+	return team == get_tree().get_first_node_in_group("level").controlled_team
+
+func is_friendly_to(other_team: int) -> bool:
+	return team == other_team
 
 # Private setters
 

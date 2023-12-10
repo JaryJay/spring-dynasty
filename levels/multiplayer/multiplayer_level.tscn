@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkjf1oqnh3u10"]
+[gd_scene load_steps=5 format=3 uid="uid://dkjf1oqnh3u10"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_6vr0y"]
 [ext_resource type="Script" path="res://levels/multiplayer/multiplayer_level.gd" id="2_hhwbe"]
+[ext_resource type="Script" path="res://levels/level_settings.gd" id="3_rmgts"]
+
+[sub_resource type="Resource" id="Resource_we4my"]
+script = ExtResource("3_rmgts")
+fog_of_war = true
 
 [node name="MultiplayerLevel" instance=ExtResource("1_6vr0y")]
 script = ExtResource("2_hhwbe")
+level_settings = SubResource("Resource_we4my")
 
 [node name="StartTimer" type="Timer" parent="." index="6"]
 process_callback = 0

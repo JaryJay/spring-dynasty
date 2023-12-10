@@ -5,5 +5,5 @@
 
 [node name="SwordsmanSquad" instance=ExtResource("1_ibxky")]
 unit_scene = ExtResource("2_41wyb")
-attack = 12
-attack_cooldown = 60
+health = 80
+attack_cooldown = 40
