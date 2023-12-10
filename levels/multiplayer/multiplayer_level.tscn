@@ -7,6 +7,7 @@
 [sub_resource type="Resource" id="Resource_we4my"]
 script = ExtResource("3_rmgts")
 fog_of_war = true
+fog_of_war_scale = 1.0
 
 [node name="MultiplayerLevel" instance=ExtResource("1_6vr0y")]
 script = ExtResource("2_hhwbe")

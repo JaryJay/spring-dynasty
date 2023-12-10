@@ -1,5 +1,4 @@
-extends Building
-class_name Base
+class_name Base extends Building
 
 func _ready() -> void:
 	super()

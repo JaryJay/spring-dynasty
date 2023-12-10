@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ogun42ngmj85"]
+
+[ext_resource type="Script" path="res://entities/buildings/building.gd" id="1_qhwty"]
+[ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="2_lasyq"]
+[ext_resource type="Texture2D" uid="uid://c61jub274cuxh" path="res://vfx/light_texture.tres" id="3_vvxcj"]
+
+[node name="EmptyBuilding" type="StaticBody2D" groups=["buildings", "entities"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_qhwty")
+
+[node name="HealthBar" parent="." instance=ExtResource("2_lasyq")]
+position = Vector2(0, 34)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+blend_mode = 2
+texture = ExtResource("3_vvxcj")
+texture_scale = 8.0
+
+[connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]

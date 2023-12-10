@@ -9,7 +9,8 @@ func _ready() -> void:
 	$HealthBar.max_health = max_health
 	$ProgressBar.max_value = ability_cooldown_time
 
-func update(_frame: int) -> void:
+func update(frame: int) -> void:
+	super.update(frame)
 	if ability_cooldown > 1:
 		ability_cooldown -= 1
 		$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))

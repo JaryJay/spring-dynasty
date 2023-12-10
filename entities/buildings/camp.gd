@@ -22,6 +22,7 @@ func _ready() -> void:
 	misc_property_0 = -1 # We use misc_property_0 as our change cooldown.
 
 func update(frame: int) -> void:
+	super.update(frame)
 	# If local player is not the owner of this building, then disable ui_wheel.
 	var local_player_team: int = get_tree().get_first_node_in_group("level").controlled_team
 	$UIWheel.disabled = not local_player_team == team
@@ -39,7 +40,7 @@ func update(frame: int) -> void:
 		misc_property_0 = -1
 		$ChangeProgressBar.on_value_changed(0, change_cooldown_time - misc_property_0)
 		# misc_property_1 is the squad type to change to
-		squad_type = misc_property_1
+		squad_type = misc_property_1 as SquadType
 		return
 	
 	if ability_cooldown > 1:

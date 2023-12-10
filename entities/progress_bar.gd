@@ -5,7 +5,8 @@ extends Sprite2D
 @export var full_color: Color :
 	set(val):
 		full_color = val
-		if Engine.is_editor_hint(): bar.color = full_color
+		if Engine.is_editor_hint() and is_node_ready():
+			$Bar.color = full_color
 @export var empty_color: Color
 
 @onready var bar: = $Bar

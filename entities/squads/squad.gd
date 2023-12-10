@@ -17,6 +17,7 @@ signal health_depleted(health, source)
 @export_range(0, 200) var attack: int = 10
 @export_range(0, 400) var engage_range: int = 60
 @export_range(0, 400) var range: int = 80
+@export_range(0, 400) var sight_range: int = 256
 @export_range(0, 500) var speed: int = 150
 @export_range(0, 240) var attack_cooldown: int = 60
 
@@ -53,6 +54,7 @@ func _ready():
 	state_machine.initialize()
 	
 	$HealthBar.max_health = health
+	$PointLight2D.texture_scale = 1.0 * sight_range / 32
 
 ## Called in level.gd
 func update(_frame: int) -> void:

@@ -10,6 +10,7 @@ signal health_depleted(health, source)
 
 @export_range(0, 7) var team: int = 0 : set = _set_team_index
 @export_range(1, 500) var max_health: int
+@export_range(0, 400) var sight_range: int = 256
 
 @export_group("Ability")
 @export var has_ability: bool = false
@@ -24,9 +25,10 @@ var frame_states: Array[BuildingFrameState] = []
 
 func _ready() -> void:
 	post_update(0)
+	$PointLight2D.texture_scale = 1.0 * sight_range / 32
 
 func update(_frame: int) -> void:
-	pass
+	$PointLight2D.visible = is_friendly()
 
 func post_update(frame: int) -> void:
 	var fs: = BuildingFrameState.new(frame, health, team, ability_cooldown, misc_property_0, misc_property_1)
@@ -75,3 +77,12 @@ func _set_health(value: int) -> void:
 	if not is_node_ready() or Engine.is_editor_hint(): return
 	
 	health_changed.emit(old, health)
+
+func is_friendly() -> bool:
+	if not get_tree().has_group("level"):
+		printerr("You cannot call is_friendly outside of a level.")
+		return false
+	return team == get_tree().get_first_node_in_group("level").controlled_team
+
+func is_friendly_to(other_team: int) -> bool:
+	return team == other_team

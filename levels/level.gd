@@ -88,6 +88,7 @@ func _physics_process(_delta):
 	
 	# Handle inputs from all players, including the local player
 	rollback_and_resimulate()
+	_update_entity_visibilities()
 
 func _unhandled_input(event: InputEvent):
 	if is_spectator:
@@ -215,6 +216,26 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 			e.post_update(f)
 	
 	earliest_desynced_frame = frame + 1
+
+func _update_entity_visibilities() -> void:
+	if not level_settings.fog_of_war: return
+	if Client.is_multiplayer() and multiplayer.is_server(): return
+	
+	var friendly_entities: Array = []
+	for e in get_tree().get_nodes_in_group("entities"):
+		if e.is_friendly_to(controlled_team):
+			friendly_entities.append(e)
+	
+	for e in get_tree().get_nodes_in_group("entities"):
+		if e.is_friendly_to(controlled_team): continue
+		var spotted: = false
+		for f_entity in friendly_entities:
+			var dist_squared: float = e.position.distance_squared_to(f_entity.position)
+			var range: float = f_entity.sight_range * level_settings.fog_of_war_scale
+			if dist_squared < range * range:
+				spotted = true
+				break
+		e.visible = spotted
 
 func _add_input(input: ClientInput) -> void:
 	var player_input_list: Array = player_inputs[multiplayer.get_unique_id()]

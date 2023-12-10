@@ -38,7 +38,7 @@ radius = 29.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
 radius = 121.017
 
-[node name="EmptySquad" type="CharacterBody2D" groups=["squads"]]
+[node name="EmptySquad" type="CharacterBody2D" groups=["entities", "squads"]]
 y_sort_enabled = true
 collision_mask = 19
 script = ExtResource("1_u12qt")
@@ -173,7 +173,6 @@ script = ExtResource("6_ivgqb")
 squad = NodePath("..")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
 blend_mode = 2
 shadow_enabled = true
 texture = ExtResource("7_gu4l4")

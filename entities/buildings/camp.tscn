@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://cpimgswcgil06"]
 
+[ext_resource type="PackedScene" uid="uid://ogun42ngmj85" path="res://entities/buildings/empty_building.tscn" id="1_qif1w"]
 [ext_resource type="Script" path="res://entities/buildings/camp.gd" id="1_y6532"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="2_l7fdh"]
 [ext_resource type="PackedScene" uid="uid://bgwwsvg6vubvt" path="res://entities/squads/controllable/archer_squad.tscn" id="3_mdcmk"]
 [ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="4_4r3jy"]
-[ext_resource type="PackedScene" uid="uid://cxry4y10s3egj" path="res://entities/health_bar.tscn" id="4_sv38c"]
 [ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="5_cp1y6"]
 [ext_resource type="PackedScene" uid="uid://c10rkvbh4fkpg" path="res://entities/squads/ai/archer_squad.tscn" id="6_jav8f"]
 [ext_resource type="Texture2D" uid="uid://cgtyt0dxf8cu4" path="res://assets/textures/buildings/camp_fill.png" id="7_7dq21"]
@@ -19,10 +19,10 @@
 [ext_resource type="Texture2D" uid="uid://yxnr60mjx8ub" path="res://assets/textures/units/sword.png" id="16_unn75"]
 [ext_resource type="Texture2D" uid="uid://bl4kfvfgwlvbc" path="res://assets/textures/units/arrow.png" id="17_3jtnu"]
 
-[node name="Camp" type="StaticBody2D" groups=["buildings"]]
-collision_layer = 130
-collision_mask = 0
+[node name="Camp" instance=ExtResource("1_qif1w")]
 script = ExtResource("1_y6532")
+squad_type = 0
+is_ai = false
 controllable_squad_scenes = Array[PackedScene]([ExtResource("2_l7fdh"), ExtResource("3_mdcmk"), ExtResource("4_4r3jy")])
 ai_squad_scenes = Array[PackedScene]([ExtResource("5_cp1y6"), ExtResource("6_jav8f")])
 change_cooldown_time = 60
@@ -31,134 +31,132 @@ max_health = 100
 has_ability = true
 ability_cooldown_time = 1000
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+[node name="HealthBar" parent="." index="0"]
+position = Vector2(0, 37)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
 polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
 
-[node name="Sprites" type="Node2D" parent="."]
+[node name="Sprites" type="Node2D" parent="." index="3"]
 scale = Vector2(0.3, 0.3)
 
-[node name="Shadow" type="Sprite2D" parent="Sprites"]
+[node name="Shadow" type="Sprite2D" parent="Sprites" index="0"]
 z_index = -1
 texture = ExtResource("7_x8lvh")
 offset = Vector2(-79, -24)
 
-[node name="Fill" type="Sprite2D" parent="Sprites"]
+[node name="Fill" type="Sprite2D" parent="Sprites" index="1"]
 modulate = Color(0.262745, 0.262745, 0.262745, 1)
 position = Vector2(-35.64, 1.405)
 texture = ExtResource("7_7dq21")
 offset = Vector2(51, -85)
 
-[node name="Camp" type="Sprite2D" parent="Sprites"]
+[node name="Camp" type="Sprite2D" parent="Sprites" index="2"]
 texture = ExtResource("8_2avts")
 offset = Vector2(0, -53)
 
-[node name="Rays" type="Node2D" parent="."]
+[node name="Rays" type="Node2D" parent="." index="4"]
 
-[node name="Up" type="RayCast2D" parent="Rays"]
+[node name="Up" type="RayCast2D" parent="Rays" index="0"]
 rotation = -3.14159
 target_position = Vector2(0, 55)
 collision_mask = 17
 
-[node name="Right1" type="RayCast2D" parent="Rays"]
+[node name="Right1" type="RayCast2D" parent="Rays" index="1"]
 rotation = -2.0944
 target_position = Vector2(0, 55)
 collision_mask = 17
 
-[node name="Right2" type="RayCast2D" parent="Rays"]
+[node name="Right2" type="RayCast2D" parent="Rays" index="2"]
 rotation = -1.0472
 target_position = Vector2(0, 55)
 collision_mask = 17
 
-[node name="Down" type="RayCast2D" parent="Rays"]
+[node name="Down" type="RayCast2D" parent="Rays" index="3"]
 target_position = Vector2(0, 55)
 collision_mask = 17
 
-[node name="Left1" type="RayCast2D" parent="Rays"]
+[node name="Left1" type="RayCast2D" parent="Rays" index="4"]
 rotation = 1.0472
 target_position = Vector2(0, 55)
 collision_mask = 17
 
-[node name="Left2" type="RayCast2D" parent="Rays"]
+[node name="Left2" type="RayCast2D" parent="Rays" index="5"]
 rotation = 2.0944
 target_position = Vector2(0, 55)
 collision_mask = 17
 
-[node name="ProgressBar" parent="." instance=ExtResource("10_sqsba")]
+[node name="ProgressBar" parent="." index="5" instance=ExtResource("10_sqsba")]
 position = Vector2(0, 29)
 
-[node name="ChangeProgressBar" parent="." instance=ExtResource("10_sqsba")]
+[node name="ChangeProgressBar" parent="." index="6" instance=ExtResource("10_sqsba")]
 position = Vector2(0, 25)
 full_color = Color(0.729412, 0.54902, 0.0941176, 1)
 empty_color = Color(0.635294, 0.478431, 0.0784314, 1)
 
-[node name="HealthBar" parent="." instance=ExtResource("4_sv38c")]
-position = Vector2(0, 37)
+[node name="UIWheel" parent="." index="7" instance=ExtResource("12_xa2vp")]
 
-[node name="UIWheel" parent="." instance=ExtResource("12_xa2vp")]
-
-[node name="0" parent="UIWheel" instance=ExtResource("13_vdt8s")]
+[node name="0" parent="UIWheel" index="2" instance=ExtResource("13_vdt8s")]
 position = Vector2(0, -56)
 
-[node name="Sprite2D" type="Sprite2D" parent="UIWheel/0"]
+[node name="Sprite2D" type="Sprite2D" parent="UIWheel/0" index="3"]
 position = Vector2(-3, -3)
 rotation = 0.523598
 scale = Vector2(0.205, 0.205)
 texture = ExtResource("14_yrsj7")
 
-[node name="Sprite2D2" type="Sprite2D" parent="UIWheel/0"]
+[node name="Sprite2D2" type="Sprite2D" parent="UIWheel/0" index="4"]
 position = Vector2(4, -1)
 rotation = 0.523598
 scale = Vector2(0.205, 0.205)
 texture = ExtResource("14_yrsj7")
 
-[node name="1" parent="UIWheel" instance=ExtResource("13_vdt8s")]
+[node name="1" parent="UIWheel" index="3" instance=ExtResource("13_vdt8s")]
 position = Vector2(48.4974, 28)
 
-[node name="Sprite2D" type="Sprite2D" parent="UIWheel/1"]
+[node name="Sprite2D" type="Sprite2D" parent="UIWheel/1" index="3"]
 position = Vector2(1.38615, -5.07346)
 rotation = 0.523598
 scale = Vector2(0.4, 0.354528)
 texture = ExtResource("16_ubegl")
 
-[node name="Sprite2D2" type="Sprite2D" parent="UIWheel/1"]
+[node name="Sprite2D2" type="Sprite2D" parent="UIWheel/1" index="4"]
 position = Vector2(-4.61385, 4.92654)
 rotation = 0.523598
 scale = Vector2(0.4, 0.354528)
 texture = ExtResource("16_ubegl")
 
-[node name="Sprite2D3" type="Sprite2D" parent="UIWheel/1"]
+[node name="Sprite2D3" type="Sprite2D" parent="UIWheel/1" index="5"]
 position = Vector2(0.883568, 0.926548)
 rotation = 0.523598
 scale = Vector2(0.345, 0.345)
 texture = ExtResource("15_wddh4")
 
-[node name="Sprite2D4" type="Sprite2D" parent="UIWheel/1"]
+[node name="Sprite2D4" type="Sprite2D" parent="UIWheel/1" index="6"]
 position = Vector2(2.50258, 3)
 scale = Vector2(0.275, 0.275)
 texture = ExtResource("17_3jtnu")
 
-[node name="Sprite2D5" type="Sprite2D" parent="UIWheel/1"]
+[node name="Sprite2D5" type="Sprite2D" parent="UIWheel/1" index="7"]
 position = Vector2(1.50258, 6)
 rotation = 0.261799
 scale = Vector2(0.275, 0.275)
 texture = ExtResource("17_3jtnu")
 
-[node name="2" parent="UIWheel" instance=ExtResource("13_vdt8s")]
+[node name="2" parent="UIWheel" index="4" instance=ExtResource("13_vdt8s")]
 position = Vector2(-48.4974, 28)
 
-[node name="Sprite2D" type="Sprite2D" parent="UIWheel/2"]
+[node name="Sprite2D" type="Sprite2D" parent="UIWheel/2" index="3"]
 position = Vector2(-2.50257, 5.72205e-06)
 rotation = 0.523598
 scale = Vector2(0.335, 0.335)
 texture = ExtResource("16_unn75")
 
-[node name="Sprite2D2" type="Sprite2D" parent="UIWheel/2"]
+[node name="Sprite2D2" type="Sprite2D" parent="UIWheel/2" index="4"]
 position = Vector2(3.49742, 2.00001)
 rotation = 0.523598
 scale = Vector2(0.335, 0.335)
 texture = ExtResource("16_unn75")
 
-[connection signal="health_changed" from="." to="HealthBar" method="on_health_changed"]
 [connection signal="health_depleted" from="." to="." method="_on_health_depleted"]
 [connection signal="team_color_changed" from="." to="." method="_on_team_color_changed"]
-[connection signal="element_pressed" from="UIWheel" to="." method="_on_ui_wheel_element_pressed"]
