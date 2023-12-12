@@ -55,6 +55,7 @@ func _ready():
 	
 	$HealthBar.max_health = health
 	$PointLight2D.texture_scale = 1.0 * sight_range / 32
+	$PointLight2D.hide()
 
 ## Called in level.gd
 func update(_frame: int) -> void:

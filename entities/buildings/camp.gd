@@ -38,6 +38,7 @@ func update(frame: int) -> void:
 			$ChangeProgressBar.on_value_changed(0, change_cooldown_time - misc_property_0)
 			return
 		misc_property_0 = -1
+		$UIWheel.disabled = false
 		$ChangeProgressBar.on_value_changed(0, change_cooldown_time - misc_property_0)
 		# misc_property_1 is the squad type to change to
 		squad_type = misc_property_1 as SquadType
@@ -75,6 +76,7 @@ func update(frame: int) -> void:
 	get_tree().get_first_node_in_group("entities_parent").add_child(squad, true)
 
 func change_type_to(type: int) -> void:
+	$UIWheel.disabled = true
 	misc_property_0 = change_cooldown_time
 	misc_property_1 = type
 

@@ -15,14 +15,15 @@ func _enter_state(squad: Squad) -> void:
 	squad.banner.play_animation("moving")
 
 func process(squad: Squad) -> void:
-	if target is Squad:
-		if not target.is_alive():
-			squad.state_machine.state = idle_state
-			return
-	elif target is Building:
-		if target.team == squad.team:
-			squad.state_machine.state = idle_state
-			return
+	if not is_instance_valid(target):
+		squad.state_machine.state = idle_state
+		return
+	elif target is Squad and not target.is_alive():
+		squad.state_machine.state = idle_state
+		return
+	elif target is Building and target.is_friendly_to(squad.team):
+		squad.state_machine.state = idle_state
+		return
 	
 	var targ_pos: = target.position + target.position.direction_to(squad.position) * 10
 	squad.set_target_position(targ_pos)

@@ -201,7 +201,7 @@ func end_game(winning_player_id: int, team: int) -> void:
 	# TODO make this more fancy
 	var n: = Server.lobby.get_player_name(winning_player_id)
 	Global.console.print("%s has won." % winning_player_id)
-	Global.console.print("You are %s." % multiplayer.get_unique_id())
+	is_spectator = true
 	#set_physics_process(false)
 	
 	if winning_player_id == multiplayer.get_unique_id():
@@ -216,6 +216,3 @@ func end_game(winning_player_id: int, team: int) -> void:
 		
 		canvas_layer.add_child(game_over_overlay)
 		add_child(canvas_layer)
-	
-	create_tween().tween_property(camera, "position", Vector2.ZERO, .5).set_trans(Tween.TRANS_CUBIC)
-	create_tween().tween_property(camera, "target_zoom", Vector2(.5, .5), .5).set_trans(Tween.TRANS_CUBIC)

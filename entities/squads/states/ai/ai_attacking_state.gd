@@ -3,6 +3,7 @@ extends AttackingState
 func process(squad: Squad) -> void:
 	super(squad)
 	
+	# Prioritize enemy squads over buildings.
 	if not target is Building:
 		return
 	var closest_enemy_squad: Squad = squad.get_closest_enemy_squad()

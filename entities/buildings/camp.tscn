@@ -98,6 +98,8 @@ empty_color = Color(0.635294, 0.478431, 0.0784314, 1)
 
 [node name="0" parent="UIWheel" index="2" instance=ExtResource("13_vdt8s")]
 position = Vector2(0, -56)
+disabled = true
+disabled_color = Color(0.8, 0.8, 0.8, 0.9)
 
 [node name="Sprite2D" type="Sprite2D" parent="UIWheel/0" index="3"]
 position = Vector2(-3, -3)
@@ -113,6 +115,7 @@ texture = ExtResource("14_yrsj7")
 
 [node name="1" parent="UIWheel" index="3" instance=ExtResource("13_vdt8s")]
 position = Vector2(48.4974, 28)
+disabled_color = Color(0.8, 0.8, 0.8, 0.9)
 
 [node name="Sprite2D" type="Sprite2D" parent="UIWheel/1" index="3"]
 position = Vector2(1.38615, -5.07346)
@@ -145,6 +148,7 @@ texture = ExtResource("17_3jtnu")
 
 [node name="2" parent="UIWheel" index="4" instance=ExtResource("13_vdt8s")]
 position = Vector2(-48.4974, 28)
+disabled_color = Color(0.8, 0.8, 0.8, 0.9)
 
 [node name="Sprite2D" type="Sprite2D" parent="UIWheel/2" index="3"]
 position = Vector2(-2.50257, 5.72205e-06)

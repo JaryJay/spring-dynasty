@@ -170,6 +170,8 @@ func _detect_input(event: InputEvent) -> ClientInput:
 		return input
 
 func _create_input_vfx(input: ClientInput) -> void:
+	if input.entities.is_empty():
+		return
 	if input.input_type == ClientInput.InputType.SQUADS_NAVIGATE or input.input_type == ClientInput.InputType.SQUADS_CHASE:
 		var vfx: Node2D = navigate_command_vfx_scene.instantiate()
 		vfx.global_position = get_global_mouse_position()

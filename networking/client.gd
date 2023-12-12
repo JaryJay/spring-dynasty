@@ -38,6 +38,13 @@ func init(server_ip: String, server_port: int) -> Error:
 	_is_multiplayer = true
 	return OK
 
+func disconnect_from_server() -> void:
+	if not _is_multiplayer:
+		Global.console.print("You are not connected to the server.")
+		return
+	multiplayer.multiplayer_peer.close()
+	_is_multiplayer = false
+
 @rpc("authority", "reliable")
 func update_lobby(player_ids: PackedInt32Array, player_names: PackedStringArray) -> void:
 	print("%s: Updating lobby" % multiplayer.get_unique_id())

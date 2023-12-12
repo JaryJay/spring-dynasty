@@ -37,6 +37,7 @@ alpha_curve = SubResource("CurveTexture_jpnsc")
 script = ExtResource("1_txruf")
 gold_generation = 20
 max_health = 150
+sight_range = 128
 has_ability = true
 ability_cooldown_time = 120
 

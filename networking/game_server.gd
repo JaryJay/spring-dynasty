@@ -28,6 +28,8 @@ func start() -> void:
 	Global.console.commands.append(set_sync_interval_command)
 
 func _physics_process(_delta) -> void:
+	if not started: return
+	
 	level.frame += 1
 	level.rollback_and_resimulate()
 	_send_inputs()
@@ -135,7 +137,10 @@ func _check_game_end_condition() -> void:
 	level.end_game.rpc(winning_player_id, team)
 	
 	started = false
-	set_physics_process(false)
+	
+	var tween: = create_tween()
+	tween.tween_interval(10)
+	tween.tween_callback(reset)
 
 func reset() -> void:
 	started = false
