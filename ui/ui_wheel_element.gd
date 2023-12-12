@@ -7,8 +7,11 @@ signal pressed
 
 @onready var circle: = $Circle
 
+@export var disabled: bool = false : set = _set_disabled
+
 @export var hovered_color: Color = Color.WHITE
 @export var unhovered_color: Color = Color(1, 1, 1, 0.8)
+@export var disabled_color: Color = Color(.8, .8, .8, 0.9)
 
 var is_hovered: = false :
 	set(val):
@@ -21,10 +24,19 @@ func _on_control_gui_input(event: InputEvent):
 		pressed.emit()
 
 func _on_control_mouse_entered():
+	if disabled: return
 	is_hovered = true
 	circle.modulate = hovered_color
 func _on_control_mouse_exited():
 	is_hovered = false
 	circle.modulate = unhovered_color
+	if disabled: return
 
-
+func _set_disabled(val: bool) -> void:
+	disabled = val
+	is_hovered = false
+	if not is_node_ready(): return
+	if disabled:
+		circle.modulate = disabled_color
+	else:
+		circle.modulate = hovered_color

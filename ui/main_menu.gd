@@ -8,6 +8,8 @@ func _ready() -> void:
 		queue_free()
 		return
 	
+	modulate = Color.BLACK
+	create_tween().tween_property(self, "modulate", Color.WHITE, .5).set_trans(Tween.TRANS_CUBIC)
 	# Dev only
 	#_on_multiplayer_button_pressed.call_deferred()
 

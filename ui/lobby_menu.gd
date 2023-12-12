@@ -35,3 +35,7 @@ func _on_start_button_pressed() -> void:
 func _on_game_started() -> void:
 	print("%s: Game started" % multiplayer.get_unique_id())
 	get_tree().change_scene_to_file("res://levels/multiplayer/multiplayer_level_1.tscn")
+
+func _on_leave_button_pressed():
+	Client.disconnect_from_server()
+	get_tree().change_scene_to_file("res://ui/main_menu.tscn")

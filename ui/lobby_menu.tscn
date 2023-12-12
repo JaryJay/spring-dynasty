@@ -126,4 +126,4 @@ theme_override_font_sizes/font_size = 30
 text = "Leave"
 
 [connection signal="pressed" from="Container/SideBar/MarginContainer/HostControls/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="LeaveButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_leave_button_pressed"]

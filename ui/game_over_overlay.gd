@@ -46,3 +46,12 @@ func _on_rating_clicked(number: int) -> void:
 	# TODO: somehow send this information to the server
 	%RatingsContainer.hide()
 	%ThanksLabel.show()
+
+
+func _on_return_label_gui_input(event: InputEvent):
+	if event.is_action_pressed("ui_accept") or event.is_action_pressed("primary"):
+		$V/ReturnLabel.mouse_filter = MOUSE_FILTER_IGNORE
+		var tween: = create_tween()
+		tween.tween_property(self, "modulate", Color.BLACK, 1).set_trans(Tween.TRANS_CUBIC)
+		tween.parallel().tween_property(self, "color", Color.BLACK, 1).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_callback(get_tree().change_scene_to_file.bind("res://ui/main_menu.tscn"))

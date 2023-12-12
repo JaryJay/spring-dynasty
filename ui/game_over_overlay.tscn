@@ -172,3 +172,11 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Thank you for your feedback!"
+
+[node name="ReturnLabel" type="Label" parent="V"]
+layout_mode = 2
+mouse_filter = 1
+text = "Return to Main Menu"
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="V/ReturnLabel" to="." method="_on_return_label_gui_input"]
