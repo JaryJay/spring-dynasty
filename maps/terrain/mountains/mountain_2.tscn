@@ -7,9 +7,10 @@ collision_layer = 48
 collision_mask = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_nx604")
 offset = Vector2(0, -79)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 self_modulate = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(-71, -23, 76, -23, 100, -1, 0, 30, -95, 1)
+polygon = PackedVector2Array(-79, -31, 89, -31, 118, 0, 0, 44, -108, 0)
