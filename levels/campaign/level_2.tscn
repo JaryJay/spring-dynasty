@@ -1,0 +1,110 @@
+[gd_scene load_steps=11 format=3 uid="uid://dujr1ev63i2n0"]
+
+[ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_a8ocs"]
+[ext_resource type="Script" path="res://levels/campaign/level_2.gd" id="2_1cfux"]
+[ext_resource type="PackedScene" uid="uid://b0wwx6jfftxfo" path="res://maps/campaign_map_2.tscn" id="2_oatdn"]
+[ext_resource type="PackedScene" uid="uid://c3gkhobbpvvdg" path="res://entities/buildings/base.tscn" id="3_5qxt1"]
+[ext_resource type="Script" path="res://levels/level_settings.gd" id="3_hn4ta"]
+[ext_resource type="PackedScene" uid="uid://cpimgswcgil06" path="res://entities/buildings/camp.tscn" id="4_yu5ym"]
+[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="5_2sfir"]
+
+[sub_resource type="Resource" id="Resource_d6v7l"]
+script = ExtResource("3_hn4ta")
+fog_of_war = true
+fog_of_war_scale = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdesw"]
+size = Vector2(253.144, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1b80t"]
+size = Vector2(292, 20)
+
+[node name="Level2" node_paths=PackedStringArray("map") instance=ExtResource("1_a8ocs")]
+script = ExtResource("2_1cfux")
+map = NodePath("CampaignMap1")
+level_settings = SubResource("Resource_d6v7l")
+
+[node name="UI" type="CanvasLayer" parent="." index="1"]
+
+[node name="Timer" type="Label" parent="UI" index="0"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 11.0
+offset_right = 20.0
+offset_bottom = 41.0
+grow_horizontal = 2
+text = "0:00"
+
+[node name="CampaignMap1" parent="." index="4" instance=ExtResource("2_oatdn")]
+
+[node name="Base" parent="Entities" index="0" instance=ExtResource("3_5qxt1")]
+position = Vector2(-299, -220)
+
+[node name="Camp" parent="Entities" index="1" instance=ExtResource("4_yu5ym")]
+position = Vector2(-144, -274)
+max_health = 2
+ability_cooldown_time = 400
+
+[node name="1" parent="Entities/Camp/UIWheel" index="3"]
+position = Vector2(48.4974, 28)
+
+[node name="2" parent="Entities/Camp/UIWheel" index="4"]
+position = Vector2(-48.4974, 28)
+
+[node name="F_0_0" parent="Entities" index="2" instance=ExtResource("5_2sfir")]
+position = Vector2(-211, -192)
+
+[node name="Special" type="Node2D" parent="." index="10"]
+
+[node name="Boundary1" type="StaticBody2D" parent="Special" index="0"]
+position = Vector2(322, -371)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Special/Boundary1" index="0"]
+rotation = -2.35619
+shape = SubResource("RectangleShape2D_qdesw")
+
+[node name="Boundary2" type="StaticBody2D" parent="Special" index="1"]
+position = Vector2(-44, 312)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Special/Boundary2" index="0"]
+shape = SubResource("RectangleShape2D_1b80t")
+
+[node name="InvadeTimer" type="Timer" parent="Special" index="2"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 10.0
+one_shot = true
+
+[node name="SpawnPoint1" type="Marker2D" parent="Special" index="3"]
+unique_name_in_owner = true
+position = Vector2(340, -492)
+
+[node name="Marker2D" type="Marker2D" parent="Special/SpawnPoint1" index="0"]
+position = Vector2(21, -25)
+
+[node name="Marker2D2" type="Marker2D" parent="Special/SpawnPoint1" index="1"]
+position = Vector2(28, 52)
+
+[node name="Marker2D3" type="Marker2D" parent="Special/SpawnPoint1" index="2"]
+position = Vector2(-36, 19)
+
+[node name="SpawnPoint2" type="Marker2D" parent="Special" index="4"]
+unique_name_in_owner = true
+position = Vector2(10, 512)
+
+[node name="Marker2D" type="Marker2D" parent="Special/SpawnPoint2" index="0"]
+
+[node name="Marker2D2" type="Marker2D" parent="Special/SpawnPoint2" index="1"]
+position = Vector2(76, -6)
+
+[node name="Marker2D3" type="Marker2D" parent="Special/SpawnPoint2" index="2"]
+position = Vector2(49, 53)
+
+[connection signal="timeout" from="Special/InvadeTimer" to="." method="_on_invade_timer_timeout"]
+
+[editable path="Entities/Camp"]

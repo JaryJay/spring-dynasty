@@ -1,6 +1,5 @@
-[gd_scene load_steps=11 format=3 uid="uid://s2hwxk8bbuob"]
+[gd_scene load_steps=10 format=3 uid="uid://s2hwxk8bbuob"]
 
-[ext_resource type="Script" path="res://maps/map.gd" id="1_jmj3i"]
 [ext_resource type="Texture2D" uid="uid://bv2apyr0q6t1q" path="res://assets/textures/terrain/campaign_map_1.png" id="2_x0g6k"]
 [ext_resource type="PackedScene" uid="uid://dqh4xkqsk0dti" path="res://maps/terrain/mountains/mountain_1.tscn" id="3_lgqcw"]
 [ext_resource type="PackedScene" uid="uid://do5o4umesxga3" path="res://maps/terrain/mountains/mountain_2.tscn" id="4_jebck"]
@@ -26,7 +25,6 @@ polygon = PackedVector2Array(91, -625, 103, -484, 331, -457, 375, -408, 339, -30
 [node name="CampaignMap1" type="NavigationRegion2D"]
 self_modulate = Color(0, 0, 0, 0.254902)
 navigation_polygon = SubResource("NavigationPolygon_jbjr1")
-script = ExtResource("1_jmj3i")
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -5

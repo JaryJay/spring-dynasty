@@ -295,3 +295,10 @@ func _handle_input(input: ClientInput) -> void:
 				printerr("Entity not supported: %s %s" % [entity, typeof(entity)])
 				continue
 			entity.change_type_to(property)
+
+func rebake_navigation_mesh() -> void:
+	var nav_polygon: = map.navigation_polygon
+	var source_geometry_data: = NavigationMeshSourceGeometryData2D.new()
+	NavigationServer2D.parse_source_geometry_data(nav_polygon, source_geometry_data, self)
+	NavigationServer2D.bake_from_source_geometry_data(nav_polygon, source_geometry_data)
+	map.navigation_polygon = nav_polygon

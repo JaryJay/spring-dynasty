@@ -26,8 +26,6 @@ func process(squad: Squad) -> void:
 		squad.state_machine.state = idle_state
 		return
 	
-	handle_pushing(squad)
-	
 	if squad.position.distance_to(target.position) < squad.range:
 		if cooldown == 0:
 			target.change_health(-squad.attack, squad)

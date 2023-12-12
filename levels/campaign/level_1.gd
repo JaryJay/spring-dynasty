@@ -10,12 +10,7 @@ func _ready() -> void:
 	super()
 	set_physics_process(true)
 	
-	# Remake navigation region
-	var nav_polygon: = map.navigation_polygon
-	var source_geometry_data: = NavigationMeshSourceGeometryData2D.new()
-	NavigationServer2D.parse_source_geometry_data(nav_polygon, source_geometry_data, self)
-	NavigationServer2D.bake_from_source_geometry_data(nav_polygon, source_geometry_data)
-	map.navigation_polygon = nav_polygon
+	rebake_navigation_mesh()
 	
 	# Focus camera on squad
 	camera.position = $Entities/F_0_0.position
@@ -48,7 +43,7 @@ func check_win_loss_condition() -> void:
 		Global.console.print("Game Over!")
 		var tween: = create_tween()
 		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(0.75).set_trans(Tween.TRANS_CUBIC)
-		tween.tween_callback(get_tree().change_scene_to_file.bind("res://levels/level_1.tscn")).set_delay(1)
+		tween.tween_callback(get_tree().change_scene_to_file.bind("res://levels/campaign/level_1.tscn")).set_delay(1)
 		game_ended = true
 	elif not has_living_enemy_squads:
 		Global.console.print("Victory!")

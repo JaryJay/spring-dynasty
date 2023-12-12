@@ -9,3 +9,7 @@ health = 80
 attack = 8
 engage_range = 160
 range = 180
+
+[node name="AiIdleState" parent="StateMachine" index="0" node_paths=PackedStringArray("chasing_state", "attacking_state")]
+chasing_state = NodePath("../AiChasingState")
+attacking_state = NodePath("../AiAttackingState")

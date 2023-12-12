@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bogbidiako8h8"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_kwl8q"]
-[ext_resource type="Script" path="res://levels/level_1.gd" id="2_yjba7"]
+[ext_resource type="Script" path="res://levels/campaign/level_1.gd" id="2_yjba7"]
 [ext_resource type="Script" path="res://levels/level_settings.gd" id="3_0t0y4"]
 [ext_resource type="PackedScene" uid="uid://s2hwxk8bbuob" path="res://maps/campaign_map_1.tscn" id="3_65yjq"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="4_mvegc"]
@@ -22,7 +22,7 @@ script = ExtResource("2_yjba7")
 map = NodePath("CampaignMap1")
 level_settings = SubResource("Resource_260s3")
 
-[node name="CampaignMap1" parent="." index="2" instance=ExtResource("3_65yjq")]
+[node name="CampaignMap1" parent="." index="3" instance=ExtResource("3_65yjq")]
 
 [node name="Label" type="Label" parent="CampaignMap1" index="3"]
 self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
