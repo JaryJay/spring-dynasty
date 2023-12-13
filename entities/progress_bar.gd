@@ -8,6 +8,7 @@ extends Sprite2D
 		if Engine.is_editor_hint() and is_node_ready():
 			$Bar.color = full_color
 @export var empty_color: Color
+@export_range(0, 3) var fade_time: float = 1
 
 @onready var bar: = $Bar
 @onready var start_marker: = $StartMarker
@@ -21,6 +22,8 @@ func _ready():
 		bar.color = full_color
 		return
 	modulate = Color.TRANSPARENT
+	if fade_time > 0:
+		fade_timer.wait_time = fade_time
 
 func on_value_changed(_old: int, new: int) -> void:
 	if _transparency_tween and _transparency_tween.is_valid():
@@ -34,8 +37,9 @@ func on_value_changed(_old: int, new: int) -> void:
 	modulate = Color.WHITE
 	
 	# Restart timers
-	fade_timer.stop()
-	fade_timer.start()
+	if fade_time > 0:
+		fade_timer.stop()
+		fade_timer.start()
 
 func _on_fade_timer_timeout():
 	_transparency_tween = create_tween()

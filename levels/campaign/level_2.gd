@@ -90,7 +90,7 @@ func spawn_enemies_at(marker: Marker2D) -> void:
 	var ai_footman_scene: = preload("res://entities/squads/ai/footman_squad.tscn")
 	var ai_archer_scene: = preload("res://entities/squads/ai/archer_squad.tscn")
 	
-	for i in 2:
+	for i in 1:
 		var f: Squad = ai_footman_scene.instantiate()
 		$Entities.add_child(f)
 		f.team = 1

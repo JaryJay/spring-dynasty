@@ -24,5 +24,6 @@ position = Vector2(-58, 0)
 position = Vector2(58, 0)
 
 [node name="FadeTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="FadeTimer" to="." method="_on_fade_timer_timeout"]

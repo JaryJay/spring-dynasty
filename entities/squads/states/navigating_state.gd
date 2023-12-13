@@ -2,6 +2,7 @@ extends State
 class_name NavigatingState
 
 @export var idle_state: IdleState
+@export var chasing_state: ChasingState
 
 func _enter_state(squad: Squad) -> void:
 	# Uncomment the following line to debug
@@ -17,40 +18,21 @@ func process(squad: Squad) -> void:
 		squad.state_machine.state = idle_state
 		squad.velocity = Vector2.ZERO
 	else:
-		var colliding_rays: Array[RayCast2D] = []
-		var non_colliding_rays: Array[RayCast2D] = []
-		
-		for _ray in squad.rays.get_children():
-			var ray: RayCast2D = _ray
-			if ray.is_colliding():
-				colliding_rays.append(ray)
-			else:
-				non_colliding_rays.append(ray)
-		
 		squad.set_target_position(squad.nav.target_position)
 		var next_path_position: Vector2 = nav.get_next_path_position()
-		var direction: Vector2 = squad.global_position.direction_to(next_path_position)
-		if colliding_rays.size() > 0:
+		squad.rotate_and_move(squad.global_position.direction_to(next_path_position))
+		
+		# If there is an enemy in front of the squad, then start
+		# chasing that enemy
+		for ray: RayCast2D in squad.rays.get_children():
+			ray.force_raycast_update()
+			if not ray.is_colliding(): continue
 			
-			if non_colliding_rays.size() == 0:
-				# All rays are colliding. Let's just stop moving
-				squad.state_machine.state = idle_state
-				squad.velocity = Vector2.ZERO
-			else:
-				
-#				var avg_non_colliding_ray: = Vector2.ZERO
-#				for ray in non_colliding_rays:
-#					avg_non_colliding_ray += Vector2.from_angle(ray.global_rotation)
-#				avg_non_colliding_ray /= non_colliding_rays.size()
-#				if avg_non_colliding_ray.is_zero_approx():
-#					squad.rotate_and_move(direction)
-#				else:
-#					direction = direction.lerp(avg_non_colliding_ray.normalized(), 0.1).normalized()
-#					squad.rotate_and_move(direction)
-#				direction = direction.lerp(Vector2.from_angle(non_colliding_rays[0].global_rotation), 0.1).normalized()
-				squad.rotate_and_move(direction)
-		else:
-			squad.rotate_and_move(direction)
+			var s: = ray.get_collider()
+			if s is Squad and not s.is_friendly_to(squad.team) and s.is_alive():
+				chasing_state.target = s
+				squad.state_machine.state = chasing_state
+				return
 
 func _exit_state(squad: Squad):
 	squad.debug_label.hide()

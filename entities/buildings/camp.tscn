@@ -61,31 +61,31 @@ offset = Vector2(0, -53)
 [node name="Up" type="RayCast2D" parent="Rays" index="0"]
 rotation = -3.14159
 target_position = Vector2(0, 55)
-collision_mask = 17
+collision_mask = 19
 
 [node name="Right1" type="RayCast2D" parent="Rays" index="1"]
 rotation = -2.0944
 target_position = Vector2(0, 55)
-collision_mask = 17
+collision_mask = 19
 
 [node name="Right2" type="RayCast2D" parent="Rays" index="2"]
 rotation = -1.0472
 target_position = Vector2(0, 55)
-collision_mask = 17
+collision_mask = 19
 
 [node name="Down" type="RayCast2D" parent="Rays" index="3"]
 target_position = Vector2(0, 55)
-collision_mask = 17
+collision_mask = 19
 
 [node name="Left1" type="RayCast2D" parent="Rays" index="4"]
 rotation = 1.0472
 target_position = Vector2(0, 55)
-collision_mask = 17
+collision_mask = 19
 
 [node name="Left2" type="RayCast2D" parent="Rays" index="5"]
 rotation = 2.0944
 target_position = Vector2(0, 55)
-collision_mask = 17
+collision_mask = 19
 
 [node name="ProgressBar" parent="." index="5" instance=ExtResource("10_sqsba")]
 position = Vector2(0, 29)
@@ -94,6 +94,7 @@ position = Vector2(0, 29)
 position = Vector2(0, 25)
 full_color = Color(0.729412, 0.54902, 0.0941176, 1)
 empty_color = Color(0.635294, 0.478431, 0.0784314, 1)
+fade_time = 0.1
 
 [node name="UIWheel" parent="." index="7" instance=ExtResource("12_xa2vp")]
 

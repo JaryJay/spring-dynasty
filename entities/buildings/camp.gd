@@ -50,12 +50,14 @@ func update(frame: int) -> void:
 		return
 	
 	var ray: RayCast2D
+	# Get first non-colliding ray.
 	for ray_cast: RayCast2D in $Rays.get_children():
+		ray_cast.force_raycast_update()
 		if not ray_cast.is_colliding():
 			ray = ray_cast
 			break
 	if not ray:
-		# Not enough space to spawn a squad.
+		# All rays are colliding, thus there is no space to spawn a squad.
 		# Note that we don't reset the ability cooldown.
 		return
 	

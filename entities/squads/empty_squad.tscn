@@ -108,51 +108,15 @@ rotation = -1.5708
 [node name="RayCastFront" type="RayCast2D" parent="Rays"]
 modulate = Color(0, 0.839216, 0.337255, 1)
 position = Vector2(0, 25)
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
+target_position = Vector2(0, 25)
 
 [node name="RayCastLeft1" type="RayCast2D" parent="Rays"]
 position = Vector2(12.5, 21.65)
-rotation = -0.523599
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
+target_position = Vector2(0, 25)
 
 [node name="RayCastRight1" type="RayCast2D" parent="Rays"]
 position = Vector2(-12.5, 21.65)
-rotation = 0.523599
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
-
-[node name="RayCastLeft2" type="RayCast2D" parent="Rays"]
-position = Vector2(21.65, 12.5)
-rotation = -1.0472
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
-
-[node name="RayCastRight2" type="RayCast2D" parent="Rays"]
-position = Vector2(-21.65, 12.5)
-rotation = 1.0472
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
-
-[node name="RayCastLeft3" type="RayCast2D" parent="Rays"]
-position = Vector2(25, 0)
-rotation = -1.5708
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
-
-[node name="RayCastRight3" type="RayCast2D" parent="Rays"]
-position = Vector2(-25, 0)
-rotation = 1.5708
-target_position = Vector2(0, 15)
-collision_mask = 7
-hit_from_inside = true
+target_position = Vector2(0, 25)
 
 [node name="PushArea" type="Area2D" parent="."]
 editor_description = "After the squad finishes navigating to a target position, it will reposition itself if this area is intersecting with other squds"

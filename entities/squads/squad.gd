@@ -59,9 +59,6 @@ func _ready():
 
 ## Called in level.gd
 func update(_frame: int) -> void:
-	for ray_cast in rays.get_children():
-		ray_cast.force_raycast_update()
-	
 	state_machine.process_state()
 	
 	$PointLight2D.visible = is_friendly()
@@ -123,9 +120,6 @@ func return_to_frame_state(frame: int) -> bool:
 	
 	printerr("%s: Squad trying to return to frame %d, but the oldest frame is %d" % [name, frame, frame_states[-1].frame])
 	return false
-
-func _is_obstacle_in_front() -> bool:
-	return $Rays/RayCastFront.is_colliding()
 
 ## Called once, internally, when the squad is created, or every time the squad
 ## settings (e.g. unit_scene, size) change in the editor

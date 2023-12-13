@@ -12,6 +12,8 @@ func _enter_state(squad: Squad) -> void:
 	for unit in squad.units:
 		unit.play_animation("die", randf_range(0.9, 1.1))
 	squad.banner.play_animation("die")
+	squad.collision_layer = 0
+	squad.selected = false
 
 func process(squad: Squad) -> void:
 	if frames_until_deletion == 0:

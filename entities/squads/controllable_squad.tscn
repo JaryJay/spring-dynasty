@@ -16,9 +16,10 @@ default_state = NodePath("IdleState")
 script = ExtResource("2_ajwuc")
 attacking_state = NodePath("../AttackingState")
 
-[node name="NavigatingState" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("idle_state")]
+[node name="NavigatingState" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("idle_state", "chasing_state")]
 script = ExtResource("3_tcybc")
 idle_state = NodePath("../IdleState")
+chasing_state = NodePath("../ChasingState")
 
 [node name="ChasingState" type="Node" parent="StateMachine" index="2" node_paths=PackedStringArray("idle_state", "attacking_state")]
 script = ExtResource("4_reni6")

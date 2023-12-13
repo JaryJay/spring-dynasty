@@ -82,16 +82,19 @@ position = Vector2(-208, -302)
 [node name="F_0_1" parent="Entities" index="1" instance=ExtResource("5_4xpkg")]
 position = Vector2(173, -330)
 
-[node name="B_0" parent="Entities" index="2" instance=ExtResource("5_p3eg5")]
+[node name="F_0_2" parent="Entities" index="2" instance=ExtResource("4_mvegc")]
+position = Vector2(233, -323)
+
+[node name="B_0" parent="Entities" index="3" instance=ExtResource("5_p3eg5")]
 position = Vector2(267, 242)
 sight_range = 0
 
-[node name="F_1_0" parent="Entities" index="3" instance=ExtResource("7_42t7j")]
+[node name="F_1_0" parent="Entities" index="4" instance=ExtResource("7_42t7j")]
 position = Vector2(-20, 203)
 intelligence = 0
 team = 1
 
-[node name="F_1_1" parent="Entities" index="4" instance=ExtResource("7_42t7j")]
+[node name="F_1_1" parent="Entities" index="5" instance=ExtResource("7_42t7j")]
 position = Vector2(536, 336)
 intelligence = 0
 team = 1
