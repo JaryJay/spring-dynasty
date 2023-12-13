@@ -34,3 +34,4 @@ func _on_team_color_changed(color: Color):
 func _on_health_depleted(_health: int, source: Node2D):
 	health = max_health
 	team = source.team
+	ability_cooldown = ability_cooldown_time

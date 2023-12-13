@@ -90,6 +90,7 @@ func _on_team_color_changed(color: Color):
 func _on_health_depleted(_health: int, source: Node2D):
 	health = max_health
 	team = source.team
+	ability_cooldown = ability_cooldown_time
 
 func _on_ui_wheel_element_pressed(element: UIWheelElement):
 	if element.name.to_int() == squad_type: return
