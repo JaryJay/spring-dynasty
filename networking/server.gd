@@ -49,6 +49,7 @@ func _on_player_disconnected(id: int) -> void:
 	
 	# Calculate new host
 	var i: = lobby.player_ids.find(id)
+	lobby.player_info_list.remove_at(i)
 	lobby.player_ids.remove_at(i)
 	lobby.player_names.remove_at(i)
 	if lobby.host_id == id:
@@ -97,6 +98,7 @@ func register_user_info(user_info: Dictionary) -> void:
 	
 	lobby.player_ids.append(id)
 	lobby.player_names.append(player_name)
+	lobby.player_info_list.append({ "team": 0 })
 	if lobby.host_id == 0:
 		lobby.host_id = id
 	
@@ -115,10 +117,11 @@ func start_game() -> void:
 	
 	# Assign team numbers
 	var team_numbers: Array[int] = [0, 1, 2, 3, 4, 5]
+	randomize()
 	team_numbers.shuffle()
 	for i in lobby.player_ids.size():
 		var team_number: = team_numbers[i]
-		lobby.player_info_list.append({ "team": team_number })
+		lobby.player_info_list[i].team = team_number
 	
 	for i in lobby.player_ids.size():
 		Client.start_game.rpc_id(lobby.player_ids[i], lobby.player_info_list)
@@ -131,4 +134,3 @@ func start_game() -> void:
 	
 	# Start GameServer after 1 second
 	get_tree().create_timer(1, true, true).timeout.connect(GameServer.start)
-	

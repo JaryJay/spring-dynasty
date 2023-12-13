@@ -135,12 +135,8 @@ func _check_game_end_condition() -> void:
 	
 	_send_game_frame_state()
 	level.end_game.rpc(winning_player_id, team)
-	
-	started = false
-	
-	var tween: = create_tween()
-	tween.tween_interval(10)
-	tween.tween_callback(reset)
+	level.queue_free()
+	reset()
 
 func reset() -> void:
 	started = false

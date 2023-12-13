@@ -55,8 +55,9 @@ func update_lobby(player_ids: PackedInt32Array, player_names: PackedStringArray)
 
 @rpc("authority", "reliable")
 func start_game(player_info_list: Array) -> void:
-	for player_info in player_info_list:
-		Server.lobby.player_info_list.append(player_info)
+	Server.lobby.player_info_list.clear()
+	for i in player_info_list.size():
+		Server.lobby.player_info_list.append(player_info_list[i])
 	team_number = Server.lobby.get_player_info(multiplayer.get_unique_id()).team
 	print("%s: Starting game as team %d" % [multiplayer.get_unique_id(), team_number])
 	game_started.emit()
@@ -76,7 +77,7 @@ func _on_connected_fail() -> void:
 	multiplayer.multiplayer_peer = null
 
 func _on_server_disconnected() -> void:
-	printerr("%s: Disconnected from server" % multiplayer.get_unique_id())
+	printerr("Disconnected from server.")
 	multiplayer.multiplayer_peer = null
 	server_disconnected.emit()
 
