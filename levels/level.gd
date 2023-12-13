@@ -102,7 +102,7 @@ func _unhandled_input(event: InputEvent):
 		local_input_queue.append(client_input)
 
 func _update_squads_selection() -> void:
-	if selection_rect.is_selecting:
+	if Input.is_action_pressed("select"):
 		for selected_squad in selected_squads:
 			if is_instance_valid(selected_squad):
 				selected_squad.selected = false
@@ -116,8 +116,7 @@ func _update_squads_selection() -> void:
 				printerr("Selected body is not a squad: %s" % body)
 
 func _detect_input(event: InputEvent) -> ClientInput:
-	var selecting: = Input.is_action_pressed("select")
-	if selecting or not event.is_action_pressed("primary"):
+	if Input.is_action_pressed("select") or not event.is_action_pressed("primary"):
 		return null
 	
 	# Now check for navigation/attacking
