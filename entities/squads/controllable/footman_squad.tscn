@@ -8,3 +8,6 @@ unit_scene = ExtResource("2_er34p")
 engage_range = 70
 range = 90
 attack_cooldown = 60
+
+[node name="DebugLabel" parent="." index="3"]
+text = "Debug text"

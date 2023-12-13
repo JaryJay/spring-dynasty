@@ -28,6 +28,7 @@ ai_squad_scenes = Array[PackedScene]([ExtResource("5_cp1y6"), ExtResource("6_jav
 change_cooldown_time = 60
 team = 7
 max_health = 100
+sight_range = 128
 has_ability = true
 ability_cooldown_time = 1000
 
@@ -164,3 +165,4 @@ texture = ExtResource("16_unn75")
 
 [connection signal="health_depleted" from="." to="." method="_on_health_depleted"]
 [connection signal="team_color_changed" from="." to="." method="_on_team_color_changed"]
+[connection signal="element_pressed" from="UIWheel" to="." method="_on_ui_wheel_element_pressed"]

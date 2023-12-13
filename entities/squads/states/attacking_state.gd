@@ -16,6 +16,7 @@ func _enter_state(squad: Squad) -> void:
 	squad.banner.play_animation("idle")
 
 func process(squad: Squad) -> void:
+	handle_pushing(squad)
 	if not is_instance_valid(target):
 		squad.state_machine.state = idle_state
 		return

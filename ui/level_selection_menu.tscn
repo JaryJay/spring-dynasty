@@ -68,12 +68,14 @@ text = "Level 2"
 [node name="Level3" type="Button" parent="Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Level 3"
+disabled = true
+text = "Level 3 (Coming Soon)"
 
 [node name="Level4" type="Button" parent="Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Level 4"
+disabled = true
+text = "Level 4 (Coming Soon)"
 
 [connection signal="pressed" from="Buttons/Level1" to="." method="_on_level_1_pressed"]
 [connection signal="pressed" from="Buttons/Level2" to="." method="_on_level_2_pressed"]

@@ -27,7 +27,7 @@ level_settings = SubResource("Resource_d6v7l")
 [node name="UI" type="CanvasLayer" parent="." index="1"]
 
 [node name="Timer" type="Label" parent="UI" index="0"]
-visible = false
+modulate = Color(1, 1, 1, 0)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -40,19 +40,45 @@ text = "0:00"
 
 [node name="CampaignMap1" parent="." index="4" instance=ExtResource("2_oatdn")]
 
+[node name="Label" type="Label" parent="CampaignMap1" index="3"]
+self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+offset_left = -192.0
+offset_top = -242.0
+offset_right = -3.0
+offset_bottom = -183.0
+text = "Attack the camp
+to conquer it."
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="CampaignMap1" index="4"]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -454.0
+offset_top = -140.0
+offset_right = -184.0
+offset_bottom = -50.0
+text = "Prepare to defend
+our base from
+the enemies!"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="CampaignMap1" index="5"]
+self_modulate = Color(0.192157, 0.192157, 0.192157, 0)
+offset_left = -365.0
+offset_top = -381.0
+offset_right = -95.0
+offset_bottom = -291.0
+text = "Right click the camp
+to change the
+squad type."
+horizontal_alignment = 1
+
 [node name="Base" parent="Entities" index="0" instance=ExtResource("3_5qxt1")]
 position = Vector2(-299, -220)
 
 [node name="Camp" parent="Entities" index="1" instance=ExtResource("4_yu5ym")]
 position = Vector2(-144, -274)
-max_health = 2
-ability_cooldown_time = 400
-
-[node name="1" parent="Entities/Camp/UIWheel" index="3"]
-position = Vector2(48.4974, 28)
-
-[node name="2" parent="Entities/Camp/UIWheel" index="4"]
-position = Vector2(-48.4974, 28)
+max_health = 50
+ability_cooldown_time = 600
 
 [node name="F_0_0" parent="Entities" index="2" instance=ExtResource("5_2sfir")]
 position = Vector2(-211, -192)
@@ -77,12 +103,12 @@ shape = SubResource("RectangleShape2D_1b80t")
 [node name="InvadeTimer" type="Timer" parent="Special" index="2"]
 unique_name_in_owner = true
 process_callback = 0
-wait_time = 10.0
+wait_time = 30.0
 one_shot = true
 
 [node name="SpawnPoint1" type="Marker2D" parent="Special" index="3"]
 unique_name_in_owner = true
-position = Vector2(340, -492)
+position = Vector2(329, -590)
 
 [node name="Marker2D" type="Marker2D" parent="Special/SpawnPoint1" index="0"]
 position = Vector2(21, -25)
@@ -95,7 +121,7 @@ position = Vector2(-36, 19)
 
 [node name="SpawnPoint2" type="Marker2D" parent="Special" index="4"]
 unique_name_in_owner = true
-position = Vector2(10, 512)
+position = Vector2(-6, 488)
 
 [node name="Marker2D" type="Marker2D" parent="Special/SpawnPoint2" index="0"]
 
@@ -106,5 +132,3 @@ position = Vector2(76, -6)
 position = Vector2(49, 53)
 
 [connection signal="timeout" from="Special/InvadeTimer" to="." method="_on_invade_timer_timeout"]
-
-[editable path="Entities/Camp"]

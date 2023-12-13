@@ -26,7 +26,7 @@ func handle_pushing(squad: Squad) -> void:
 			continue
 		var s: Squad = _s
 		var s_state: = s.state_machine.state
-		if s_state is NavigatingState or s_state is IdleState or s_state is AttackingState:
+		if s_state is NavigatingState or s_state is ChasingState or s_state is IdleState:
 			avg_push_dir += s.position.direction_to(squad.position)
 			pushing_count += 1
 	

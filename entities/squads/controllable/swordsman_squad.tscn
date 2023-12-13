@@ -6,4 +6,10 @@
 [node name="SwordsmanSquad" instance=ExtResource("1_ibxky")]
 unit_scene = ExtResource("2_41wyb")
 health = 80
-attack_cooldown = 40
+attack = 8
+attack_cooldown = 45
+
+[node name="DebugLabel" parent="." index="3"]
+visible = false
+horizontal_alignment = 0
+vertical_alignment = 0

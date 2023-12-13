@@ -9,7 +9,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 script = ExtResource("1_qistc")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -20,53 +19,63 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-color = Color(0, 0, 0, 0.207843)
+color = Color(0, 0, 0, 0.137255)
+metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="."]
+[node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -250.0
-offset_right = 200.0
-offset_bottom = 250.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_left = 0.657986
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.431373)
+metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9
+anchor_top = 0.5
+anchor_right = 0.95
+anchor_bottom = 0.5
+offset_left = -171.8
+offset_top = -86.0
+offset_right = -0.400024
+offset_bottom = 86.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
-text = "Pause Menu"
+text = "Paused"
 horizontal_alignment = 1
 
-[node name="Resume" type="Button" parent="Panel/VBoxContainer"]
+[node name="Resume" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 text = "Resume"
 
-[node name="Exit" type="Button" parent="Panel/VBoxContainer"]
+[node name="Feedback" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
-text = "Return to Main Menu
-"
+text = "Give Feedback"
 
-[node name="Quit" type="Button" parent="Panel/VBoxContainer"]
+[node name="Exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
-text = "Quit"
+text = "Main Menu"
 
-[connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="hide"]
-[connection signal="pressed" from="Panel/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "Exit to Desktop"
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="hide"]
+[connection signal="pressed" from="VBoxContainer/Feedback" to="." method="_on_feedback_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

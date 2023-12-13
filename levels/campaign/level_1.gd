@@ -42,13 +42,13 @@ func check_win_loss_condition() -> void:
 	if not has_living_friendly_squads or $Entities/B_0.team != controlled_team:
 		Global.console.print("Game Over!")
 		var tween: = create_tween()
-		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(0.75).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(1.5).set_trans(Tween.TRANS_CUBIC)
 		tween.tween_callback(get_tree().change_scene_to_file.bind("res://levels/campaign/level_1.tscn")).set_delay(1)
 		game_ended = true
 	elif not has_living_enemy_squads:
 		Global.console.print("Victory!")
 		var tween: = create_tween()
-		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(0.75).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_property(self, "modulate", Color.BLACK, 2.0).set_delay(1.5).set_trans(Tween.TRANS_CUBIC)
 		tween.tween_callback(get_tree().change_scene_to_file.bind("res://ui/level_selection_menu.tscn")).set_delay(1)
 		game_ended = true
 

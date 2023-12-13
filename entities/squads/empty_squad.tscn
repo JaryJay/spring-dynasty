@@ -28,6 +28,7 @@ turbulence_influence_min = 1.0
 turbulence_influence_max = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_bc27l"]
+font_size = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_806k5"]
 radius = 26.0
@@ -80,8 +81,10 @@ offset_right = 42.5
 offset_bottom = -33.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Debug text"
+text = "Chasing"
 label_settings = SubResource("LabelSettings_bc27l")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="NavigationTrail" type="Line2D" parent="."]
 
