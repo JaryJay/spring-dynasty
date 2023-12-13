@@ -37,10 +37,7 @@ func _unhandled_input(_event):
 		target_zoom *= 0.93
 	
 	# Clamp target_zoom
-	if target_zoom.length_squared() / 2 < 0.4 * 0.4:
-		target_zoom = Vector2(0.4, 0.4)
-	elif target_zoom.length_squared() / 2 > 2.0 * 2.0:
-		target_zoom = Vector2(2.0, 2.0)
+	target_zoom = target_zoom.clamp(Vector2(.4, .4), Vector2(5, 5))
 
 func _remove_invalid_follow_targets() -> void:
 	for i in range(follow_targets.size() - 1, -1, -1):
