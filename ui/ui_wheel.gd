@@ -29,6 +29,11 @@ func _ready() -> void:
 			node.position = Vector2.ZERO
 			node.hide()
 
+func select(element: UIWheelElement) -> void:
+	for node: Node in get_children():
+		if node is UIWheelElement: node.is_selected = false
+	element.is_selected = true
+
 func _on_child_entered_tree(node: Node) -> void:
 	if node is UIWheelElement:
 		set_element_positions()

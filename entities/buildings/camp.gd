@@ -20,6 +20,8 @@ func _ready() -> void:
 	$ProgressBar.max_value = ability_cooldown_time
 	$HealthBar.max_health = max_health
 	misc_property_0 = -1 # We use misc_property_0 as our change cooldown.
+	
+	$UIWheel.select($"UIWheel/0")
 
 func update(frame: int) -> void:
 	super.update(frame)
@@ -90,6 +92,7 @@ func _on_health_depleted(_health: int, source: Node2D):
 	team = source.team
 
 func _on_ui_wheel_element_pressed(element: UIWheelElement):
+	if element.name.to_int() == squad_type: return
 	# Create ClientInput and add it to local_input_queue
 	var input: = ClientInput.new(0, ClientInput.InputType.ENTITIES_CHANGE)
 	input.entities = [name]
@@ -97,4 +100,6 @@ func _on_ui_wheel_element_pressed(element: UIWheelElement):
 	
 	var level: Level = get_tree().get_first_node_in_group("level")
 	level.local_input_queue.append(input)
+	
+	$UIWheel.select(element)
 

@@ -100,7 +100,6 @@ fade_time = 0.1
 
 [node name="0" parent="UIWheel" index="2" instance=ExtResource("13_vdt8s")]
 position = Vector2(0, -56)
-disabled = true
 disabled_color = Color(0.8, 0.8, 0.8, 0.9)
 
 [node name="Sprite2D" type="Sprite2D" parent="UIWheel/0" index="3"]
