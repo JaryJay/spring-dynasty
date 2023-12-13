@@ -1,0 +1,151 @@
+[gd_scene load_steps=15 format=3 uid="uid://73rgywuikkus"]
+
+[ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_vf08r"]
+[ext_resource type="Script" path="res://levels/campaign/level_3.gd" id="2_midiu"]
+[ext_resource type="Script" path="res://levels/level_settings.gd" id="3_f2sat"]
+[ext_resource type="PackedScene" uid="uid://bpfbb860cleau" path="res://maps/campaign_map_3.tscn" id="4_bi76m"]
+[ext_resource type="PackedScene" uid="uid://c3gkhobbpvvdg" path="res://entities/buildings/base.tscn" id="5_amxaq"]
+[ext_resource type="PackedScene" uid="uid://cpimgswcgil06" path="res://entities/buildings/camp.tscn" id="6_rtryv"]
+[ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="7_0d78t"]
+[ext_resource type="PackedScene" uid="uid://cj6ji0rp28eiq" path="res://entities/buildings/farm.tscn" id="7_331g4"]
+[ext_resource type="PackedScene" uid="uid://bgwwsvg6vubvt" path="res://entities/squads/controllable/archer_squad.tscn" id="9_o2m6y"]
+[ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="10_2kmtx"]
+[ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="11_xgbvs"]
+[ext_resource type="PackedScene" uid="uid://c10rkvbh4fkpg" path="res://entities/squads/ai/archer_squad.tscn" id="12_kw8rr"]
+
+[sub_resource type="Resource" id="Resource_srfss"]
+script = ExtResource("3_f2sat")
+fog_of_war = true
+fog_of_war_scale = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x36sg"]
+radius = 518.004
+
+[node name="Level3" node_paths=PackedStringArray("map") instance=ExtResource("1_vf08r")]
+script = ExtResource("2_midiu")
+map = NodePath("CampaignMap1")
+level_settings = SubResource("Resource_srfss")
+
+[node name="UI" type="CanvasLayer" parent="." index="1"]
+
+[node name="Timer" type="Label" parent="UI" index="0"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 11.0
+offset_right = 20.0
+offset_bottom = 41.0
+grow_horizontal = 2
+text = "0:00"
+
+[node name="CampaignMap1" parent="." index="5" instance=ExtResource("4_bi76m")]
+
+[node name="Base" parent="Entities" index="0" instance=ExtResource("5_amxaq")]
+position = Vector2(297, -471)
+team = 1
+
+[node name="Camp" parent="Entities" index="1" instance=ExtResource("6_rtryv")]
+position = Vector2(-109, -221)
+ability_cooldown_time = 600
+
+[node name="Farm" parent="Entities" index="2" instance=ExtResource("7_331g4")]
+position = Vector2(547, -159)
+team = 1
+
+[node name="F_0_0" parent="Entities" index="3" instance=ExtResource("7_0d78t")]
+position = Vector2(-274, 565)
+
+[node name="F_0_1" parent="Entities" index="4" instance=ExtResource("7_0d78t")]
+position = Vector2(-201, 570)
+
+[node name="F_0_2" parent="Entities" index="5" instance=ExtResource("7_0d78t")]
+position = Vector2(-119, 576)
+
+[node name="A_0_3" parent="Entities" index="6" instance=ExtResource("9_o2m6y")]
+position = Vector2(-234, 663)
+
+[node name="A_0_4" parent="Entities" index="7" instance=ExtResource("9_o2m6y")]
+position = Vector2(-161, 670)
+
+[node name="S_0_5" parent="Entities" index="8" instance=ExtResource("10_2kmtx")]
+position = Vector2(392, 424)
+
+[node name="S_0_6" parent="Entities" index="9" instance=ExtResource("10_2kmtx")]
+position = Vector2(466, 400)
+
+[node name="A_0_7" parent="Entities" index="10" instance=ExtResource("9_o2m6y")]
+position = Vector2(436, 519)
+
+[node name="A_0_8" parent="Entities" index="11" instance=ExtResource("9_o2m6y")]
+position = Vector2(503, 490)
+
+[node name="F_1_0" parent="Entities" index="12" instance=ExtResource("11_xgbvs")]
+position = Vector2(-160, -157)
+team = 1
+
+[node name="F_1_1" parent="Entities" index="13" instance=ExtResource("11_xgbvs")]
+position = Vector2(-79, -142)
+team = 1
+
+[node name="F_1_3" parent="Entities" index="14" instance=ExtResource("11_xgbvs")]
+position = Vector2(-22, -157)
+team = 1
+
+[node name="A_1_4" parent="Entities" index="15" instance=ExtResource("12_kw8rr")]
+position = Vector2(515, -111)
+team = 1
+
+[node name="A_1_5" parent="Entities" index="16" instance=ExtResource("12_kw8rr")]
+position = Vector2(580, -111)
+team = 1
+
+[node name="A_1_6" parent="Entities" index="17" instance=ExtResource("12_kw8rr")]
+position = Vector2(463, -142)
+team = 1
+
+[node name="A_1_7" parent="Entities" index="18" instance=ExtResource("12_kw8rr")]
+position = Vector2(624, -154)
+team = 1
+
+[node name="Separator" type="Node2D" parent="Entities" index="19"]
+
+[node name="A_1_10*" parent="Entities" index="20" groups=["level_3_special"] instance=ExtResource("12_kw8rr")]
+position = Vector2(203, -489)
+team = 1
+
+[node name="A_1_11*" parent="Entities" index="21" groups=["level_3_special"] instance=ExtResource("12_kw8rr")]
+position = Vector2(382, -500)
+team = 1
+
+[node name="F_1_12*" parent="Entities" index="22" groups=["level_3_special"] instance=ExtResource("11_xgbvs")]
+position = Vector2(231, -413)
+team = 1
+
+[node name="F_1_13*" parent="Entities" index="23" groups=["level_3_special"] instance=ExtResource("11_xgbvs")]
+position = Vector2(292, -411)
+team = 1
+
+[node name="F_1_14*" parent="Entities" index="24" groups=["level_3_special"] instance=ExtResource("11_xgbvs")]
+position = Vector2(354, -417)
+team = 1
+
+[node name="Special" type="Node2D" parent="." index="10"]
+
+[node name="TriggerArea" type="Area2D" parent="Special" index="0"]
+position = Vector2(-111, -219)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Special/TriggerArea" index="0"]
+shape = SubResource("CircleShape2D_x36sg")
+
+[node name="InvadeTimer" type="Timer" parent="Special" index="1"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 30.0
+one_shot = true
+
+[connection signal="body_entered" from="Special/TriggerArea" to="." method="_on_trigger_area_body_entered"]
+[connection signal="timeout" from="Special/InvadeTimer" to="." method="_on_invade_timer_timeout"]

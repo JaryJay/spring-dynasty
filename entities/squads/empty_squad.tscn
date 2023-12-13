@@ -37,7 +37,7 @@ radius = 26.0
 radius = 29.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wtwe"]
-radius = 121.017
+radius = 133.0
 
 [node name="EmptySquad" type="CharacterBody2D" groups=["entities", "squads"]]
 y_sort_enabled = true
@@ -101,6 +101,8 @@ radius = 28.0
 avoidance_layers = 0
 avoidance_mask = 2
 debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 1, 1, 0.278431)
 
 [node name="Rays" type="Node2D" parent="."]
 rotation = -1.5708

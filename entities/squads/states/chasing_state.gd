@@ -37,6 +37,17 @@ func process(squad: Squad) -> void:
 		var next_path_position: Vector2 = nav.get_next_path_position()
 		var direction: Vector2 = squad.global_position.direction_to(next_path_position)
 		squad.rotate_and_move(direction)
+		
+		# If there is an enemy in front of the squad, then start
+		# chasing that enemy instead
+		for ray: RayCast2D in squad.rays.get_children():
+			ray.force_raycast_update()
+			if not ray.is_colliding(): continue
+			
+			var s: = ray.get_collider()
+			if s is Squad and not s.is_friendly_to(squad.team) and s.is_alive():
+				target = s
+				return
 
 func _exit_state(_squad: Squad) -> void:
 #	squad.debug_label.hide()

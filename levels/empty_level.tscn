@@ -27,6 +27,24 @@ visible = false
 [node name="PauseMenu" parent="PauseMenuLayer" instance=ExtResource("3_2rad7")]
 visible = false
 
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="V" type="VBoxContainer" parent="UILayer"]
+anchors_preset = -1
+anchor_left = 0.03
+anchor_top = 0.04
+anchor_right = 0.03
+anchor_bottom = 0.04
+offset_left = 0.440002
+offset_top = 0.0799999
+offset_right = 67.44
+offset_bottom = 28.08
+theme_override_constants/separation = 10
+
+[node name="GoldLabel" type="Label" parent="UILayer/V"]
+layout_mode = 2
+text = "Gold: 0"
+
 [node name="SelectionRect" parent="." instance=ExtResource("4_16tm5")]
 
 [node name="Camera" parent="." instance=ExtResource("5_ndpta")]

@@ -68,8 +68,7 @@ text = "Level 2"
 [node name="Level3" type="Button" parent="Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
-disabled = true
-text = "Level 3 (Coming Soon)"
+text = "Level 3"
 
 [node name="Level4" type="Button" parent="Buttons"]
 layout_mode = 2
