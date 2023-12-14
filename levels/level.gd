@@ -7,6 +7,7 @@ const archer_squad_scene: = preload("res://entities/squads/controllable/archer_s
 const base_scene: = preload("res://entities/buildings/base.tscn")
 const farm_scene: = preload("res://entities/buildings/farm.tscn")
 var navigate_command_vfx_scene: = load("res://vfx/navigate_command_vfx.tscn")
+var attack_command_vfx_scene: = load("res://vfx/attack_command_vfx.tscn")
 
 @export var enable_debug_overlay: bool
 
@@ -171,10 +172,13 @@ func _detect_input(event: InputEvent) -> ClientInput:
 func _create_input_vfx(input: ClientInput) -> void:
 	if input.entities.is_empty():
 		return
-	if input.input_type == ClientInput.InputType.SQUADS_NAVIGATE or input.input_type == ClientInput.InputType.SQUADS_CHASE:
+	if input.input_type == ClientInput.InputType.SQUADS_NAVIGATE:
 		var vfx: Node2D = navigate_command_vfx_scene.instantiate()
 		vfx.global_position = get_global_mouse_position()
 		get_tree().root.add_child(vfx)
+	elif input.input_type == ClientInput.InputType.SQUADS_CHASE:
+		var vfx: Node2D = attack_command_vfx_scene.instantiate()
+		$Entities.get_node(input.target_name).add_child(vfx)
 
 ## Resets the game state back to the earliest desynced frame, then resimulates
 ## those desynced frames.
