@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dujr1ev63i2n0"]
+[gd_scene load_steps=12 format=3 uid="uid://dujr1ev63i2n0"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_a8ocs"]
 [ext_resource type="Script" path="res://levels/campaign/level_2.gd" id="2_1cfux"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://levels/level_settings.gd" id="3_hn4ta"]
 [ext_resource type="PackedScene" uid="uid://cpimgswcgil06" path="res://entities/buildings/camp.tscn" id="4_yu5ym"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="5_2sfir"]
+[ext_resource type="Texture2D" uid="uid://d2b1y4vtb7qgk" path="res://assets/textures/key_prompts/Dark/Mouse_Right_Key_Dark.png" id="5_te8ws"]
 
 [sub_resource type="Resource" id="Resource_d6v7l"]
 script = ExtResource("3_hn4ta")
@@ -51,7 +52,8 @@ to conquer it."
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="CampaignMap1" index="4"]
-self_modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0.517647, 0.462745, 0.352941, 1)
 offset_left = -454.0
 offset_top = -140.0
 offset_right = -184.0
@@ -62,15 +64,21 @@ the enemies!"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="CampaignMap1" index="5"]
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0)
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0.513726, 0.462745, 0.352941, 1)
 offset_left = -365.0
 offset_top = -381.0
 offset_right = -95.0
 offset_bottom = -291.0
-text = "Right click the camp
+text = "Press      on the camp
 to change the
 squad type."
 horizontal_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CampaignMap1/Label3" index="0"]
+position = Vector2(100, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_te8ws")
 
 [node name="Base" parent="Entities" index="0" instance=ExtResource("3_5qxt1")]
 position = Vector2(-299, -220)

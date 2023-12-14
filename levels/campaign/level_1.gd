@@ -56,8 +56,9 @@ func _on_trigger_area_2_body_entered(_body) -> void:
 	$Special/TriggerArea2.queue_free()
 	$Entities/B_0.sight_range = 180
 	$Entities/B_0/PointLight2D.texture_scale = 1.0 * 180 / 32
-	$CampaignMap1/Label3.show()
-	$CampaignMap1/Label4.show()
+	var t: = create_tween().set_parallel().set_trans(Tween.TRANS_CUBIC)
+	t.tween_property($CampaignMap1/Label3, "modulate", Color.WHITE, 0.5)
+	t.tween_property($CampaignMap1/Label4, "modulate", Color.WHITE, 0.5)
 	
 	# Focus camera on farm
 	camera.follow_mode_enabled = false

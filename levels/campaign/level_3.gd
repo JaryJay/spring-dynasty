@@ -20,6 +20,8 @@ func _ready() -> void:
 
 func _physics_process(delta) -> void:
 	super._physics_process(delta)
+	if $Entities/Camp.team == 0:
+		$Entities/Camp.is_ai = false
 	if not game_ended:
 		check_win_loss_condition()
 	#for squad: Squad in get_tree().get_nodes_in_group("squads"):

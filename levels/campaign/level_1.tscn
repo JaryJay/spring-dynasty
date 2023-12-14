@@ -1,12 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bogbidiako8h8"]
+[gd_scene load_steps=13 format=3 uid="uid://bogbidiako8h8"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_kwl8q"]
 [ext_resource type="Script" path="res://levels/campaign/level_1.gd" id="2_yjba7"]
 [ext_resource type="Script" path="res://levels/level_settings.gd" id="3_0t0y4"]
 [ext_resource type="PackedScene" uid="uid://s2hwxk8bbuob" path="res://maps/campaign_map_1.tscn" id="3_65yjq"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="4_mvegc"]
+[ext_resource type="Texture2D" uid="uid://d2b1y4vtb7qgk" path="res://assets/textures/key_prompts/Dark/Mouse_Right_Key_Dark.png" id="5_2at3e"]
 [ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="5_4xpkg"]
 [ext_resource type="PackedScene" uid="uid://cj6ji0rp28eiq" path="res://entities/buildings/farm.tscn" id="5_p3eg5"]
+[ext_resource type="Texture2D" uid="uid://biauxb2jfq6r8" path="res://assets/textures/key_prompts/Dark/Mouse_Left_Key_Dark.png" id="6_j52bh"]
 [ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="7_42t7j"]
 
 [sub_resource type="Resource" id="Resource_260s3"]
@@ -25,38 +27,52 @@ level_settings = SubResource("Resource_260s3")
 [node name="CampaignMap1" parent="." index="3" instance=ExtResource("3_65yjq")]
 
 [node name="Label" type="Label" parent="CampaignMap1" index="3"]
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+self_modulate = Color(0.513726, 0.462745, 0.352941, 1)
 offset_left = -271.0
 offset_top = -233.0
 offset_right = -82.0
 offset_bottom = -210.0
-text = "Click to move the squad."
+text = "Press      to move the squad."
+
+[node name="Sprite2D" type="Sprite2D" parent="CampaignMap1/Label" index="0"]
+position = Vector2(68, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_2at3e")
 
 [node name="Label2" type="Label" parent="CampaignMap1" index="4"]
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+self_modulate = Color(0.513726, 0.462745, 0.352941, 1)
 offset_left = -3.0
 offset_top = -287.0
 offset_right = 267.0
 offset_bottom = -197.0
-text = "Press Ctrl and drag
-to select multiple
-squads."
+text = "Press      and
+drag to select
+multiple squads."
 horizontal_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CampaignMap1/Label2" index="0"]
+position = Vector2(143, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_j52bh")
 
 [node name="Label3" type="Label" parent="CampaignMap1" index="5"]
-visible = false
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0.513726, 0.462745, 0.352941, 1)
 offset_left = 161.0
-offset_top = 121.0
+offset_top = 148.0
 offset_right = 377.0
-offset_bottom = 170.0
-text = "Click an enemy squad
-to attack!"
+offset_bottom = 197.0
+text = "to attack!"
 horizontal_alignment = 1
 
+[node name="Sprite2D" type="Sprite2D" parent="CampaignMap1/Label3" index="0"]
+position = Vector2(49, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_2at3e")
+
 [node name="Label4" type="Label" parent="CampaignMap1" index="6"]
-visible = false
-self_modulate = Color(0.192157, 0.192157, 0.192157, 0.27451)
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0.513726, 0.462745, 0.352941, 1)
 offset_left = 156.0
 offset_top = 300.0
 offset_right = 372.0

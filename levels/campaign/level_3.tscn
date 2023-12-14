@@ -1,14 +1,19 @@
-[gd_scene load_steps=15 format=3 uid="uid://73rgywuikkus"]
+[gd_scene load_steps=20 format=3 uid="uid://73rgywuikkus"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_vf08r"]
 [ext_resource type="Script" path="res://levels/campaign/level_3.gd" id="2_midiu"]
 [ext_resource type="Script" path="res://levels/level_settings.gd" id="3_f2sat"]
 [ext_resource type="PackedScene" uid="uid://bpfbb860cleau" path="res://maps/campaign_map_3.tscn" id="4_bi76m"]
 [ext_resource type="PackedScene" uid="uid://c3gkhobbpvvdg" path="res://entities/buildings/base.tscn" id="5_amxaq"]
+[ext_resource type="Texture2D" uid="uid://us02phbyikyi" path="res://assets/textures/key_prompts/Dark/Mouse_Middle_Key_Dark.png" id="5_fyel5"]
+[ext_resource type="Texture2D" uid="uid://y3yxvqbc6ctx" path="res://assets/textures/key_prompts/Dark/W_Key_Dark.png" id="6_c07bh"]
 [ext_resource type="PackedScene" uid="uid://cpimgswcgil06" path="res://entities/buildings/camp.tscn" id="6_rtryv"]
 [ext_resource type="PackedScene" uid="uid://blhxyp0cnaeh7" path="res://entities/squads/controllable/footman_squad.tscn" id="7_0d78t"]
 [ext_resource type="PackedScene" uid="uid://cj6ji0rp28eiq" path="res://entities/buildings/farm.tscn" id="7_331g4"]
+[ext_resource type="Texture2D" uid="uid://bsnqbqbalq8wu" path="res://assets/textures/key_prompts/Dark/A_Key_Dark.png" id="7_mdta4"]
+[ext_resource type="Texture2D" uid="uid://bg7qsowk1rsnb" path="res://assets/textures/key_prompts/Dark/S_Key_Dark.png" id="8_eb1xe"]
 [ext_resource type="PackedScene" uid="uid://bgwwsvg6vubvt" path="res://entities/squads/controllable/archer_squad.tscn" id="9_o2m6y"]
+[ext_resource type="Texture2D" uid="uid://cxdghqqc04rs8" path="res://assets/textures/key_prompts/Dark/D_Key_Dark.png" id="9_r1r28"]
 [ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="10_2kmtx"]
 [ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="11_xgbvs"]
 [ext_resource type="PackedScene" uid="uid://c10rkvbh4fkpg" path="res://entities/squads/ai/archer_squad.tscn" id="12_kw8rr"]
@@ -19,7 +24,7 @@ fog_of_war = true
 fog_of_war_scale = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x36sg"]
-radius = 518.004
+radius = 306.059
 
 [node name="Level3" node_paths=PackedStringArray("map") instance=ExtResource("1_vf08r")]
 script = ExtResource("2_midiu")
@@ -42,12 +47,82 @@ text = "0:00"
 
 [node name="CampaignMap1" parent="." index="5" instance=ExtResource("4_bi76m")]
 
+[node name="Label" type="Label" parent="CampaignMap1" index="4"]
+self_modulate = Color(0.517647, 0.462745, 0.352941, 1)
+offset_left = -305.0
+offset_top = 734.0
+offset_right = -71.0
+offset_bottom = 762.0
+text = "Use     to zoom in or out."
+
+[node name="Sprite2D" type="Sprite2D" parent="CampaignMap1/Label" index="0"]
+position = Vector2(49, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_fyel5")
+
+[node name="^" type="Label" parent="CampaignMap1/Label/Sprite2D" index="0"]
+offset_left = -14.855
+offset_top = -37.595
+offset_right = 25.145
+offset_bottom = -9.595
+rotation = -1.57079
+text = ">"
+
+[node name="v" type="Label" parent="CampaignMap1/Label/Sprite2D" index="1"]
+offset_left = 14.745
+offset_top = -16.0
+offset_right = 54.745
+offset_bottom = 12.0
+rotation = -4.71238
+text = ">"
+
+[node name="Label2" type="Label" parent="CampaignMap1" index="5"]
+self_modulate = Color(0.517647, 0.462745, 0.352941, 1)
+offset_left = 29.0
+offset_top = 150.0
+offset_right = 263.0
+offset_bottom = 209.0
+text = "Find and conquer the
+enemy base to win!"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="CampaignMap1" index="6"]
+self_modulate = Color(0.517647, 0.462745, 0.352941, 1)
+offset_left = -238.0
+offset_top = 388.0
+offset_right = 10.0
+offset_bottom = 447.0
+text = "You can also use             to 
+move the camera."
+horizontal_alignment = 1
+
+[node name="W" type="Sprite2D" parent="CampaignMap1/Label3" index="0"]
+position = Vector2(193, 4)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_c07bh")
+
+[node name="A" type="Sprite2D" parent="CampaignMap1/Label3" index="1"]
+position = Vector2(173, 23)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_mdta4")
+
+[node name="S" type="Sprite2D" parent="CampaignMap1/Label3" index="2"]
+position = Vector2(193, 23)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_eb1xe")
+
+[node name="D" type="Sprite2D" parent="CampaignMap1/Label3" index="3"]
+position = Vector2(213, 23)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("9_r1r28")
+
 [node name="Base" parent="Entities" index="0" instance=ExtResource("5_amxaq")]
 position = Vector2(297, -471)
 team = 1
 
 [node name="Camp" parent="Entities" index="1" instance=ExtResource("6_rtryv")]
 position = Vector2(-109, -221)
+is_ai = true
 ability_cooldown_time = 600
 
 [node name="Farm" parent="Entities" index="2" instance=ExtResource("7_331g4")]

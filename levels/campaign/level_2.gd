@@ -36,9 +36,9 @@ func _physics_process(delta) -> void:
 		%InvadeTimer.start()
 		$CampaignMap1/Label2.show()
 		var tw: = create_tween().set_parallel().set_trans(Tween.TRANS_CUBIC)
-		tw.tween_property($CampaignMap1/Label, "self_modulate", Color.TRANSPARENT, 0.5)
-		tw.tween_property($CampaignMap1/Label2, "self_modulate", Color("31313146"), 0.5)
-		tw.tween_property($CampaignMap1/Label3, "self_modulate", Color("31313146"), 0.5)
+		tw.tween_property($CampaignMap1/Label, "modulate", Color.TRANSPARENT, 0.5)
+		tw.tween_property($CampaignMap1/Label2, "modulate", Color.WHITE, 0.5)
+		tw.tween_property($CampaignMap1/Label3, "modulate", Color.WHITE, 0.5)
 		tw.tween_property($UI/Timer, "modulate", Color.WHITE, 0.5)
 	if current_phase == END_PHASE and not game_ended:
 		check_win_loss_condition()
@@ -83,8 +83,8 @@ func _on_invade_timer_timeout():
 	
 	var tw: = create_tween().set_parallel().set_trans(Tween.TRANS_CUBIC)
 	tw.tween_property($UI/Timer, "modulate", Color.TRANSPARENT, 0.5)
-	tw.tween_property($CampaignMap1/Label2, "self_modulate", Color.TRANSPARENT, 0.5)
-	tw.tween_property($CampaignMap1/Label3, "self_modulate", Color.TRANSPARENT, 0.5)
+	tw.tween_property($CampaignMap1/Label2, "modulate", Color.TRANSPARENT, 0.5)
+	tw.tween_property($CampaignMap1/Label3, "modulate", Color.TRANSPARENT, 0.5)
 
 func spawn_enemies_at(marker: Marker2D) -> void:
 	var ai_footman_scene: = preload("res://entities/squads/ai/footman_squad.tscn")
