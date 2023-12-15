@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ba2ya13lu52ol"]
+[gd_scene load_steps=10 format=3 uid="uid://ba2ya13lu52ol"]
 
 [ext_resource type="Script" path="res://vfx/navigate_command_vfx.gd" id="1_8q0ew"]
 [ext_resource type="Texture2D" uid="uid://d4jsrqw4g8wvf" path="res://assets/textures/vfx/attack_command_vfx_right.png" id="2_s15c6"]
 [ext_resource type="Texture2D" uid="uid://bgpa1apdfaq6b" path="res://assets/textures/vfx/attack_command_vfx_left.png" id="3_x0c4i"]
 [ext_resource type="Texture2D" uid="uid://ec2x1um761la" path="res://assets/textures/vfx/navigate_command_vfx_circle.png" id="4_3xx2y"]
+[ext_resource type="AudioStream" uid="uid://cij0ds00wp7y1" path="res://assets/sfx/navigate.wav" id="5_ber6h"]
 
 [sub_resource type="Animation" id="Animation_yughj"]
 length = 0.001
@@ -211,6 +212,12 @@ _data = {
 "default": SubResource("Animation_oi2pf")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qnwdj"]
+random_pitch = 1.05
+streams_count = 1
+stream_0/stream = ExtResource("5_ber6h")
+stream_0/weight = 1.0
+
 [node name="AttackCommandVFX" type="Node2D"]
 z_index = 1
 script = ExtResource("1_8q0ew")
@@ -236,5 +243,9 @@ texture = ExtResource("4_3xx2y")
 libraries = {
 "": SubResource("AnimationLibrary_qekiy")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_qnwdj")
+autoplay = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

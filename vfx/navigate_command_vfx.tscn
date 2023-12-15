@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dt8jel62k8opu"]
+[gd_scene load_steps=10 format=3 uid="uid://dt8jel62k8opu"]
 
 [ext_resource type="Texture2D" uid="uid://fhjd5ivignr" path="res://assets/textures/vfx/navigate_command_vfx_unit.png" id="1_8fqo0"]
 [ext_resource type="Script" path="res://vfx/navigate_command_vfx.gd" id="1_h4534"]
 [ext_resource type="Texture2D" uid="uid://bmpk014lgkw3b" path="res://assets/textures/vfx/navigate_command_vfx_trail.png" id="2_c5ak6"]
 [ext_resource type="Texture2D" uid="uid://ec2x1um761la" path="res://assets/textures/vfx/navigate_command_vfx_circle.png" id="4_h8hpf"]
+[ext_resource type="AudioStream" uid="uid://cij0ds00wp7y1" path="res://assets/sfx/navigate.wav" id="5_3ebft"]
 
 [sub_resource type="Animation" id="Animation_yughj"]
 length = 0.001
@@ -163,6 +164,12 @@ _data = {
 "default": SubResource("Animation_oi2pf")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_e3kdy"]
+random_pitch = 1.05
+streams_count = 1
+stream_0/stream = ExtResource("5_3ebft")
+stream_0/weight = 1.0
+
 [node name="NavigateCommandVFX" type="Node2D"]
 z_index = 1
 script = ExtResource("1_h4534")
@@ -188,5 +195,9 @@ texture = ExtResource("4_h8hpf")
 libraries = {
 "": SubResource("AnimationLibrary_qekiy")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_e3kdy")
+autoplay = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

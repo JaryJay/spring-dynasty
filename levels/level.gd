@@ -175,7 +175,7 @@ func _create_input_vfx(input: ClientInput) -> void:
 	if input.input_type == ClientInput.InputType.SQUADS_NAVIGATE:
 		var vfx: Node2D = navigate_command_vfx_scene.instantiate()
 		vfx.global_position = get_global_mouse_position()
-		get_tree().root.add_child(vfx)
+		get_tree().get_first_node_in_group("level").add_child(vfx)
 	elif input.input_type == ClientInput.InputType.SQUADS_CHASE:
 		var vfx: Node2D = attack_command_vfx_scene.instantiate()
 		$Entities.get_node(input.target_name).add_child(vfx)
