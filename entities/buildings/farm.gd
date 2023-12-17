@@ -27,6 +27,8 @@ func update(frame: int) -> void:
 		ability_cooldown = ability_cooldown_time
 		
 		particles.emit_particle(Transform2D.IDENTITY, Vector2.ZERO, Color.WHITE, Color.WHITE, 0)
+	else:
+		printerr("farm.gd: Could not find player")
 
 func _on_team_color_changed(color: Color):
 	$Sprites/Fill.modulate = color

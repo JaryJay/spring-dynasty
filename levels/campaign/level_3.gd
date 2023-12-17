@@ -7,6 +7,10 @@ func _ready() -> void:
 	Server.lobby.player_info_list.append({ "team": 0 })
 	Server.lobby.player_names.append("spongebob")
 	
+	var enemy: = Player.new()
+	enemy.team = 1
+	$Players.add_child(enemy)
+	
 	super()
 	set_physics_process(true)
 	

@@ -65,6 +65,15 @@ func _process(_delta):
 		pause_menu.visible = !pause_menu.visible
 	camera.disable_pan = pause_menu.visible
 	camera.follow_targets = selected_squads
+	
+	if Client.is_multiplayer() and multiplayer.is_server():
+		return
+	var players: = get_tree().get_nodes_in_group("players")
+	var filtered_players: = players.filter(func(p): return p.team == controlled_team)
+	if filtered_players.is_empty():
+		printerr("level.gd: Could not find local player")
+		return
+	%GoldLabel.text = "Gold: %d" %  filtered_players[0].gold
 
 ## Updates the frame count, handles client input, and calls
 ## [method rollback_and_resimulate].
