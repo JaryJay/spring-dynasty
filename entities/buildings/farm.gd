@@ -18,12 +18,9 @@ func update(frame: int) -> void:
 	ability_cooldown = ability_cooldown_time
 	$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))
 	
-	var players: = get_tree().get_nodes_in_group("players")
-	var filtered_players: = players.filter(func(p): return p.team == team)
-	if not filtered_players.is_empty():
-		var owner_player: Player = filtered_players[0]
-		
-		owner_player.gold += gold_generation
+	var player: = get_player()
+	if player:
+		player.gold += gold_generation
 		ability_cooldown = ability_cooldown_time
 		
 		particles.emit_particle(Transform2D.IDENTITY, Vector2.ZERO, Color.WHITE, Color.WHITE, 0)

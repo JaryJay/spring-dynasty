@@ -2,7 +2,7 @@ extends Node
 
 ## Autoload named GameServer
 
-@onready var sync_interval: int = Engine.physics_ticks_per_second * .5
+@onready var sync_interval: int = Engine.physics_ticks_per_second * 1 / 6
 
 var started: bool = false
 var level: MultiplayerLevel

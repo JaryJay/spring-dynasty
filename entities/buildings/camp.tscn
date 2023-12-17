@@ -26,11 +26,12 @@ is_ai = false
 controllable_squad_scenes = Array[PackedScene]([ExtResource("2_l7fdh"), ExtResource("3_mdcmk"), ExtResource("4_4r3jy")])
 ai_squad_scenes = Array[PackedScene]([ExtResource("5_cp1y6"), ExtResource("6_jav8f")])
 change_cooldown_time = 60
+training_cost = 50
 team = 7
 max_health = 100
 sight_range = 128
 has_ability = true
-ability_cooldown_time = 1000
+ability_cooldown_time = 960
 
 [node name="HealthBar" parent="." index="0"]
 position = Vector2(0, 37)

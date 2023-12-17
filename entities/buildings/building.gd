@@ -61,6 +61,13 @@ func change_health(change: int, source: Node2D) -> void:
 	if health <= 0:
 		health_depleted.emit(health, source)
 
+func get_player() -> Player:
+	var players: = get_tree().get_nodes_in_group("players")
+	var filtered_players: = players.filter(func(p): return p.team == team)
+	if filtered_players.is_empty():
+		return null
+	return filtered_players[0] as Player
+
 func _set_team_index(value: int) -> void:
 	if value >= 0 and value < TeamColors.colors.size():
 		team = value

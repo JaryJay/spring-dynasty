@@ -197,12 +197,12 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 	if earliest_desynced_frame < frame:
 		# NOTE: Always remember to add a few lines here every time we add a new
 		# type of game object that needs rollbacking
+		for player: Player in get_tree().get_nodes_in_group("players"):
+			player.return_to_frame_state(earliest_desynced_frame - 1)
 		for building: Building in get_tree().get_nodes_in_group("buildings"):
 			building.return_to_frame_state(earliest_desynced_frame - 1)
 		for squad: Squad in get_tree().get_nodes_in_group("squads"):
 			squad.return_to_frame_state(earliest_desynced_frame - 1)
-		for player: Player in get_tree().get_nodes_in_group("players"):
-			player.return_to_frame_state(earliest_desynced_frame - 1)
 	
 	# Handle inputs
 	for f in range(earliest_desynced_frame, frame + 1):
@@ -214,19 +214,19 @@ func rollback_and_resimulate(_as_server: bool = false) -> void:
 					break
 		
 		# Update everything
+		for e: Player in get_tree().get_nodes_in_group("players"):
+			e.update(f)
 		for e: Building in get_tree().get_nodes_in_group("buildings"):
 			e.update(f)
 		for e: Squad in get_tree().get_nodes_in_group("squads"):
-			e.update(f)
-		for e: Player in get_tree().get_nodes_in_group("players"):
 			e.update(f)
 		
 		# Post update everything
+		for e: Player in get_tree().get_nodes_in_group("players"):
+			e.post_update(f)
 		for e: Building in get_tree().get_nodes_in_group("buildings"):
 			e.post_update(f)
 		for e: Squad in get_tree().get_nodes_in_group("squads"):
-			e.post_update(f)
-		for e: Player in get_tree().get_nodes_in_group("players"):
 			e.post_update(f)
 	
 	earliest_desynced_frame = frame + 1

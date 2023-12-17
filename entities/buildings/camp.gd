@@ -13,6 +13,7 @@ enum SquadType {
 
 @export_group("Ability")
 @export_range(1, 200) var change_cooldown_time: int
+@export_range(1, 200) var training_cost: int
 
 func _ready() -> void:
 	super()
@@ -47,12 +48,20 @@ func update(frame: int) -> void:
 		return
 	
 	if ability_cooldown > 1:
+		if ability_cooldown == ability_cooldown_time:
+			var player: = get_player()
+			# Only start ability cooldown if player has enough gold
+			if player.gold >= training_cost:
+				player.gold -= training_cost
+				ability_cooldown -= 1
+			return
+		
 		ability_cooldown -= 1
 		$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))
 		return
 	
+	# Use raycasts to check if there is enough space to spawn a squad.
 	var ray: RayCast2D
-	# Get first non-colliding ray.
 	for ray_cast: RayCast2D in $Rays.get_children():
 		ray_cast.force_raycast_update()
 		if not ray_cast.is_colliding():

@@ -85,13 +85,13 @@ func is_multiplayer() -> bool:
 	return _is_multiplayer
 
 # Note: this function will not work until steam_appid.txt has a valid app id
-func init_steam() -> void:
-	var init_status: Dictionary = Steam.steamInit()
-	print("client.gd: Initializing steam...")
-	print(init_status)
-	
-	if init_status.status != 1:
-		print("client.gd: Failed to initialize Steam. Error message:")
-		print(init_status.verbal)
-		print("Shutting down...")
-		get_tree().quit()
+#func init_steam() -> void:
+	#var init_status: Dictionary = Steam.steamInit()
+	#print("client.gd: Initializing steam...")
+	#print(init_status)
+	#
+	#if init_status.status != 1:
+		#print("client.gd: Failed to initialize Steam. Error message:")
+		#print(init_status.verbal)
+		#print("Shutting down...")
+		#get_tree().quit()

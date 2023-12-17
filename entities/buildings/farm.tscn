@@ -35,7 +35,7 @@ alpha_curve = SubResource("CurveTexture_jpnsc")
 
 [node name="Farm" instance=ExtResource("1_jshn1")]
 script = ExtResource("1_txruf")
-gold_generation = 20
+gold_generation = 5
 max_health = 150
 sight_range = 128
 has_ability = true
