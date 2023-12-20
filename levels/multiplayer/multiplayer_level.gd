@@ -131,12 +131,10 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 		# We are too far behind the server
 		earliest_desynced_frame = frame + 1
 		frame = state_frame
-		rollback_and_resimulate()
 	elif frame > state_frame + 3:
 		# We are too far ahead of the server
 		earliest_desynced_frame = state_frame + 1
 		frame = state_frame
-		rollback_and_resimulate()
 	
 	earliest_desynced_frame = mini(earliest_desynced_frame, state_frame + 1)
 	
@@ -176,6 +174,8 @@ func receive_game_frame_state(game_frame_state_bytes: PackedByteArray) -> void:
 				building.frame_states[j] = building_frame_state
 				building.return_to_frame_state(state_frame)
 				break
+	
+	rollback_and_resimulate()
 
 ## Lose the game, and enables spectator mode.
 ## Called by the server when the player controls 0 bases, or when another

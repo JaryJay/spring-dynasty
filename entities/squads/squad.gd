@@ -61,7 +61,7 @@ func _ready():
 func update(_frame: int) -> void:
 	state_machine.process_state()
 	
-	$PointLight2D.visible = is_friendly()
+	$PointLight2D.visible = is_friendly() and is_alive()
 
 ## Called in level.gd after update() is called on all squads
 func post_update(frame: int) -> void:

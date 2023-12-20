@@ -66,7 +66,7 @@ func _process(_delta):
 	camera.disable_pan = pause_menu.visible
 	camera.follow_targets = selected_squads
 	
-	if Client.is_multiplayer() and multiplayer.is_server():
+	if multiplayer.is_server():
 		return
 	var players: = get_tree().get_nodes_in_group("players")
 	var filtered_players: = players.filter(func(p): return p.team == controlled_team)
