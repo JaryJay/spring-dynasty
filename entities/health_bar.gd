@@ -31,8 +31,9 @@ func on_health_changed(old: int, new: int) -> void:
 	bar.color = empty_health_color.lerp(full_health_color, bar.scale.x)
 	
 	prev_health = maxi(prev_health, old)
-	difference_bar.position = start_marker.position.lerp(end_marker.position, 1.0 * new / max_health)
-	difference_bar.scale = Vector2(1.0 * (prev_health - new) / max_health, 1)
+	difference_bar.scale = Vector2(1.0 * prev_health / max_health, 1)
+	create_tween().tween_property(difference_bar, "scale", Vector2(1.0 * new / max_health, 1), .5).set_trans(Tween.TRANS_CUBIC)
+	print("p=%v, scale=%v" % [difference_bar.position, difference_bar.scale])
 	
 	modulate = Color.WHITE
 	
@@ -42,13 +43,8 @@ func on_health_changed(old: int, new: int) -> void:
 	fade_timer.stop()
 	fade_timer.start()
 
-func _process(_delta):
-	difference_bar.scale.x *= 0.9
-
 func _on_health_difference_timer_timeout():
-	_bar_tween = create_tween()
-	#_bar_tween.tween_property(difference_bar, "scale", Vector2(0, 1), .5).from_current().set_ease(Tween.EASE_OUT)
-	_bar_tween.tween_property(self, "prev_health", -1, .5)
+	prev_health = -1
 
 func _on_fade_timer_timeout():
 	_transparency_tween = create_tween()

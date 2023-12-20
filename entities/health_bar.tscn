@@ -13,7 +13,7 @@ empty_health_color = Color(0.87451, 0.27451, 0.278431, 1)
 
 [node name="DifferenceBar" type="Polygon2D" parent="."]
 z_index = -1
-position = Vector2(58, 0)
+position = Vector2(-58, 0)
 scale = Vector2(1e-05, 1)
 color = Color(0.960784, 0.960784, 0.960784, 1)
 polygon = PackedVector2Array(0, -12, 0, 12, 108, 12, 108, -12)

@@ -11,7 +11,9 @@ func _ready() -> void:
 	Server.lobby.player_names.append("spongebob")
 	
 	super()
-	set_physics_process(true)
+	# Give enough gold to spawn x squads.
+	var x: = 4
+	get_tree().get_first_node_in_group("players").gold = 50 * x
 	
 	rebake_navigation_mesh()
 	

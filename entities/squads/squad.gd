@@ -4,7 +4,7 @@ class_name Squad
 
 ## Emitted when the health changes
 signal health_changed(old, new)
-## Emitted when health reaches 0
+## Emitted when health <= 0
 signal health_depleted(health, source)
 
 @export_range(0, 5) var team: int = 0 : set = _set_team
@@ -18,7 +18,7 @@ signal health_depleted(health, source)
 @export_range(0, 400) var engage_range: int = 60
 @export_range(0, 400) var range: int = 80
 @export_range(0, 400) var sight_range: int = 256
-@export_range(0, 500) var speed: int = 150
+@export_range(0, 500) var speed: int = 100
 @export_range(0, 240) var attack_cooldown: int = 60
 
 @onready var debug_label: Label = $DebugLabel
@@ -167,7 +167,7 @@ func is_friendly() -> bool:
 func is_friendly_to(other_team: int) -> bool:
 	return team == other_team
 
-# Private setters
+#region Private Setters
 
 func _set_team(value: int) -> void:
 	team = value
@@ -196,3 +196,5 @@ func _set_health(value: int) -> void:
 func _set_selected(value: bool) -> void:
 	selected = value
 	$SelectOval.visible = selected
+
+#endregion

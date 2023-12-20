@@ -7,8 +7,9 @@ extends Node
 
 const PORT = 45000
 const MAX_CONNECTIONS = 32
-
 const level_scene: = preload("res://levels/multiplayer/multiplayer_level_1.tscn")
+
+var is_server: = false
 
 var lobby: Lobby = Lobby.new()
 
@@ -20,6 +21,7 @@ var teams_in_use: Array[int] = []
 func _ready() -> void:
 	if not "--server" in OS.get_cmdline_user_args():
 		return
+	is_server = true
 	
 	print("Initializing server...")
 	

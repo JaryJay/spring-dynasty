@@ -50,8 +50,6 @@ func _ready():
 	player_inputs[1] = []
 	
 	var player_node: = Player.new()
-	# Starting gold
-	player_node.gold = 100
 	player_node.team = controlled_team
 	player_node.name = "P_%d" % controlled_team
 	$Players.add_child(player_node)
@@ -66,7 +64,7 @@ func _process(_delta):
 	camera.disable_pan = pause_menu.visible
 	camera.follow_targets = selected_squads
 	
-	if multiplayer.is_server():
+	if Server.is_server:
 		return
 	var players: = get_tree().get_nodes_in_group("players")
 	var filtered_players: = players.filter(func(p): return p.team == controlled_team)
