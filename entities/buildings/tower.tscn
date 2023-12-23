@@ -1,0 +1,77 @@
+[gd_scene load_steps=12 format=3 uid="uid://umdy00qaek11"]
+
+[ext_resource type="Script" path="res://entities/buildings/tower.gd" id="1_6uxpq"]
+[ext_resource type="PackedScene" uid="uid://ogun42ngmj85" path="res://entities/buildings/empty_building.tscn" id="1_n0ix7"]
+[ext_resource type="Texture2D" uid="uid://b3o8uu4kbtr2b" path="res://assets/textures/placeholder/Trollface_non-free.png" id="3_8nr1h"]
+[ext_resource type="Texture2D" uid="uid://cymjttjrf636i" path="res://assets/textures/placeholder/elementCircle.png" id="5_87fdm"]
+[ext_resource type="PackedScene" uid="uid://bb3o2e1kfhiav" path="res://entities/progress_bar.tscn" id="6_kqcqb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cdmyj"]
+radius = 133.0
+
+[sub_resource type="Curve" id="Curve_g28ou"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.344671, 1), 0.0, 0.0, 0, 0, Vector2(0.85034, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -15.7001, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_jpnsc"]
+curve = SubResource("Curve_g28ou")
+
+[sub_resource type="Curve" id="Curve_4tsfl"]
+_data = [Vector2(0, 0.677502), 0.0, 0.0, 0, 0, Vector2(0.199546, 0.966638), 0.0, 0.0, 0, 0, Vector2(0.863946, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.683062), -5.51722, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_fd6ae"]
+curve = SubResource("Curve_4tsfl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jsuwj"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_fd6ae")
+alpha_curve = SubResource("CurveTexture_jpnsc")
+
+[node name="Tower" instance=ExtResource("1_n0ix7")]
+script = ExtResource("1_6uxpq")
+gold_generation = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
+polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
+
+[node name="AwarenessArea" type="Area2D" parent="." index="3"]
+editor_description = "For detecting enemy squads"
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea" index="0"]
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CircleShape2D_cdmyj")
+debug_color = Color(0, 0.627451, 0.517647, 0.0431373)
+
+[node name="Sprites" type="Node2D" parent="." index="4"]
+position = Vector2(0, -18)
+scale = Vector2(0.3, 0.3)
+
+[node name="Shadow" type="Sprite2D" parent="Sprites" index="0"]
+z_index = -1
+
+[node name="TrollfaceNon-free" type="Sprite2D" parent="Sprites" index="1"]
+position = Vector2(6.10352e-05, 60)
+scale = Vector2(0.659722, 0.659722)
+texture = ExtResource("3_8nr1h")
+
+[node name="Particles" type="GPUParticles2D" parent="." index="5"]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_jsuwj")
+texture = ExtResource("5_87fdm")
+one_shot = true
+
+[node name="ProgressBar" parent="." index="6" instance=ExtResource("6_kqcqb")]
+position = Vector2(0, 26)
+
+[connection signal="health_depleted" from="." to="." method="_on_health_depleted"]
+[connection signal="team_color_changed" from="." to="." method="_on_team_color_changed"]
