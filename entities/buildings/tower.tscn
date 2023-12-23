@@ -44,6 +44,7 @@ polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
 
 [node name="AwarenessArea" type="Area2D" parent="." index="3"]
 editor_description = "For detecting enemy squads"
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea" index="0"]
@@ -59,7 +60,6 @@ scale = Vector2(0.3, 0.3)
 z_index = -1
 
 [node name="TrollfaceNon-free" type="Sprite2D" parent="Sprites" index="1"]
-position = Vector2(6.10352e-05, 60)
 scale = Vector2(0.659722, 0.659722)
 texture = ExtResource("3_8nr1h")
 

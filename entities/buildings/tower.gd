@@ -28,7 +28,7 @@ func update(frame: int) -> void:
 	target_squad.change_health(-damage, self) # idk what the source should be
 
 func _find_target(past_target: Squad) -> Squad:
-	if past_target == null or position.distance_squared_to(past_target.position) > 443556 or not past_target.is_alive(): # no target or past target gone
+	if past_target == null or not (awareness_area.overlaps_body(past_target) and past_target.is_alive()): # no target or past target gone
 		return get_closest_enemy_squad()
 	return past_target
 
