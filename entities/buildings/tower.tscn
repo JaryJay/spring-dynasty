@@ -38,13 +38,13 @@ alpha_curve = SubResource("CurveTexture_jpnsc")
 [node name="Tower" instance=ExtResource("1_n0ix7")]
 script = ExtResource("1_6uxpq")
 gold_generation = 0
+ability_cooldown_time = 60
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="2"]
 polygon = PackedVector2Array(-41, 4, -41, -4, 0, -24, 41, -4, 41, 4, 0, 24)
 
 [node name="AwarenessArea" type="Area2D" parent="." index="3"]
 editor_description = "For detecting enemy squads"
-visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessArea" index="0"]

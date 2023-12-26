@@ -1,9 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://73rgywuikkus"]
+[gd_scene load_steps=21 format=3 uid="uid://73rgywuikkus"]
 
 [ext_resource type="PackedScene" uid="uid://dypyeymk8mxp2" path="res://levels/empty_level.tscn" id="1_vf08r"]
 [ext_resource type="Script" path="res://levels/campaign/level_3.gd" id="2_midiu"]
 [ext_resource type="Script" path="res://levels/level_settings.gd" id="3_f2sat"]
-[ext_resource type="PackedScene" uid="uid://bpfbb860cleau" path="res://maps/campaign_map_3.tscn" id="4_bi76m"]
+[ext_resource type="PackedScene" path="res://maps/campaign_map_3.tscn" id="4_bi76m"]
 [ext_resource type="PackedScene" uid="uid://c3gkhobbpvvdg" path="res://entities/buildings/base.tscn" id="5_amxaq"]
 [ext_resource type="Texture2D" uid="uid://us02phbyikyi" path="res://assets/textures/key_prompts/Dark/Mouse_Middle_Key_Dark.png" id="5_fyel5"]
 [ext_resource type="Texture2D" uid="uid://y3yxvqbc6ctx" path="res://assets/textures/key_prompts/Dark/W_Key_Dark.png" id="6_c07bh"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dme4xng5vwpj7" path="res://entities/squads/controllable/swordsman_squad.tscn" id="10_2kmtx"]
 [ext_resource type="PackedScene" uid="uid://bdlalxw38ga60" path="res://entities/squads/ai/footman_squad.tscn" id="11_xgbvs"]
 [ext_resource type="PackedScene" uid="uid://c10rkvbh4fkpg" path="res://entities/squads/ai/archer_squad.tscn" id="12_kw8rr"]
+[ext_resource type="PackedScene" uid="uid://umdy00qaek11" path="res://entities/buildings/tower.tscn" id="18_puunn"]
 
 [sub_resource type="Resource" id="Resource_srfss"]
 script = ExtResource("3_f2sat")
@@ -221,6 +222,9 @@ unique_name_in_owner = true
 process_callback = 0
 wait_time = 30.0
 one_shot = true
+
+[node name="Tower" parent="." index="12" instance=ExtResource("18_puunn")]
+position = Vector2(-130, 253)
 
 [connection signal="body_entered" from="Special/TriggerArea" to="." method="_on_trigger_area_body_entered"]
 [connection signal="timeout" from="Special/InvadeTimer" to="." method="_on_invade_timer_timeout"]

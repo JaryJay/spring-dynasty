@@ -14,17 +14,19 @@ func _ready() -> void:
 
 func update(frame: int) -> void:
 	super.update(frame)
+	
+	target_squad = _find_target(target_squad)
+	
+	if target_squad == null:
+		return
+	
 	if ability_cooldown > 1:
 		ability_cooldown -= 1
 		$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))
 		return
 	ability_cooldown = ability_cooldown_time
 	$ProgressBar.on_value_changed(0, (ability_cooldown_time - ability_cooldown))
-	
-	target_squad = _find_target(target_squad)
-	
-	if target_squad == null:
-		return
+
 	target_squad.change_health(-damage, self) # idk what the source should be
 
 func _find_target(past_target: Squad) -> Squad:
