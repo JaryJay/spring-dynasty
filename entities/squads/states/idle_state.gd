@@ -3,7 +3,23 @@ class_name IdleState
 
 @export var attacking_state: AttackingState
 
+@export_group("Healing")
+@export var heal_enabled: = true
+## The amount of frames that the squad needs to stay idle for before starting
+## to heal.
+@export_range(1, 600) var heal_delay_time: int = 60
+@export_range(1, 100) var heal_amount: int = 2
+## THe amount of frames between each heal.
+@export_range(1, 100) var heal_cooldown_time: int = 10
+
+@onready var heal_delay: int = heal_delay_time
+@onready var heal_cooldown: int = heal_cooldown_time
+
 func _enter_state(squad: Squad) -> void:
+	#Global.console.print("Squad %s is idle" % squad.name)
+	heal_delay = heal_delay_time
+	heal_cooldown = 1
+	
 	# Uncomment the following line to debug
 #	squad.debug_label.show()
 	squad.debug_label.text = "Idle"
@@ -32,6 +48,19 @@ func detect_enemies(squad: Squad) -> void:
 	if closest_enemy and closest_dist < squad.engage_range ** 2:
 		attacking_state.target = closest_enemy
 		squad.state_machine.state = attacking_state
+
+func heal(squad: Squad) -> void:
+	if squad.health == squad.max_health:
+		heal_delay = heal_delay_time
+		return
+	if heal_delay > 1:
+		heal_delay -= 1
+		return
+	if heal_cooldown > 1:
+		heal_cooldown -= 1
+		return
+	squad.change_health(heal_amount, squad)
+	heal_cooldown = heal_cooldown_time
 
 func _exit_state(squad: Squad) -> void:
 	squad.debug_label.hide()
