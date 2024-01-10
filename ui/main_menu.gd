@@ -12,6 +12,10 @@ func _ready() -> void:
 	create_tween().tween_property(self, "modulate", Color.WHITE, .5).set_trans(Tween.TRANS_CUBIC)
 	# Dev only
 	#_on_multiplayer_button_pressed.call_deferred()
+	
+	Client.init_steam()
+	var number_of_friends: int = Steam.getFriendCount(Steam.FRIEND_FLAG_IMMEDIATE)
+	print("You have %d friends online." % number_of_friends)
 
 func _on_singleplayer_button_pressed():
 	get_tree().change_scene_to_file("res://ui/level_selection_menu.tscn")

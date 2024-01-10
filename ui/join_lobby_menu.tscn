@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://qo5lplwkoqa5"]
+[gd_scene load_steps=2 format=3 uid="uid://qo5lplwkoqa5"]
 
 [ext_resource type="Script" path="res://ui/join_lobby_menu.gd" id="1_8vf7l"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_6bp1w"]
-font_color = Color(0.94435, 0.375927, 0.269748, 1)
 
 [node name="JoinLobbyMenu" type="Control"]
 layout_mode = 3
@@ -28,28 +25,37 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -205.0
-offset_right = 205.0
+offset_left = -146.0
+offset_top = 42.0
+offset_right = 146.0
+offset_bottom = 104.0
 grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 80
-text = "Join Lobby"
+theme_override_font_sizes/normal_font_size = 40
+text = "Server Browser"
 fit_content = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(450, 300)
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.3
-anchor_top = 0.3
-anchor_right = 0.7
-anchor_bottom = 0.8
+anchor_left = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.95
+offset_left = -0.200005
+offset_top = 129.0
+offset_right = 0.200073
+offset_bottom = 0.400024
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(450, 300)
+layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.34
+size_flags_vertical = 3
 color = Color(0.196078, 0.196078, 0.196078, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,64 +65,83 @@ grow_vertical = 2
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_bottom = 40
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+[node name="V" type="VBoxContainer" parent="VBoxContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="NameInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/ColorRect/MarginContainer/V"]
+layout_mode = 2
+text = "Servers"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/ColorRect/MarginContainer/V"]
+layout_mode = 2
+
+[node name="ServerList" type="ItemList" parent="VBoxContainer/ColorRect/MarginContainer/V"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+auto_height = true
+
+[node name="SearchingLabel" type="Label" parent="VBoxContainer/ColorRect/MarginContainer/V"]
 unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "Username"
-max_length = 50
+theme_override_colors/font_color = Color(0.364706, 0.364706, 0.364706, 1)
+text = "Searching..."
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_top = 20
-
-[node name="ServerIPInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="EmptyLabel" type="Label" parent="VBoxContainer/ColorRect/MarginContainer/V"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-text = "localhost"
-placeholder_text = "Server IP"
+theme_override_colors/font_color = Color(0.364706, 0.364706, 0.364706, 1)
+text = "No servers found."
 
-[node name="PortInput" type="LineEdit" parent="ColorRect/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "45000"
-placeholder_text = "Port"
-
-[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_top = 20
-
-[node name="ErrorLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-label_settings = SubResource("LabelSettings_6bp1w")
-horizontal_alignment = 1
-
-[node name="JoinButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer"]
-texture_filter = 1
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Join"
+size_flags_stretch_ratio = 0.2
+color = Color(0.152941, 0.152941, 0.152941, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="H" type="HBoxContainer" parent="VBoxContainer/ColorRect2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="JoinButton" type="Button" parent="VBoxContainer/ColorRect2/MarginContainer/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+disabled = true
+text = "Join Server"
+
+[node name="HostButton" type="Button" parent="VBoxContainer/ColorRect2/MarginContainer/H"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Host Server"
 
 [node name="BackButton" type="Button" parent="."]
 texture_filter = 1
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.175
-anchor_bottom = 0.1
-offset_right = 40.0
-offset_bottom = 50.0
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 176.0
+offset_bottom = 94.0
 theme_override_font_sizes/font_size = 30
 text = "Back"
 
-[connection signal="text_submitted" from="ColorRect/MarginContainer/VBoxContainer/NameInput" to="." method="_on_name_input_text_submitted"]
-[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/JoinButton" to="." method="_enter_lobby"]
+[connection signal="pressed" from="VBoxContainer/ColorRect2/MarginContainer/H/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
