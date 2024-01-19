@@ -89,8 +89,8 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 
 func _on_lobby_message() -> void:
 	print("_on_lobby_message")
-func _on_persona_change() -> void:
-	print("_on_persona_change")
+func _on_persona_change(arg1, arg2) -> void:
+	print("_on_persona_change %s %s" % [arg1, arg2])
 
 func _on_back_button_pressed():
 	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
@@ -98,3 +98,6 @@ func _on_back_button_pressed():
 func _on_host_button_pressed():
 	print("Host button pressed")
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 6)
+
+func _process(_delta):
+	Steam.run_callbacks()

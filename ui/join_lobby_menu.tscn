@@ -79,10 +79,16 @@ text = "Servers"
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/ColorRect/MarginContainer/V"]
 layout_mode = 2
 
-[node name="ServerList" type="ItemList" parent="VBoxContainer/ColorRect/MarginContainer/V"]
-unique_name_in_owner = true
-visible = false
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/ColorRect/MarginContainer/V"]
 layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ServerList" type="ItemList" parent="VBoxContainer/ColorRect/MarginContainer/V/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 auto_height = true
 
 [node name="SearchingLabel" type="Label" parent="VBoxContainer/ColorRect/MarginContainer/V"]
