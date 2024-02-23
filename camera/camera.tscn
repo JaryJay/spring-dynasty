@@ -8,3 +8,5 @@ position_smoothing_speed = 2.0
 script = ExtResource("1_glp6l")
 pan_speed = 500.0
 follow_mode_enabled = true
+zoom_min = 0.5
+zoom_max = 100.0

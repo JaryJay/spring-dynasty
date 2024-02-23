@@ -13,7 +13,7 @@ signal health_depleted(health, source)
 @export_range(0, 42) var size: int = 10 : set = _set_size
 
 @export_group("Stats")
-@export_range(0, 200) var health: int = 100 : set = _set_health
+@export_range(0, 200) var max_health: int = 100
 @export_range(0, 200) var attack: int = 10
 @export_range(0, 400) var engage_range: int = 60
 @export_range(0, 400) var range: int = 80
@@ -30,6 +30,8 @@ signal health_depleted(health, source)
 
 @onready var banner: = $SquadBanner
 @onready var attack_particles: = $AttackParticles
+
+@onready var health: = max_health : set = _set_health
 
 var units: Array[Unit] = []
 var selected: = false : set = _set_selected
@@ -151,7 +153,7 @@ func _recreate_units() -> void:
 				ring_fill_count = 0
 
 func change_health(change: int, source: Node2D) -> void:
-	health += change
+	health = mini(health + change, max_health)
 	if health <= 0:
 		health_depleted.emit(health, source)
 

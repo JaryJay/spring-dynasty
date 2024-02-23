@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpaulcsbfdusp"]
+
+[ext_resource type="Script" path="res://ui/game_loading_screen.gd" id="1_6n7d5"]
+[ext_resource type="Texture2D" uid="uid://yxnr60mjx8ub" path="res://assets/textures/units/sword.png" id="2_dljqf"]
+
+[node name="GameLoadingScreen" type="CanvasLayer"]
+script = ExtResource("1_6n7d5")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.160784, 0.160784, 0.160784, 1)
+
+[node name="Control" type="Control" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -105.0
+offset_top = -87.0
+offset_right = -105.0
+offset_bottom = -87.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Sword" type="Sprite2D" parent="ColorRect/Control"]
+unique_name_in_owner = true
+scale = Vector2(1.905, 1.905)
+texture = ExtResource("2_dljqf")

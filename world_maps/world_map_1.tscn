@@ -1,0 +1,356 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyi7gk85713g5"]
+
+[ext_resource type="Texture2D" uid="uid://bjsyimd0ga7pw" path="res://assets/textures/world_maps/world_map_1.png" id="1_tyxyh"]
+[ext_resource type="Texture2D" uid="uid://bvw3xgbbe85k8" path="res://assets/textures/world_maps/provinces.png" id="2_vkrjf"]
+
+[node name="WorldMap1" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tyxyh")
+
+[node name="Provinces" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_vkrjf")
+
+[node name="CapitalCities" type="Node2D" parent="."]
+
+[node name="1" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-3021, -1864)
+gizmo_extents = 100.0
+
+[node name="2" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-1242, -2045)
+gizmo_extents = 100.0
+
+[node name="3" type="Marker2D" parent="CapitalCities"]
+position = Vector2(546, -2787)
+gizmo_extents = 100.0
+
+[node name="4" type="Marker2D" parent="CapitalCities"]
+position = Vector2(2734, -2178)
+gizmo_extents = 100.0
+
+[node name="5" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-2414, -523)
+gizmo_extents = 100.0
+
+[node name="6" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-232, -655)
+gizmo_extents = 100.0
+
+[node name="7" type="Marker2D" parent="CapitalCities"]
+position = Vector2(1165, -1653)
+gizmo_extents = 100.0
+
+[node name="8" type="Marker2D" parent="CapitalCities"]
+position = Vector2(973, -997)
+gizmo_extents = 100.0
+
+[node name="9" type="Marker2D" parent="CapitalCities"]
+position = Vector2(2398, -249)
+gizmo_extents = 100.0
+
+[node name="10" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-1763, 612)
+gizmo_extents = 100.0
+
+[node name="11" type="Marker2D" parent="CapitalCities"]
+position = Vector2(87, 521)
+gizmo_extents = 100.0
+
+[node name="12" type="Marker2D" parent="CapitalCities"]
+position = Vector2(1310, 831)
+gizmo_extents = 100.0
+
+[node name="13" type="Marker2D" parent="CapitalCities"]
+position = Vector2(3038, 1359)
+gizmo_extents = 100.0
+
+[node name="14" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-1771, 1835)
+gizmo_extents = 100.0
+
+[node name="15" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-30, 2167)
+gizmo_extents = 100.0
+
+[node name="16" type="Marker2D" parent="CapitalCities"]
+position = Vector2(381, 1503)
+gizmo_extents = 100.0
+
+[node name="17" type="Marker2D" parent="CapitalCities"]
+position = Vector2(1733, 1797)
+gizmo_extents = 100.0
+
+[node name="18" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-2647, 3141)
+gizmo_extents = 100.0
+
+[node name="19" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-1881, 2929)
+gizmo_extents = 100.0
+
+[node name="20" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-1382, 3660)
+gizmo_extents = 100.0
+
+[node name="21" type="Marker2D" parent="CapitalCities"]
+position = Vector2(-848, 2813)
+gizmo_extents = 100.0
+
+[node name="22" type="Marker2D" parent="CapitalCities"]
+position = Vector2(382, 3030)
+gizmo_extents = 100.0
+
+[node name="23" type="Marker2D" parent="CapitalCities"]
+position = Vector2(1094, 3614)
+gizmo_extents = 100.0
+
+[node name="24" type="Marker2D" parent="CapitalCities"]
+position = Vector2(2224, 2579)
+gizmo_extents = 100.0
+
+[node name="PointsOfInterest" type="Node2D" parent="."]
+
+[node name="1_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2214, -2038)
+
+[node name="1_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2759, -1163)
+
+[node name="1_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-3370, -1480)
+
+[node name="2_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1636, -2108)
+
+[node name="2_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1685, -1234)
+
+[node name="2_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-670, -1949)
+
+[node name="2_4" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1096, -2548)
+
+[node name="3_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-507, -2581)
+
+[node name="3_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(511, -2127)
+
+[node name="3_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1383, -2419)
+
+[node name="3_4" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2018, -2787)
+
+[node name="3_5" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1302, -2994)
+
+[node name="4_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2734, -2178)
+
+[node name="4_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2447, -2578)
+
+[node name="4_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(3240, -2801)
+
+[node name="4_4" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2231, -1968)
+
+[node name="4_5" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2283, -1494)
+
+[node name="5_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-3011, -931)
+
+[node name="5_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1844, -632)
+
+[node name="5_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1696, -289)
+
+[node name="6_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1009, -404)
+
+[node name="6_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1447, -810)
+
+[node name="6_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-84, -1301)
+
+[node name="6_4" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(373, -602)
+
+[node name="6_5" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-91, -141)
+
+[node name="7_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(467, -1644)
+
+[node name="7_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1591, -1923)
+
+[node name="7_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1702, -1354)
+
+[node name="8_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(610, -1161)
+
+[node name="8_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1319, -716)
+
+[node name="9_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1834, -414)
+
+[node name="9_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2863, -393)
+
+[node name="9_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2448, 95)
+
+[node name="10_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2109, 804)
+
+[node name="10_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1261, 601)
+
+[node name="11_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-276, 364)
+
+[node name="11_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(512, 738)
+
+[node name="12_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1158, -182)
+
+[node name="12_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1429, 341)
+
+[node name="12_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1139, 1183)
+
+[node name="13_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2232, 930)
+
+[node name="13_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(3250, 743)
+
+[node name="13_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2469, 1705)
+
+[node name="13_4" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(3035, 2435)
+
+[node name="13_5" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(3041, 1943)
+
+[node name="13_6" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(3532, 1425)
+
+[node name="14_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2464, 1169)
+
+[node name="14_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1791, 1384)
+
+[node name="14_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1233, 1996)
+
+[node name="15_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-3, 2002)
+
+[node name="16_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-575, 1059)
+
+[node name="16_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(889, 1836)
+
+[node name="16_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(593, 2397)
+
+[node name="17_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1648, 1401)
+
+[node name="17_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2106, 1961)
+
+[node name="17_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2090, 2164)
+
+[node name="18_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2563, 2888)
+
+[node name="18_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2200, 3494)
+
+[node name="19_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-2138, 2940)
+
+[node name="19_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1568, 2904)
+
+[node name="20_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1678, 3260)
+
+[node name="20_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1040, 3529)
+
+[node name="21_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-1225, 3114)
+
+[node name="21_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-776, 3217)
+
+[node name="21_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-655, 2481)
+
+[node name="22_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-174, 2905)
+
+[node name="22_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(969, 2888)
+
+[node name="22_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(429, 3219)
+
+[node name="23_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(-221, 3559)
+
+[node name="23_2" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(147, 3357)
+
+[node name="23_3" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(999, 3276)
+
+[node name="23_4" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1826, 2969)
+
+[node name="23_5" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(2350, 3206)
+
+[node name="24_1" type="Marker2D" parent="PointsOfInterest"]
+position = Vector2(1891, 2608)
+
+[node name="Useless" type="Node2D" parent="."]
+visible = false
+
+[node name="Province1" type="StaticBody2D" parent="Useless"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Useless/Province1"]
+self_modulate = Color(0, 0, 0, 0.537255)
+polygon = PackedVector2Array(-1979, -2681, -2040, -2633, -2154, -2624, -2234, -2662, -2414, -2642, -2462, -2692, -2514, -2713, -2549, -2751, -2640, -2735, -2692, -2742, -2754, -2697, -2797, -2607, -2893, -2592, -2974, -2635, -3066, -2665, -3178, -2662, -3342, -2564, -3483, -2491, -3560, -2323, -3713, -2193, -3784, -2061, -3797, -1839, -3774, -1760, -3786, -1712, -3781, -1657, -3831, -1600, -3779, -1448, -3699, -1345, -3642, -1293, -3684, -1208, -3674, -1161, -3594, -1031, -3519, -1014, -3535, -955, -3508, -894, -3471, -901, -3396, -967, -3355, -1006, -3255, -1015, -3177, -987, -3064, -1046, -2998, -1039, -2710, -949, -2466, -846, -2430, -855, -2245, -810, -1976, -823, -1787, -867, -1778, -955, -1831, -1006, -1851, -1072, -1963, -1135, -2002, -1199, -2122, -1217, -2320, -1345, -2478, -1420, -2496, -1607, -2418, -1648, -2282, -1700, -2156, -1737, -1990, -1849, -1931, -1967, -1913, -2109, -1965, -2341, -1901, -2491, -1970, -2623)
+
+[node name="Province2" type="StaticBody2D" parent="Useless"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Useless/Province2"]
+self_modulate = Color(0, 0, 0, 0.537255)
+polygon = PackedVector2Array(-1982, -2678, -1972, -2618, -1916, -2494, -1969, -2338, -1924, -2101, -1936, -1965, -1992, -1852, -2161, -1743, -2304, -1701, -2503, -1607, -2483, -1416, -2317, -1340, -2120, -1207, -2007, -1194, -1974, -1134, -1861, -1068, -1833, -990, -1760, -990, -1626, -1038, -1319, -1045, -1032, -1270, -749, -1282, -515, -1393, -258, -1441, -266, -1522, -84, -1670, -57, -1809, -99, -1942, -140, -2008, -243, -2063, -331, -2139, -465, -2179, -533, -2235, -608, -2275, -649, -2409, -664, -2608, -694, -2736, -797, -2797, -893, -2850, -974, -2948, -1044, -3122, -1049, -3230, -1064, -3316, -1082, -3381, -1117, -3417, -1183, -3406, -1258, -3381, -1261, -3351, -1286, -3311, -1289, -3263, -1339, -3248, -1397, -3210, -1415, -3147, -1435, -3071, -1483, -2925, -1531, -2852, -1584, -2857, -1642, -2817, -1692, -2766, -1745, -2739, -1775, -2701, -1861, -2731, -1926, -2703)
+
+[node name="Province5" type="StaticBody2D" parent="Useless"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Useless/Province5"]
+self_modulate = Color(0, 0, 0, 0.537255)
+polygon = PackedVector2Array(-1793, -866, -1788, -957, -1833, -997, -1773, -995, -1630, -1041, -1321, -1052, -1034, -1279, -751, -1290, -517, -1400, -264, -1445, -271, -1521, -90, -1672, -64, -1804, 50, -1724, 152, -1585, 220, -1362, 254, -1173, 401, -1094, 476, -1034, 541, -951, 627, -909, 786, -648, 797, -550, 654, -429, 650, -282, 703, -222, 741, 50, 726, 92, 763, 159, 469, 133, 337, 92, 295, 69, 163, 39, 87, 12, -64, 27, -347, -22, -369, -71, -498, -44, -683, -18, -834, -67, -890, -150, -890, -59, -913, -18, -1004, -26, -1106, -101, -1143, -124, -1181, 5, -1362, -52, -1404, -29, -1449, -26, -1491, -282, -1585, -433, -1604, -660, -1661, -777, -1725, -837)

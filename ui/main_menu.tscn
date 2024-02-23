@@ -54,15 +54,23 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="SingleplayerButton" type="Button" parent="MainMenuButtons"]
+[node name="NewGameButton" type="Button" parent="MainMenuButtons"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-text = "Play Single Player"
+text = "New Game"
+
+[node name="ContinueButton" type="Button" parent="MainMenuButtons"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "Continue"
 
 [node name="MultiplayerButton" type="Button" parent="MainMenuButtons"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Play Multiplayer
+text = "Multiplayer
 "
 
 [node name="SettingsButton" type="Button" parent="MainMenuButtons"]
@@ -75,7 +83,8 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Exit Game"
 
-[connection signal="pressed" from="MainMenuButtons/SingleplayerButton" to="." method="_on_singleplayer_button_pressed"]
+[connection signal="pressed" from="MainMenuButtons/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="MainMenuButtons/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="MainMenuButtons/MultiplayerButton" to="." method="_on_multiplayer_button_pressed"]
 [connection signal="pressed" from="MainMenuButtons/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenuButtons/QuitButton" to="." method="_on_quit_button_pressed"]

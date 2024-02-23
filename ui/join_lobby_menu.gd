@@ -1,5 +1,7 @@
 extends Control
 
+@onready var error_label: Label = %ErrorLabel
+
 const lobby_menu_scene: PackedScene = preload("res://ui/lobby_menu.tscn")
 var lobby_id: int
 
@@ -16,36 +18,50 @@ func _ready() -> void:
 	
 	# Set distance to worldwide
 	Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_WORLDWIDE)
-
+	
+	check_command_line()
+	
 	print("Requesting a lobby list")
 	Steam.requestLobbyList()
 	# Once the lobby list is returned, the _on_lobby_match_list callback
 	# will be triggered
+func check_command_line() -> void:
+	var arguments: Array = OS.get_cmdline_args()
+	if arguments.size() == 0:
+		return
+	# If a Steam connection argument exists
+	if arguments[0] == "+connect_lobby" and int(arguments[1]) > 0:
+		# Lobby invite exists so try to connect to it
+		# At this point, you'll probably want to change scenes
+		# Something like a loading into lobby screen
+		print("Command line lobby ID: %s" % arguments[1])
+		join_lobby(int(arguments[1]))
 
-#func _enter_lobby():
-	#var username: String = %NameInput.text
-	#var server_ip: String = %ServerIPInput.text
-	#var port: String = %PortInput.text
-	#
-	#if username == "" or server_ip == "" or port == "":
-		#error_label.text = "One or more inputs are empty"
-		#return
-	#elif not port.is_valid_int():
-		#error_label.text = "Invalid port"
-		#return
-	#
-	#Client.user_info["name"] = username
-	#var result: = Client.init(server_ip, int(port))
-	#if result != OK:
-		#error_label.text = "Error %s occurred" % result
-	#else:
-		#get_tree().change_scene_to_packed(lobby_menu_scene)
+func join_lobby(join_lobby_id):
+	var username: String = %NameInput.text
+	var server_ip: String = %ServerIPInput.text
+	var port: String = %PortInput.text
+	
+	if username == "" or server_ip == "" or port == "":
+		error_label.text = "One or more inputs are empty"
+		return
+	elif not port.is_valid_int():
+		error_label.text = "Invalid port"
+		return
+	
+	Client.user_info["name"] = username
+	var result: = Client.init(server_ip, int(port))
+	if result != OK:
+		error_label.text = "Error %s occurred" % result
+	else:
+		get_tree().change_scene_to_packed(lobby_menu_scene)
+
 func _on_lobby_join_requested() -> void:
 	print("_on_lobby_join_requested")
 func _on_lobby_chat_update() -> void:
 	print("_on_lobby_chat_update")
-func _on_lobby_created(connect: int, _lobby_id: int) -> void:
-	if connect != 1:
+func _on_lobby_created(status: int, _lobby_id: int) -> void:
+	if status != 1:
 		print("Unsuccessful.")
 	# Set the lobby ID
 	lobby_id = _lobby_id
@@ -61,13 +77,15 @@ func _on_lobby_created(connect: int, _lobby_id: int) -> void:
 	# Allow P2P connections to fallback to being relayed through Steam if needed
 	var set_relay: bool = Steam.allowP2PPacketRelay(true)
 	print("Allowing Steam to be relay backup: %s" % set_relay)
+	Steam.requestLobbyList()
 
 func _on_lobby_data_update() -> void:
 	print("_on_lobby_data_update")
 func _on_lobby_invite() -> void:
 	print("_on_lobby_invite")
-func _on_lobby_joined() -> void:
-	print("_on_lobby_joined")
+func _on_lobby_joined(_lobby_id: int, _permissions: int, _locked: bool, _response: int) -> void:
+	print("_on_lobby_joined %s %s %s %s" % [_lobby_id, _permissions, _locked, _response])
+
 func _on_lobby_match_list(lobbies: Array) -> void:
 	%SearchingLabel.hide()
 	
@@ -89,8 +107,10 @@ func _on_lobby_match_list(lobbies: Array) -> void:
 
 func _on_lobby_message() -> void:
 	print("_on_lobby_message")
-func _on_persona_change(arg1, arg2) -> void:
-	print("_on_persona_change %s %s" % [arg1, arg2])
+func _on_persona_change(user_steam_id: int, flag: int) -> void:
+	if lobby_id == 0:
+		return
+	print("_on_persona_change %s %s" % [user_steam_id, flag])
 
 func _on_back_button_pressed():
 	get_tree().change_scene_to_file("res://ui/main_menu.tscn")

@@ -32,8 +32,7 @@ func on_health_changed(old: int, new: int) -> void:
 	
 	prev_health = maxi(prev_health, old)
 	difference_bar.scale = Vector2(1.0 * prev_health / max_health, 1)
-	create_tween().tween_property(difference_bar, "scale", Vector2(1.0 * new / max_health, 1), .5).set_trans(Tween.TRANS_CUBIC)
-	print("p=%v, scale=%v" % [difference_bar.position, difference_bar.scale])
+	create_tween().tween_property(difference_bar, "scale", Vector2(1.0 * new / max_health, 1), .3).set_trans(Tween.TRANS_EXPO)
 	
 	modulate = Color.WHITE
 	

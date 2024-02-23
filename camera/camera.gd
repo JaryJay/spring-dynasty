@@ -1,7 +1,10 @@
 extends Camera2D
 
-@export_range(0, 800) var pan_speed: float
+@export_range(0, 1600) var pan_speed: float
 @export var follow_mode_enabled: bool
+
+@export_range(.01, 1000) var zoom_min: float
+@export_range(.01, 1000) var zoom_max: float
 
 var disable_pan: = false
 
@@ -37,7 +40,7 @@ func _unhandled_input(_event):
 		target_zoom *= 0.93
 	
 	# Clamp target_zoom
-	target_zoom = target_zoom.clamp(Vector2(.4, .4), Vector2(5, 5))
+	target_zoom = target_zoom.clamp(Vector2(zoom_min, zoom_min), Vector2(zoom_max, zoom_max))
 
 func _remove_invalid_follow_targets() -> void:
 	for i in range(follow_targets.size() - 1, -1, -1):

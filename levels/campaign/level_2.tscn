@@ -90,6 +90,7 @@ ability_cooldown_time = 600
 
 [node name="F_0_0" parent="Entities" index="2" instance=ExtResource("5_2sfir")]
 position = Vector2(-211, -192)
+max_health = 100
 
 [node name="Special" type="Node2D" parent="." index="10"]
 

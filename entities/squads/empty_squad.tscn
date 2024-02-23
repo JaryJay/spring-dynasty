@@ -43,6 +43,7 @@ radius = 133.0
 y_sort_enabled = true
 collision_mask = 19
 script = ExtResource("1_u12qt")
+max_health = null
 attack_cooldown = 144
 
 [node name="SelectOval" type="Sprite2D" parent="."]

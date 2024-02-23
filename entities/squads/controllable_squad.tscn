@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://entities/squads/states/dying_state.gd" id="6_v1w8p"]
 
 [node name="ControllableSquad" instance=ExtResource("1_64ccu")]
+max_health = null
 
 [node name="StateMachine" parent="." index="11" node_paths=PackedStringArray("default_state")]
 default_state = NodePath("IdleState")

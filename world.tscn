@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfvj3e0euwtug"]
+
+[ext_resource type="PackedScene" uid="uid://cyi7gk85713g5" path="res://world_maps/world_map_1.tscn" id="1_3ems8"]
+[ext_resource type="Script" path="res://world.gd" id="1_3jeer"]
+[ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="3_esdqn"]
+[ext_resource type="PackedScene" uid="uid://yg75476prlvp" path="res://ui/pause_menu.tscn" id="4_1kl6l"]
+
+[node name="World" type="Node2D" node_paths=PackedStringArray("world_map")]
+script = ExtResource("1_3jeer")
+world_map = NodePath("WorldMap1")
+
+[node name="WorldMap1" parent="." instance=ExtResource("1_3ems8")]
+z_index = -2
+
+[node name="Camera" parent="." instance=ExtResource("3_esdqn")]
+position_smoothing_speed = 20.0
+pan_speed = 1600.0
+follow_mode_enabled = false
+zoom_min = 0.1
+zoom_max = 0.8
+
+[node name="PauseMenuLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseMenuLayer" instance=ExtResource("4_1kl6l")]
+visible = false
+
+[connection signal="exit_pressed" from="PauseMenuLayer/PauseMenu" to="." method="_on_pause_menu_exit_pressed"]
+[connection signal="quit_pressed" from="PauseMenuLayer/PauseMenu" to="." method="_on_pause_menu_quit_pressed"]

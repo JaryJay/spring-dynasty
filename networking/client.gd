@@ -93,5 +93,5 @@ func init_steam() -> void:
 	if init_status.status != 1:
 		print("client.gd: Failed to initialize Steam. Error message:")
 		print(init_status.verbal)
-		print("Shutting down...")
-		get_tree().quit()
+		#print("Shutting down...")
+		#get_tree().quit()
