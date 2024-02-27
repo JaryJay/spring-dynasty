@@ -5,11 +5,8 @@ const city_scene: = preload("res://world_maps/city.tscn")
 @onready var camera: = $Camera
 @onready var pause_menu: = $PauseMenuLayer/PauseMenu
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var player_team: int
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		pause_menu.visible = !pause_menu.visible
@@ -21,15 +18,24 @@ func create_starting_cities() -> void:
 	for i: int in range(15):
 		var team: = i + 1
 		var city: City = city_scene.instantiate()
+		city.name = "City%d" % team
 		add_child(city)
 		city.set_team(team)
 		city.position = city_markers[i].position
+	
+	player_team = 11
+	var starting_city: City = get_node("City%d" % player_team)
+	camera.position = starting_city.position
 
 func save() -> void:
 	var save_file: = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	if FileAccess.get_open_error():
 		print("Save failed. Error: %s" % error_string(FileAccess.get_open_error()))
 		return
+	
+	save_file.store_line(JSON.stringify({ "camera_position": camera.position, "camera_zoom": camera.zoom.x }))
+	
+	# Save cities
 	for city: Node in get_children():
 		if not city is City:
 			continue
@@ -39,8 +45,46 @@ func save() -> void:
 		pass
 	save_file.close()
 
+func load(save_path: String = "user://savegame.save") -> void:
+	# Code copied from:
+	# https://docs.godotengine.org/en/stable/tutorials/io/saving_games.html#saving-and-reading-data
+	var file: = FileAccess.open(save_path, FileAccess.READ)
+	
+	var camera_properties: Variant = JSON.parse_string(file.get_line())
+	camera.set_position.call_deferred(parse_vector2(camera_properties.camera_position))
+	camera.set_zoom.call_deferred(Vector2.ONE * camera_properties.camera_zoom)
+	
+	while file.get_position() < file.get_length():
+		var json_string: = file.get_line()
+
+		# Creates the helper class to interact with JSON
+		var json: = JSON.new()
+
+		# Check if there is any error while parsing the JSON string, skip in case of failure
+		var error: = json.parse(json_string)
+		if error:
+			push_error("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+
+		# Get the data from the JSON object
+		var node_data: Variant = json.get_data()
+		
+		if not ("position" in node_data and "team" in node_data):
+			push_error("Load Game Error: %s" % node_data)
+		# Firstly, we need to create the object and add it to the tree and set its position.
+		var city: Node2D = load("res://world_maps/city.tscn").instantiate()
+		add_child.call_deferred(city)
+		city.position = parse_vector2(node_data.position)
+		city.team = node_data.team
+	file.close()
+
 func _on_pause_menu_exit_pressed():
 	queue_free()
 	save()
 func _on_pause_menu_quit_pressed():
 	save()
+
+func parse_vector2(str: String) -> Vector2:
+	var x: = int(str.split(", ")[0].lstrip("("))
+	var y: = int(str.split(", ")[1].rstrip(")"))
+	return Vector2(x, y)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfvj3e0euwtug"]
+[gd_scene load_steps=6 format=3 uid="uid://dfvj3e0euwtug"]
 
 [ext_resource type="PackedScene" uid="uid://cyi7gk85713g5" path="res://world_maps/world_map_1.tscn" id="1_3ems8"]
 [ext_resource type="Script" path="res://world.gd" id="1_3jeer"]
+[ext_resource type="Texture2D" uid="uid://q4lemlkmpn6j" path="res://assets/textures/ui/panel-border-023.png" id="3_6ux18"]
 [ext_resource type="PackedScene" uid="uid://beng7i167v0ck" path="res://camera/camera.tscn" id="3_esdqn"]
 [ext_resource type="PackedScene" uid="uid://yg75476prlvp" path="res://ui/pause_menu.tscn" id="4_1kl6l"]
 
@@ -9,20 +10,54 @@
 script = ExtResource("1_3jeer")
 world_map = NodePath("WorldMap1")
 
+[node name="PauseMenuLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseMenuLayer" instance=ExtResource("4_1kl6l")]
+visible = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+texture_filter = 3
+anchors_preset = -1
+anchor_right = 0.484375
+anchor_bottom = 0.0767654
+offset_left = 20.0
+offset_bottom = 14.256
+theme_override_constants/separation = 20
+metadata/_edit_use_anchors_ = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_6ux18")
+region_rect = Rect2(0, 0, 96, 96)
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_6ux18")
+region_rect = Rect2(0, 0, 96, 96)
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+
 [node name="WorldMap1" parent="." instance=ExtResource("1_3ems8")]
 z_index = -2
 
 [node name="Camera" parent="." instance=ExtResource("3_esdqn")]
+zoom = Vector2(0.45, 0.45)
 position_smoothing_speed = 20.0
 pan_speed = 1600.0
 follow_mode_enabled = false
 zoom_min = 0.1
 zoom_max = 0.8
-
-[node name="PauseMenuLayer" type="CanvasLayer" parent="."]
-
-[node name="PauseMenu" parent="PauseMenuLayer" instance=ExtResource("4_1kl6l")]
-visible = false
+initial_zoom = 0.45
 
 [connection signal="exit_pressed" from="PauseMenuLayer/PauseMenu" to="." method="_on_pause_menu_exit_pressed"]
 [connection signal="quit_pressed" from="PauseMenuLayer/PauseMenu" to="." method="_on_pause_menu_quit_pressed"]

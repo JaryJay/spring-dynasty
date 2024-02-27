@@ -7,5 +7,6 @@ func _ready() -> void:
 		set_team(team)
 
 func set_team(_team: int) -> void:
-	$Sprites/Fill.modulate = TeamColors.get_color(_team)
+	if is_node_ready():
+		$Sprites/Fill.modulate = TeamColors.get_color(_team)
 	team = _team

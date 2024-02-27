@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b8gse7aueargg" path="res://assets/textures/buildings/base_fill.png" id="3_x7kpe"]
 [ext_resource type="Texture2D" uid="uid://dsmhm75q0u3cp" path="res://assets/textures/buildings/base.png" id="4_5bvt6"]
 
-[node name="City" type="Node2D"]
+[node name="City" type="Node2D" groups=["cities"]]
 script = ExtResource("1_gp2sc")
 
 [node name="Sprites" type="Node2D" parent="."]

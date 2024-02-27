@@ -5,12 +5,17 @@ extends Camera2D
 
 @export_range(.01, 1000) var zoom_min: float
 @export_range(.01, 1000) var zoom_max: float
+@export_range(.01, 100) var initial_zoom: float
 
 var disable_pan: = false
 
 var pan_velocity: Vector2 = Vector2.ZERO
 var target_zoom: Vector2 = Vector2.ONE
 var follow_targets: Array
+
+func _ready() -> void:
+	target_zoom = Vector2.ONE * initial_zoom
+	zoom = target_zoom
 
 func _process(delta: float):
 	zoom = zoom.lerp(target_zoom, 0.3)
