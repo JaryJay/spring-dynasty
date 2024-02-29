@@ -34,7 +34,7 @@ func _process(delta):
 		transition_to_world()
 	else:
 		get_tree().root.add_child(world)
-		world.create_starting_cities()
+		world.create()
 		transition_to_world.call_deferred()
 
 func transition_to_world() -> void:

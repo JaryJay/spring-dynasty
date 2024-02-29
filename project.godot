@@ -41,7 +41,8 @@ folder_colors={
 "res://entities/squads/": "blue",
 "res://levels/": "purple",
 "res://ui/": "pink",
-"res://vfx/": "gray"
+"res://vfx/": "gray",
+"res://worlds/": "blue"
 }
 
 [gui]

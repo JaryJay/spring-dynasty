@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6qm7gnifgpo3"]
+
+[ext_resource type="Script" path="res://worlds/city.gd" id="1_h3h67"]
+[ext_resource type="Texture2D" uid="uid://yh1kbd8a5cj5" path="res://assets/textures/buildings/base_shadow.png" id="2_c6k3p"]
+[ext_resource type="Texture2D" uid="uid://b8gse7aueargg" path="res://assets/textures/buildings/base_fill.png" id="3_biuoa"]
+[ext_resource type="Texture2D" uid="uid://dsmhm75q0u3cp" path="res://assets/textures/buildings/base.png" id="4_4x1km"]
+
+[node name="City" type="Node2D" groups=["cities"]]
+script = ExtResource("1_h3h67")
+
+[node name="Sprites" type="Node2D" parent="."]
+position = Vector2(-28, -60)
+scale = Vector2(0.7, 0.7)
+
+[node name="Shadow" type="Sprite2D" parent="Sprites"]
+z_index = -1
+texture = ExtResource("2_c6k3p")
+
+[node name="Fill" type="Sprite2D" parent="Sprites"]
+modulate = Color(0.0235294, 0.705882, 0.847059, 1)
+texture = ExtResource("3_biuoa")
+
+[node name="BaseOuter" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("4_4x1km")
